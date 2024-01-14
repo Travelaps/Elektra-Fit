@@ -36,12 +36,7 @@ class CButton extends StatelessWidget {
                   alignment: Alignment.center,
                   child: Text(
                     title,
-                    style: TextStyle(
-                      fontSize: W / 18,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.black87,
-                      fontFamily: 'Proxima',
-                    ),
+                    style: const TextStyle(color: Colors.white, fontFamily: "Montserrat", fontSize: 18),
                     textAlign: TextAlign.center,
                   ),
                 ),

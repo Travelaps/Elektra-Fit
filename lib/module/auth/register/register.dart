@@ -30,95 +30,110 @@ class _RegisterState extends State<Register> {
           stream: Rx.combineLatest2(isVisibility$, isChecked$, (a, b) => null),
           builder: (context, snapshot) {
             return SingleChildScrollView(
-              child: Padding(
-                padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top, left: 10, right: 10, bottom: 10),
-                child: Column(
-                  children: [
-                    SizedBox(height: W / 2),
-                    Text("Create an Account", style: kMontserrat20),
-                    CTextFormField(_name, "Name", prefixIcon: Icon(Icons.person)),
-                    SizedBox(height: W / 40),
-                    CTextFormField(_surname, "Surname", prefixIcon: Icon(Icons.person)),
-                    SizedBox(height: W / 40),
-                    CTextFormField(_email, "Email", prefixIcon: Icon(Icons.mail)),
-                    SizedBox(height: W / 40),
-                    CTextFormField(_phone, "Phone", prefixIcon: Icon(Icons.phone)),
-                    SizedBox(height: W / 40),
-                    CTextFormField(_password, "Password",
-                        obscureText: isVisibility$.value,
-                        keyboardType: TextInputType.text,
-                        textInputAction: TextInputAction.done,
-                        prefixIcon: Icon(Icons.lock, color: isDarkMode$.value ? Colors.white : Colors.black),
-                        suffixIconColor: isDarkMode$.value ? Colors.white : Colors.black,
-                        onchange: (value) {
-                          _password.text = value;
+              child: Container(
+                width: W,
+                height: H,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    fit: BoxFit.cover,
+                    colorFilter: ColorFilter.mode(
+                      isDarkMode$.value ? Colors.black.withOpacity(0.3) : Colors.white70.withOpacity(0.2),
+                      BlendMode.overlay,
+                    ),
+                    image: const AssetImage("assets/image/started.png"),
+                  ),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top, left: 10, right: 10, bottom: 10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: W / 2),
+                      Text("Create an Account", style: kMontserrat20.copyWith(color: Colors.white, fontSize: 30)),
+                      CTextFormField(_name, "Name", prefixIcon: Icon(Icons.person)),
+                      SizedBox(height: W / 40),
+                      CTextFormField(_surname, "Surname", prefixIcon: Icon(Icons.person)),
+                      SizedBox(height: W / 40),
+                      CTextFormField(_email, "Email", prefixIcon: Icon(Icons.mail)),
+                      SizedBox(height: W / 40),
+                      CTextFormField(_phone, "Phone", prefixIcon: Icon(Icons.phone)),
+                      SizedBox(height: W / 40),
+                      CTextFormField(_password, "Password",
+                          obscureText: isVisibility$.value,
+                          keyboardType: TextInputType.text,
+                          textInputAction: TextInputAction.done,
+                          prefixIcon: Icon(Icons.lock, color: isDarkMode$.value ? Colors.white : Colors.black),
+                          suffixIconColor: isDarkMode$.value ? Colors.white : Colors.black,
+                          onchange: (value) {
+                            _password.text = value;
+                          },
+                          suffixIcon: IconButton(
+                              onPressed: () {
+                                isVisibility$.add(!isVisibility$.value);
+                              },
+                              icon: isVisibility$.value ? const Icon(Icons.visibility_off) : const Icon(Icons.visibility)),
+                          validator: (value) {
+                            if (value!.isEmpty) return _password.text;
+                            return null;
+                          }),
+                      SizedBox(height: W / 40),
+                      Container(
+                        width: W,
+                        alignment: Alignment.topLeft,
+                        child: Row(
+                          children: [
+                            Checkbox(
+                              onChanged: (value) {
+                                isChecked$.add(value!);
+                              },
+                              value: isChecked$.value,
+                              activeColor: config.primaryColor,
+                              checkColor: Colors.white54,
+                            ),
+                            Flexible(
+                              child: Text(
+                                'By continuing you accept our Privacy Policy and Term of Use',
+                                style: kProxima16.copyWith(color: Colors.white),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: W / 40),
+                      CButton(
+                        width: W,
+                        title: "Register",
+                        func: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => CTabBar()));
                         },
-                        suffixIcon: IconButton(
-                            onPressed: () {
-                              isVisibility$.add(!isVisibility$.value);
-                            },
-                            icon: isVisibility$.value ? const Icon(Icons.visibility_off) : const Icon(Icons.visibility)),
-                        validator: (value) {
-                          if (value!.isEmpty) return _password.text;
-                          return null;
-                        }),
-                    SizedBox(height: W / 40),
-                    Container(
-                      width: W,
-                      alignment: Alignment.topLeft,
-                      child: Row(
-                        children: [
-                          Checkbox(
-                            onChanged: (value) {
-                              isChecked$.add(value!);
-                            },
-                            value: isChecked$.value,
-                            activeColor: config.primaryColor,
-                            checkColor: Colors.black87,
-                          ),
-                          Flexible(
-                            child: Text(
-                              'By continuing you accept our Privacy Policy and Term of Use',
-                              style: kProxima16,
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                        ],
                       ),
-                    ),
-                    SizedBox(height: W / 40),
-                    CButton(
-                      width: W,
-                      title: "Register",
-                      func: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => CTabBar()));
-                      },
-                    ),
-                    SizedBox(height: W / 40),
-                    Container(
-                      alignment: Alignment.center,
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(
-                            "Don't have an account",
-                            style: kProxima16,
-                          ),
-                          SizedBox(width: W / 60),
-                          InkWell(
-                            onTap: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
-                            },
-                            child: Text(
-                              "Log in",
-                              style: kProxima16.copyWith(color: config.primaryColor),
+                      SizedBox(height: W / 40),
+                      Container(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text(
+                              "Don't have an account ?",
+                              style: kProxima16.copyWith(color: Colors.white),
                             ),
-                          )
-                        ],
+                            SizedBox(width: W / 60),
+                            InkWell(
+                              onTap: () {
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
+                              },
+                              child: Text(
+                                "Log in",
+                                style: kAxiforma19.copyWith(color: config.primaryColor),
+                              ),
+                            )
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             );

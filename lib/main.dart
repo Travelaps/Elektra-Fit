@@ -44,7 +44,7 @@ class MyApp extends StatelessWidget {
           themeMode: isDarkMode$.value ? ThemeMode.dark : ThemeMode.light,
           debugShowCheckedModeBanner: false,
           builder: (context, child) {
-            SystemChrome.setSystemUIOverlayStyle(isDarkMode$.value ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark);
+            SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
             return child!;
           },
           home: Login(),

@@ -105,14 +105,25 @@ class _ProfileState extends State<Profile> {
               ListTile(
                 shape: const OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                 title: Text("Settings", style: kProxima16),
-                leading: Icon(Icons.settings, color: config.IconPrimaryColor),
+                leading: SizedBox(
+                  height: W / 15,
+                  width: W / 15,
+                  child: Image.asset("assets/icon/settings.png"),
+                ),
                 onTap: () {},
               ),
               SizedBox(height: W / 30),
               ListTile(
                 shape: const OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                 title: Text("Log Out", style: kProxima16.copyWith(color: Colors.red)),
-                leading: Icon(Icons.exit_to_app, color: Colors.red),
+                leading: Container(
+                  height: W / 15,
+                  width: W / 15,
+                  child: Image.asset(
+                    "assets/icon/exit-icon.png",
+                    color: Colors.red,
+                  ),
+                ),
                 onTap: () {},
               ),
             ],

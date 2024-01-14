@@ -6,7 +6,7 @@ Map<String, dynamic> fitConfig = {
   "hotel-name": "Elektra Fit",
   "languange": "EN",
   "apiUrl": "bookingapi.elektraweb.com",
-  "primaryColor": "#6739FF",
+  "primaryColor": "#2749A7",
   "IconPrimaryColor": "#40598e",
   "buttonSecondColor": "#D1E0E5",
   'ColorBallBlue': "#BC9B6A",

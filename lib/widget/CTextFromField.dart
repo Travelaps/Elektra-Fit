@@ -22,9 +22,7 @@ Widget CTextFormField(
   FocusNode? focusNode,
   TextInputAction? textInputAction,
 }) {
-  var border = OutlineInputBorder(
-    borderSide: BorderSide(color: isDarkMode$.value ? Colors.white : Colors.black87),
-  );
+  var border = OutlineInputBorder(borderSide: BorderSide(color: isDarkMode$.value ? Colors.white : Colors.black87), borderRadius: BorderRadius.circular(10));
 
   return TextFormField(
     focusNode: focusNode,
@@ -45,11 +43,12 @@ Widget CTextFormField(
     decoration: InputDecoration(
       hintText: hint,
       isDense: true,
-      focusedBorder: border,
+
+      // focusedBorder: border,
       border: border,
       // enabledBorder: border,
       focusColor: Colors.red,
-      fillColor: Colors.blue,
+      fillColor: Colors.white54, filled: true,
       hintStyle: TextStyle(color: isDarkMode$.value ? Colors.white : Colors.black54),
       prefixIcon: prefixIcon ?? null,
       suffixIcon: suffixIcon ?? null,
