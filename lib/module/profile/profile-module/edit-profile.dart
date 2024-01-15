@@ -31,11 +31,7 @@ class _EditProfileState extends State<EditProfile> {
         child: Column(
           children: [
             SizedBox(height: W / 10),
-            Container(
-              alignment: Alignment.center,
-              // color: Colors.yellow,
-              child: SizedBox(height: W / 3, width: W / 3, child: Image.asset("assets/image/profile-image.png")),
-            ),
+            Container(alignment: Alignment.center, child: SizedBox(height: W / 3, width: W / 3, child: Image.asset("assets/image/profile-image.png"))),
             SizedBox(height: W / 10),
             CTextFormField(_name, "Name"),
             SizedBox(height: W / 30),

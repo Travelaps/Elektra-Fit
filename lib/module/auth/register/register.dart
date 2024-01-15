@@ -1,5 +1,6 @@
 import 'package:elektra_fit/global/global-variables.dart';
 import 'package:elektra_fit/module/auth/login/login.dart';
+import 'package:elektra_fit/module/auth/register/register-service.dart';
 import 'package:elektra_fit/widget/CButton.dart';
 import 'package:elektra_fit/widget/CTextFromField.dart';
 import 'package:elektra_fit/widget/tabBar.dart';
@@ -21,6 +22,8 @@ class _RegisterState extends State<Register> {
   TextEditingController _password = TextEditingController();
   BehaviorSubject<bool> isChecked$ = BehaviorSubject.seeded(false);
   BehaviorSubject<bool> isVisibility$ = BehaviorSubject.seeded(false);
+
+  final service = RegisterService();
   @override
   Widget build(BuildContext context) {
     final double H = MediaQuery.of(context).size.height;
@@ -106,7 +109,9 @@ class _RegisterState extends State<Register> {
                         width: W,
                         title: "Register",
                         func: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => CTabBar()));
+                          service.postRegister(_email.text, _name.text, _surname.text, _password.text, _phone.text).then((value) {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => CTabBar()));
+                          });
                         },
                       ),
                       SizedBox(height: W / 40),

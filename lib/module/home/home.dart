@@ -1,4 +1,5 @@
 import 'package:elektra_fit/global/global-variables.dart';
+import 'package:elektra_fit/module/home/tranier-list.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
@@ -14,11 +15,37 @@ class _HomeState extends State<Home> {
     final double H = MediaQuery.of(context).size.height;
     final double W = MediaQuery.of(context).size.width;
     return Scaffold(
+      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top, bottom: 10),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
+              Padding(
+                padding: paddingAll10,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text("Hello Kemal", style: kMontserrat20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        InkWell(
+                            onTap: () {
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => TeacherList()));
+                            },
+                            child: SizedBox(height: W / 13, width: W / 13, child: Image.asset("assets/icon/traniers.png"))),
+                        InkWell(
+                            onTap: () {
+                              // Navigator.push(context, MaterialPageRoute(builder: (context) => TeacherList()));
+                            },
+                            child: SizedBox(height: W / 13, width: W / 13, child: Image.asset("assets/icon/notifications.png"))),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
               Container(
                 margin: marginAll10,
                 height: W / 1.1,

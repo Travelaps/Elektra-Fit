@@ -1,5 +1,4 @@
 import 'package:elektra_fit/global/global-variables.dart';
-import 'package:elektra_fit/module/auth/forgot-to-password/forgot-to-password.dart';
 import 'package:elektra_fit/module/auth/register/register.dart';
 import 'package:elektra_fit/widget/CButton.dart';
 import 'package:elektra_fit/widget/CTextFromField.dart';
@@ -67,21 +66,18 @@ class _LoginState extends State<Login> {
                         }),
                     SizedBox(height: W / 40),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Checkbox(
+                          checkColor: Colors.white,
+                          focusColor: Colors.white,
+                          activeColor: config.primaryColor,
+                          hoverColor: Colors.red,
                           value: isSaved$.value,
                           onChanged: (value) {
                             isSaved$.add(!isSaved$.value);
                           },
                         ),
                         Text("Remember me", style: kProxima16.copyWith(color: Colors.white)),
-                        InkWell(
-                          onTap: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => ForgotToPassword()));
-                          },
-                          child: Text("Forgot to password", style: kMontserrat18.copyWith(color: config.primaryColor)),
-                        )
                       ],
                     ),
                     SizedBox(height: W / 40),
@@ -92,33 +88,6 @@ class _LoginState extends State<Login> {
                         },
                         width: W),
                     SizedBox(height: W / 40),
-                    Container(
-                      alignment: Alignment.center,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Text(
-                            "Don't have an account?",
-                            style: kProxima16.copyWith(color: Colors.white),
-                          ),
-                          SizedBox(width: W / 40),
-                          InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => Register(),
-                                  ));
-                            },
-                            child: Text(
-                              "Sign Up",
-                              style: kAxiforma19.copyWith(color: config.primaryColor),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
                     SizedBox(height: W / 10),
                     // Expanded(child: Container()),
                   ],
