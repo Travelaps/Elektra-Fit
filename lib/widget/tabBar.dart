@@ -1,7 +1,7 @@
 import 'package:elektra_fit/global/global-variables.dart';
 import 'package:elektra_fit/module/Qr/Qr.dart';
+import 'package:elektra_fit/module/activity/activity.dart';
 import 'package:elektra_fit/module/home/home.dart';
-import 'package:elektra_fit/module/profile/profile.dart';
 import 'package:flutter/material.dart';
 
 class CTabBar extends StatefulWidget {
@@ -16,7 +16,7 @@ class _CTabBarState extends State<CTabBar> {
   final List<Widget> screens = [
     Home(),
     Qr(),
-    Profile(),
+    Activity(),
   ];
   final PageStorageBucket bucket = PageStorageBucket();
   Widget currentScreen = Home();
@@ -49,16 +49,16 @@ class _CTabBarState extends State<CTabBar> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            _buildTabItem(0, "assets/icon/home-icon.png", "Home"),
+            _buildTabItem(0, "assets/icon/tab-icon/home-selected.png", "assets/icon/tab-icon/home-unselected.png", "Home"),
             SizedBox(width: W / 9),
-            _buildTabItem(2, "assets/icon/person.png", "Profile"),
+            _buildTabItem(2, "assets/icon/tab-icon/activity-selected.png", "assets/icon/tab-icon/activity-unselected.png", "Activity"),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildTabItem(int index, String imageAssets, String text) {
+  Widget _buildTabItem(int index, String selectedImageAsset, String unselectedImageAsset, String text) {
     return InkWell(
       onTap: () {
         _onTabTapped(index);
@@ -71,10 +71,10 @@ class _CTabBarState extends State<CTabBar> {
           children: [
             Container(
               alignment: Alignment.center,
-              height: MediaQuery.of(context).size.width / 15,
-              width: MediaQuery.of(context).size.width / 15,
+              height: MediaQuery.of(context).size.width / 14,
+              width: MediaQuery.of(context).size.width / 14,
               child: Image.asset(
-                imageAssets,
+                currentTab == index ? selectedImageAsset : unselectedImageAsset,
                 color: currentTab == index ? config.IconPrimaryColor : Colors.black87,
               ),
             ),

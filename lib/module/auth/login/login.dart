@@ -78,7 +78,7 @@ class _LoginState extends State<Login> {
                   padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top, left: 10, right: 10, bottom: 10),
                   child: Column(
                     children: [
-                      Expanded(flex: 7, child: Container()),
+                      Expanded(flex: 1, child: Container()),
                       CTextFormField(_email, "Email", prefixIcon: Icon(Icons.email)),
                       SizedBox(height: W / 40),
                       CTextFormField(_password, "Password",
@@ -125,7 +125,7 @@ class _LoginState extends State<Login> {
                             Navigator.push(context, MaterialPageRoute(builder: (context) => CTabBar()));
                           },
                           width: W),
-                      SizedBox(height: W / 20),
+                      SizedBox(height: W / 6),
                       // Expanded(child: Container()),
                     ],
                   ),

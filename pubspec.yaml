@@ -100,7 +100,9 @@ flutter:
     - assets/image/
     - assets/fonts/
     - assets/icon/
-    - assets/
+    - assets/icon/banner-icon/
+    - assets/icon/tab-icon/
+    - assets/image/sports-vector/
 #    - assets/weather-icon/
   fonts:
     - family: Montserrat

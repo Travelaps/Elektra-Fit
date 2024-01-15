@@ -1,4 +1,5 @@
 import 'package:elektra_fit/global/global-variables.dart';
+import 'package:elektra_fit/module/profile/profile.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
@@ -21,36 +22,38 @@ class _HomeState extends State<Home> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Stack(
-                children: [
-                  Container(child: Image.asset("assets/image/sport6.jpg", fit: BoxFit.cover)),
-                  Positioned.fill(
-                    bottom: 0,
-                    child: Container(
-                      width: W / 2.18,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [
-                            Colors.transparent,
-                            Colors.black.withOpacity(0.4),
-                          ],
-                        ),
-                        borderRadius: BorderRadius.only(bottomRight: Radius.circular(10), bottomLeft: Radius.circular(10)),
-                        boxShadow: [
-                          BoxShadow(color: Colors.black.withOpacity(0.4), spreadRadius: 3, blurRadius: 10, offset: Offset(0, 1)),
+              Padding(
+                padding: paddingAll10,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Text("Good Morning!", style: kProxima17),
+                            ],
+                          ),
+                          Text(
+                            "Kemal ORAL",
+                            style: kMontserrat18,
+                          )
                         ],
                       ),
-                      child: Text(
-                        'Fitness',
-                        style: kAxiforma20.copyWith(color: Colors.white),
-                        textAlign: TextAlign.center,
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => Profile()));
+                      },
+                      child: Container(
+                        alignment: Alignment.topRight,
+                        // color: Colors.yellow,
+                        child: SizedBox(height: W / 10, width: W / 10, child: Image.asset("assets/image/profile-image.png")),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
               Container(
                 margin: marginAll10,

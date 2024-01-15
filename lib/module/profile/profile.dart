@@ -48,7 +48,6 @@ class _ProfileState extends State<Profile> {
                     SizedBox(height: W / 40),
                     Container(
                       alignment: Alignment.center,
-                      // color: Colors.yellow,
                       child: SizedBox(height: W / 3, width: W / 3, child: Image.asset("assets/image/profile-image.png")),
                     ),
                     SizedBox(height: W / 40),
