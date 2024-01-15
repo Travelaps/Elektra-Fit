@@ -1,4 +1,5 @@
 import 'package:elektra_fit/global/global-variables.dart';
+import 'package:elektra_fit/module/auth/forgot-to-password/forgot-to-password.dart';
 import 'package:elektra_fit/module/auth/register/register.dart';
 import 'package:elektra_fit/widget/CButton.dart';
 import 'package:elektra_fit/widget/CTextFromField.dart';
@@ -17,13 +18,14 @@ class _LoginState extends State<Login> {
   TextEditingController _email = TextEditingController();
   TextEditingController _password = TextEditingController();
   BehaviorSubject<bool> isVisibility$ = BehaviorSubject.seeded(false);
+  BehaviorSubject<bool> isSaved$ = BehaviorSubject.seeded(false);
   @override
   Widget build(BuildContext context) {
     final double H = MediaQuery.of(context).size.height;
     final double W = MediaQuery.of(context).size.width;
     return Scaffold(
       body: StreamBuilder(
-          stream: isVisibility$.stream,
+          stream: Rx.combineLatest2(isVisibility$, isSaved$, (a, b) => null),
           builder: (context, snapshot) {
             return Container(
               width: W,
@@ -64,6 +66,25 @@ class _LoginState extends State<Login> {
                           return null;
                         }),
                     SizedBox(height: W / 40),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Checkbox(
+                          value: isSaved$.value,
+                          onChanged: (value) {
+                            isSaved$.add(!isSaved$.value);
+                          },
+                        ),
+                        Text("Remember me", style: kProxima16.copyWith(color: Colors.white)),
+                        InkWell(
+                          onTap: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => ForgotToPassword()));
+                          },
+                          child: Text("Forgot to password", style: kMontserrat18.copyWith(color: config.primaryColor)),
+                        )
+                      ],
+                    ),
+                    SizedBox(height: W / 40),
                     CButton(
                         title: "Login",
                         func: () {
@@ -78,7 +99,7 @@ class _LoginState extends State<Login> {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Text(
-                            "Don't have an account ?",
+                            "Don't have an account?",
                             style: kProxima16.copyWith(color: Colors.white),
                           ),
                           SizedBox(width: W / 40),
