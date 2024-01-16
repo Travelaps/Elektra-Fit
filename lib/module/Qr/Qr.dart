@@ -38,30 +38,55 @@ class _QrState extends State<Qr> {
           child: Column(
             children: [
               SizedBox(height: W / 5),
-              Container(
-                height: W - 40,
-                width: W - 40,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [Colors.transparent, Colors.black.withOpacity(0.8)],
-                  ),
-                  borderRadius: BorderRadius.circular(10),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.6),
-                      spreadRadius: 3,
-                      // blurRadius: 10,
-                      offset: Offset(0, 3),
+              result != null
+                  ? Container(
+                      height: W - 40,
+                      width: W - 40,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [Colors.transparent, Colors.black.withOpacity(0.8)],
+                        ),
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.6),
+                            spreadRadius: 3,
+                            // blurRadius: 10,
+                            offset: Offset(0, 3),
+                          ),
+                        ],
+                      ),
+                      child: QRView(
+                        key: qrKey,
+                        onQRViewCreated: _onQRViewCreated,
+                      ),
+                    )
+                  : Container(
+                      height: W - 40,
+                      width: W - 40,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [Colors.transparent, Colors.black.withOpacity(0.8)],
+                        ),
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.6),
+                            spreadRadius: 3,
+                            // blurRadius: 10,
+                            offset: Offset(0, 3),
+                          ),
+                        ],
+                      ),
+                      child: Image.asset(
+                        "assets/image/qr.png",
+                        fit: BoxFit.cover,
+                      ),
                     ),
-                  ],
-                ),
-                child: Image.asset(
-                  "assets/image/qr.png",
-                  fit: BoxFit.cover,
-                ),
-              ),
               SizedBox(height: W / 30),
               Center(
                 child: (result != null) ? Text('Barcode Type: ${describeEnum(result!.format.formatName)}   Data: ${result!.code}') : Text('Scan a code', style: kMontserrat20),

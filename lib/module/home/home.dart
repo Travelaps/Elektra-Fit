@@ -56,6 +56,60 @@ class _HomeState extends State<Home> {
                 ),
               ),
               Container(
+                  height: W / 1.5,
+                  margin: marginAll10,
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: [
+                      Column(
+                        children: [
+                          Stack(
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.only(topRight: Radius.circular(10), topLeft: Radius.circular(10)),
+                                child: SizedBox(
+                                  width: W,
+                                  height: W / 1.6,
+                                  child: Image.asset("assets/image/sport4.jpg", fit: BoxFit.fitHeight),
+                                ),
+                              ),
+                              Positioned(
+                                top: 0,
+                                left: 14,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.black.withOpacity(0.1),
+                                    borderRadius: BorderRadius.only(bottomRight: Radius.circular(10), topRight: Radius.circular(10)),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.7),
+                                        spreadRadius: 2,
+                                        blurRadius: 1,
+                                        offset: const Offset(0, 4),
+                                      ),
+                                    ],
+                                  ),
+                                  padding: EdgeInsets.all(10),
+                                  child: Text(
+                                    'Intermediate',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: "Montserrat",
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      Container(),
+                      Container(),
+                    ],
+                  )),
+              Container(
                 margin: marginAll10,
                 height: W / 1.1,
                 decoration: BoxDecoration(
@@ -97,19 +151,6 @@ class _HomeState extends State<Home> {
                             left: 10,
                             child: Text(
                               'Fitness',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: "Montserrat",
-                              ),
-                            ),
-                          ),
-                          Positioned(
-                            bottom: 10,
-                            right: 10,
-                            child: const Text(
-                              '1 X 30',
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 20,
@@ -228,19 +269,6 @@ class _HomeState extends State<Home> {
                               ),
                             ),
                           ),
-                          const Positioned(
-                            bottom: 10,
-                            right: 10,
-                            child: Text(
-                              '30 min',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: "Montserrat",
-                              ),
-                            ),
-                          ),
                         ],
                       ),
                     ),
@@ -343,19 +371,6 @@ class _HomeState extends State<Home> {
                             left: 10,
                             child: Text(
                               'Gym',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: "Montserrat",
-                              ),
-                            ),
-                          ),
-                          Positioned(
-                            bottom: 10,
-                            right: 10,
-                            child: const Text(
-                              '1 X 30',
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 20,

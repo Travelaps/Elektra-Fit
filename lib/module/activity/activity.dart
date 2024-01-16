@@ -21,6 +21,18 @@ class _ActivityState extends State<Activity> {
         padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top, bottom: 10),
         child: Column(
           children: [
+            Container(
+              padding: paddingAll10,
+              alignment: Alignment.center,
+              width: W,
+              child: Text("My Programming", style: kMontserrat18),
+            ),
+            Container(
+              padding: paddingAll10,
+              alignment: Alignment.center,
+              width: W,
+              child: Text("My Programming", style: kMontserrat18),
+            ),
             InkWell(
               onTap: () {
                 Navigator.push(
