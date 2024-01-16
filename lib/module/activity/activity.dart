@@ -21,18 +21,49 @@ class _ActivityState extends State<Activity> {
         padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top, bottom: 10),
         child: Column(
           children: [
+            // Container(
+            //   padding: paddingAll10,
+            //   alignment: Alignment.center,
+            //   width: W,
+            //   child: Text("My Programming", style: kMontserrat18),
+            // ),
             Container(
-              padding: paddingAll10,
-              alignment: Alignment.center,
-              width: W,
-              child: Text("My Programming", style: kMontserrat18),
-            ),
-            Container(
-              padding: paddingAll10,
-              alignment: Alignment.center,
-              width: W,
-              child: Text("My Programming", style: kMontserrat18),
-            ),
+                padding: paddingAll10,
+                margin: marginAll10,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: borderRadius10,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.4),
+                      spreadRadius: 3,
+                      blurRadius: 10,
+                      offset: Offset(0, 3),
+                    ),
+                  ],
+                ),
+                width: W,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Container(
+                          height: W / 13,
+                          width: W / 13,
+                          child: Image.asset("assets/icon/membershıp2.png", color: Colors.orange),
+                        ),
+                        Text(
+                          "Premium Member",
+                          style: kMontserrat20.copyWith(color: config.primaryColor),
+                        ),
+                      ],
+                    ),
+                    Text("15 Oct - 25 Feb", style: kProxima17),
+                  ],
+                )),
             InkWell(
               onTap: () {
                 Navigator.push(

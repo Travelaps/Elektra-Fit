@@ -1,10 +1,9 @@
 import 'package:elektra_fit/global/enum/banner-enum.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_flushbar/flutter_flushbar.dart';
 
 import '../widget/CDefaultBanner.dart';
 
-Flushbar kShowBanner(BannerType bannerType, String text, BuildContext context, {int? durationSeconds, Function()? onDismissed, Color? color}) {
+kShowBanner(BannerType bannerType, String text, BuildContext context, {int? durationSeconds, Function()? onDismissed, Color? color}) {
   switch (bannerType) {
     case BannerType.ERROR:
       return DefaultNotificationBanner(

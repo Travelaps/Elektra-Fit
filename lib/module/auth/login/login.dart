@@ -1,4 +1,6 @@
+import 'package:elektra_fit/global/enum/banner-enum.dart';
 import 'package:elektra_fit/global/global-variables.dart';
+import 'package:elektra_fit/global/helper.dart';
 import 'package:elektra_fit/module/auth/login/login-service.dart';
 import 'package:elektra_fit/widget/CButton.dart';
 import 'package:elektra_fit/widget/CTextFromField.dart';
@@ -118,14 +120,28 @@ class _LoginState extends State<Login> {
                       SizedBox(height: W / 40),
                       CButton(
                           title: "Login",
-                          func: () {
-                            // service.postLogin(_email.text, _password.text);
-
-                            savePreferences();
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => CTabBar()));
+                          func: () async {
+                            try {
+                              bool response = await service.postLogin(_email.text, _password.text);
+                              if (response) {
+                                savePreferences();
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => CTabBar()));
+                              } else {
+                                kShowBanner(BannerType.ERROR, "Login failed. Please try again.", context);
+                                Future.delayed(Duration(seconds: 2), () {
+                                  Navigator.of(context).pop();
+                                });
+                              }
+                            } catch (e) {
+                              kShowBanner(BannerType.ERROR, "${e.toString()}", context);
+                              Future.delayed(Duration(seconds: 2), () {
+                                Navigator.of(context).pop();
+                              });
+                              print(e);
+                            }
                           },
                           width: W),
-                      SizedBox(height: W / 25),
+                      SizedBox(height: W / 10),
                       // Expanded(child: Container()),
                     ],
                   ),
