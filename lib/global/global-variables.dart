@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 
 BehaviorSubject<bool> isDarkMode$ = BehaviorSubject.seeded(false);
+BehaviorSubject<bool> isLoading$ = BehaviorSubject.seeded(false);
 
 final config = FitConfig.fromJson(fitConfig);
 

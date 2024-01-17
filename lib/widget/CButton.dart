@@ -32,7 +32,6 @@ class CButton extends StatelessWidget {
                 decoration: BoxDecoration(
                     borderRadius: const BorderRadius.all(Radius.circular(10)), color: isBorder ? Colors.transparent : config.primaryColor, border: Border.all(color: config.primaryColor, width: 1)),
                 child: Container(
-                  // padding: EdgeInsets.only(bo),
                   alignment: Alignment.center,
                   child: Text(
                     title,

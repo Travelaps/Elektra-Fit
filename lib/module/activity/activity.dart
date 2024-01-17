@@ -21,12 +21,6 @@ class _ActivityState extends State<Activity> {
         padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top, bottom: 10),
         child: Column(
           children: [
-            // Container(
-            //   padding: paddingAll10,
-            //   alignment: Alignment.center,
-            //   width: W,
-            //   child: Text("My Programming", style: kMontserrat18),
-            // ),
             Container(
                 padding: paddingAll10,
                 margin: marginAll10,
@@ -48,9 +42,9 @@ class _ActivityState extends State<Activity> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
-                      crossAxisAlignment: CrossAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Container(
+                        SizedBox(
                           height: W / 13,
                           width: W / 13,
                           child: Image.asset("assets/icon/membershıp2.png", color: Colors.orange),
@@ -69,7 +63,7 @@ class _ActivityState extends State<Activity> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => SportDetails(),
+                      builder: (context) => const SportDetails(),
                     ));
               },
               child: Stack(
@@ -77,7 +71,7 @@ class _ActivityState extends State<Activity> {
                   Container(
                       margin: marginAll10,
                       child: ClipRRect(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        borderRadius: const BorderRadius.all(Radius.circular(10)),
                         child: Image.asset(
                           "assets/image/sport6.jpg",
                           fit: BoxFit.cover,

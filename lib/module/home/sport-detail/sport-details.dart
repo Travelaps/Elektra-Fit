@@ -1,4 +1,5 @@
 import 'package:elektra_fit/global/global-variables.dart';
+import 'package:elektra_fit/widget/CButton.dart';
 import 'package:flutter/material.dart';
 
 class SportDetails extends StatefulWidget {
@@ -252,6 +253,14 @@ class _SportDetailsState extends State<SportDetails> {
               ],
             ),
           ),
+          Padding(
+            padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom, left: 10, right: 10, top: 10),
+            child: CButton(
+              title: "Start ",
+              func: () {},
+              width: W,
+            ),
+          )
         ],
       ),
     ));

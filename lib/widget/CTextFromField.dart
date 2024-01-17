@@ -1,5 +1,6 @@
-import 'package:elektra_fit/global/global-variables.dart';
 import 'package:flutter/material.dart';
+
+import '../global/global-variables.dart';
 
 Widget CTextFormField(
   TextEditingController cont,
@@ -22,7 +23,7 @@ Widget CTextFormField(
   FocusNode? focusNode,
   TextInputAction? textInputAction,
 }) {
-  var border = OutlineInputBorder(borderRadius: BorderRadius.circular(10));
+  var border = OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: config.primaryColor));
 
   return TextFormField(
     focusNode: focusNode,
@@ -37,7 +38,7 @@ Widget CTextFormField(
     expands: multiLine,
     obscureText: obscureText,
     maxLines: multiLine ? null : 1,
-    cursorColor: isDarkMode$.value ? Colors.white54 : Colors.black87,
+    cursorColor: Colors.white54,
     minLines: multiLine ? null : 1,
     showCursor: true,
     decoration: InputDecoration(
@@ -45,17 +46,17 @@ Widget CTextFormField(
       isDense: true,
       // focusedBorder: border,
       border: border,
-      // enabledBorder: border,
+      enabledBorder: border,
       // focusColor: Colors.red,
-      fillColor: Colors.white54,
+      fillColor: Colors.white24,
       filled: true,
-      hintStyle: TextStyle(color: Colors.black54),
+
       prefixIcon: prefixIcon ?? null,
       suffixIcon: suffixIcon ?? null,
-      prefixIconColor: isDarkMode$.value ? Colors.white70 : Colors.black87,
-      suffixIconColor: isDarkMode$.value ? Colors.white70 : Colors.black87,
+      prefixIconColor: Colors.white70,
+      suffixIconColor: Colors.white70,
       labelText: label != "" ? label : null,
-      labelStyle: TextStyle(color: Colors.black87, fontFamily: "Montserrat", fontSize: 17),
+      labelStyle: const TextStyle(color: Colors.white, fontFamily: "Montserrat", fontSize: 17),
     ),
     readOnly: readOnly ?? false,
     onFieldSubmitted: onfieldSubmitted != null ? (v) => onfieldSubmitted(v) : (v) => null,

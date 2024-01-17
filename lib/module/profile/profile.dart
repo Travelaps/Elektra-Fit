@@ -1,4 +1,5 @@
 import 'package:elektra_fit/global/global-variables.dart';
+import 'package:elektra_fit/module/auth/login/login.dart';
 import 'package:elektra_fit/module/profile/profile-module/edit-profile.dart';
 import 'package:elektra_fit/module/profile/profile-module/member-type.dart';
 import 'package:flutter/material.dart';
@@ -21,29 +22,36 @@ class _ProfileState extends State<Profile> {
           padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top, left: 10, right: 10, bottom: 10),
           child: Column(
             children: [
-              Container(
+              SizedBox(
                 width: W,
                 height: W / 1.6,
                 child: Column(
                   children: [
-                    Align(
-                      alignment: Alignment.topRight,
-                      child: InkWell(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => EditProfile(),
-                                ));
-                          },
-                          child: Container(
-                            height: W / 18,
-                            width: W / 18,
-                            child: Image.asset(
-                              "assets/icon/edit-icon.png",
-                              color: Colors.black,
-                            ),
-                          )),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        InkWell(
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: Icon(Icons.arrow_back_ios_new)),
+                        InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => EditProfile(),
+                                  ));
+                            },
+                            child: Container(
+                              height: W / 18,
+                              width: W / 18,
+                              child: Image.asset(
+                                "assets/icon/edit-icon.png",
+                                color: Colors.black,
+                              ),
+                            )),
+                      ],
                     ),
                     SizedBox(height: W / 40),
                     Container(
@@ -56,11 +64,8 @@ class _ProfileState extends State<Profile> {
                   ],
                 ),
               ),
-              SizedBox(height: W / 20),
-              ListTile(
-                shape: const OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
-                title: Text("Member Type", style: kProxima16),
-                leading: Icon(Icons.published_with_changes_sharp, color: config.IconPrimaryColor),
+              SizedBox(height: W / 4),
+              InkWell(
                 onTap: () {
                   Navigator.push(
                       context,
@@ -68,62 +73,139 @@ class _ProfileState extends State<Profile> {
                         builder: (context) => MemberType(),
                       ));
                 },
-              ),
-              // SizedBox(height: W / 30),
-              // ListTile(
-              //   shape: const OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
-              //   title: Text("Change Mode", style: kProxima16),
-              //   leading: AnimatedSwitcher(
-              //     duration: Duration(seconds: 1),
-              //     child: Transform.translate(
-              //       offset: Offset(17, 0),
-              //       child: Transform.scale(
-              //         scale: 0.75,
-              //         child: CupertinoSwitch(
-              //           thumbColor: isDarkMode$.value == true ? Colors.black87 : Colors.white,
-              //           value: isDarkMode$.value,
-              //           onChanged: (value) {
-              //             isDarkMode$.value = value;
-              //             isDarkMode$.add(value);
-              //           },
-              //           activeColor: Colors.grey.shade200,
-              //         ),
-              //       ),
-              //     ),
-              //   ),
-              //   onTap: () {},
-              // ),
-              SizedBox(height: W / 30),
-              ListTile(
-                shape: const OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
-                title: Text("Language", style: kProxima16),
-                leading: Icon(Icons.language, color: config.IconPrimaryColor),
-                onTap: () {},
-              ),
-              SizedBox(height: W / 30),
-              ListTile(
-                shape: const OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
-                title: Text("Settings", style: kProxima16),
-                leading: SizedBox(
-                  height: W / 15,
-                  width: W / 15,
-                  child: Image.asset("assets/icon/settings.png"),
-                ),
-                onTap: () {},
-              ),
-              SizedBox(height: W / 30),
-              ListTile(
-                shape: const OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
-                title: Text("Log Out", style: kProxima16.copyWith(color: Colors.red)),
-                leading: Container(
-                  height: W / 15,
-                  width: W / 15,
-                  child: Image.asset(
-                    "assets/icon/exit-icon.png",
-                    color: Colors.red,
+                child: Container(
+                  height: W / 8,
+                  padding: paddingAll10,
+                  margin: marginAll5,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: borderRadius10,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.4),
+                        spreadRadius: 3,
+                        blurRadius: 10,
+                        offset: Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  width: W,
+                  child: Row(
+                    children: [
+                      Icon(Icons.published_with_changes_sharp, color: config.IconPrimaryColor, size: 26),
+                      SizedBox(width: W / 40),
+                      Text("Member Type", style: kMontserrat16),
+                    ],
                   ),
                 ),
+              ),
+              SizedBox(height: W / 30),
+              InkWell(
                 onTap: () {},
+                child: Container(
+                  padding: paddingAll10,
+                  height: W / 8,
+                  margin: marginAll5,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: borderRadius10,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.4),
+                        spreadRadius: 3,
+                        blurRadius: 10,
+                        offset: Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  width: W,
+                  child: Row(
+                    children: [
+                      Icon(Icons.language, color: config.IconPrimaryColor, size: 25),
+                      SizedBox(width: W / 40),
+                      Text("Language", style: kMontserrat16),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(height: W / 30),
+              InkWell(
+                onTap: () {},
+                child: Container(
+                  height: W / 8,
+                  padding: paddingAll10,
+                  margin: marginAll5,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: borderRadius10,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.4),
+                        spreadRadius: 3,
+                        blurRadius: 10,
+                        offset: Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  width: W,
+                  child: Row(
+                    children: [
+                      SizedBox(
+                        height: W / 15,
+                        width: W / 15,
+                        child: Image.asset("assets/icon/settings.png", color: config.primaryColor),
+                      ),
+                      SizedBox(width: W / 40),
+                      Text("Settings", style: kMontserrat16),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(height: W / 30),
+              InkWell(
+                onTap: () {
+                  Navigator.popUntil(context, (route) => route.isFirst);
+                  Navigator.pushReplacement(
+                      context,
+                      PageRouteBuilder(
+                        pageBuilder: (context, animation, secondaryAnimation) => Login(),
+                      ));
+                },
+                child: Container(
+                  height: W / 8,
+                  padding: paddingAll10,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: borderRadius10,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.4),
+                        spreadRadius: 3,
+                        blurRadius: 10,
+                        offset: Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  width: W,
+                  child: Row(
+                    children: [
+                      Container(
+                        height: W / 15,
+                        width: W / 15,
+                        child: Image.asset(
+                          "assets/icon/exit-icon.png",
+                          color: Colors.red,
+                        ),
+                      ),
+                      SizedBox(width: W / 40),
+                      Text("Log Out", style: kMontserrat16.copyWith(color: Colors.red)),
+                    ],
+                  ),
+                ),
               ),
             ],
           ),
