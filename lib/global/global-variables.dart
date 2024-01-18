@@ -1,10 +1,12 @@
 import 'package:elektra_fit/global/gloabl-config.dart';
+import 'package:elektra_fit/global/global-models.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 
 BehaviorSubject<bool> isDarkMode$ = BehaviorSubject.seeded(false);
 BehaviorSubject<bool> isLoading$ = BehaviorSubject.seeded(false);
 
+BehaviorSubject<List<FitnessModal>?> fitness$ = BehaviorSubject.seeded(null);
 final config = FitConfig.fromJson(fitConfig);
 
 EdgeInsets marginAll5 = EdgeInsets.all(5);

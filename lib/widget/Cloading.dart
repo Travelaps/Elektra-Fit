@@ -4,11 +4,11 @@ import 'package:lottie/lottie.dart';
 Widget CLoading() {
   return Container(
       alignment: Alignment.center,
-      height: 50,
-      width: 50,
+      height: 200,
+      width: 200,
       decoration: const BoxDecoration(),
       child: Lottie.asset(
-        "assets/animation/loading.json",
+        "assets/animations/loadings.json",
         fit: BoxFit.cover,
         reverse: true,
       ));

@@ -1,7 +1,8 @@
-import 'package:elektra_fit/global/global-variables.dart';
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:elektra_fit/module/Qr/Qr.dart';
 import 'package:elektra_fit/module/activity/activity.dart';
 import 'package:elektra_fit/module/home/home.dart';
+import 'package:elektra_fit/module/profile/profile.dart';
 import 'package:flutter/material.dart';
 
 class CTabBar extends StatefulWidget {
@@ -17,8 +18,15 @@ class _CTabBarState extends State<CTabBar> {
     Home(),
     Qr(),
     Activity(),
+    Profile(),
   ];
-  final PageStorageBucket bucket = PageStorageBucket();
+  final List<IconData> icons = [
+    Icons.home,
+    Icons.qr_code,
+    Icons.list,
+    Icons.person,
+  ];
+
   Widget currentScreen = Home();
 
   @override
@@ -27,70 +35,83 @@ class _CTabBarState extends State<CTabBar> {
     final double W = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      body: screens[currentTab],
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          _onTabTapped(1);
+      bottomNavigationBar: CurvedNavigationBar(
+        backgroundColor: Colors.blueAccent,
+        buttonBackgroundColor: Colors.white,
+        items: icons
+            .map((icon) => Icon(
+                  icon,
+                  // grade: 20,
+                  size: 30,
+                  color: Colors.black,
+                ))
+            .toList(),
+        onTap: (index) {
+          setState(() {
+            currentTab = index;
+          });
         },
-        shape: const CircleBorder(side: BorderSide(color: Colors.black)),
-        elevation: 5,
-        backgroundColor: currentTab == 1 ? config.IconPrimaryColor : Colors.white,
-        child: SizedBox(height: W / 9, width: W / 9, child: Image.asset("assets/icon/qr-icon.png", color: currentTab == 1 ? Colors.white : Colors.black)),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: BottomAppBar(
-        height: W / 5.8,
-        notchMargin: 10,
-        padding: paddingAll10,
-        elevation: 0,
-        surfaceTintColor: Colors.yellowAccent,
-        color: Colors.black.withOpacity(0.2),
-        shape: CircularNotchedRectangle(),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            _buildTabItem(0, "assets/icon/tab-icon/home-selected.png", "assets/icon/tab-icon/home-unselected.png", "Home"),
-            SizedBox(width: W / 9),
-            _buildTabItem(2, "assets/icon/tab-icon/activity-selected.png", "assets/icon/tab-icon/activity-unselected.png", "Activity"),
-          ],
-        ),
-      ),
+      body: screens[currentTab],
     );
   }
-
-  Widget _buildTabItem(int index, String selectedImageAsset, String unselectedImageAsset, String text) {
-    return InkWell(
-      onTap: () {
-        _onTabTapped(index);
-      },
-      child: Container(
-        width: MediaQuery.of(context).size.width / 2.5,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              alignment: Alignment.center,
-              height: MediaQuery.of(context).size.width / 14,
-              width: MediaQuery.of(context).size.width / 14,
-              child: Image.asset(
-                currentTab == index ? selectedImageAsset : unselectedImageAsset,
-                color: currentTab == index ? config.IconPrimaryColor : Colors.black87,
-              ),
-            ),
-            Text(
-              text,
-              style: TextStyle(
-                color: currentTab == index ? config.IconPrimaryColor : Colors.black87,
-                fontFamily: "Proxima",
-                fontSize: 13,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+  //   return Scaffold(
+  //     body: screens[currentTab],
+  //     floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+  //     bottomNavigationBar: BottomAppBar(
+  //       height: W / 5.8,
+  //       notchMargin: 10,
+  //       padding: paddingAll10,
+  //       elevation: 0,
+  //       surfaceTintColor: Colors.yellowAccent,
+  //       color: Colors.black.withOpacity(0.2),
+  //       shape: CircularNotchedRectangle(),
+  //       child: Row(
+  //         mainAxisAlignment: MainAxisAlignment.spaceAround,
+  //         children: [
+  //           _buildTabItem(0, "assets/icon/tab-icon/home-selected.png", "assets/icon/tab-icon/home-unselected.png", "Home"),
+  //           _buildTabItem(1, "assets/icon/qr-icon.png", "assets/icon/qr-icon.png", "Qr"),
+  //           _buildTabItem(2, "assets/icon/tab-icon/activity-selected.png", "assets/icon/tab-icon/activity-unselected.png", "Activity"),
+  //           _buildTabItem(3, "assets/icon/tab-icon/profile-selected.png", "assets/icon/tab-icon/profile-unselected.png", "Profile"),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
+  //
+  // Widget _buildTabItem(int index, String selectedImageAsset, String unselectedImageAsset, String text) {
+  //   return InkWell(
+  //     onTap: () {
+  //       _onTabTapped(index);
+  //     },
+  //     child: Container(
+  //       width: MediaQuery.of(context).size.width / 4.3,
+  //       child: Column(
+  //         crossAxisAlignment: CrossAxisAlignment.center,
+  //         mainAxisAlignment: MainAxisAlignment.center,
+  //         children: [
+  //           Container(
+  //             alignment: Alignment.center,
+  //             height: MediaQuery.of(context).size.width / 29,
+  //             width: MediaQuery.of(context).size.width / 20,
+  //             child: Image.asset(
+  //               currentTab == index ? selectedImageAsset : unselectedImageAsset,
+  //               color: currentTab == index ? config.IconPrimaryColor : Colors.black87,
+  //             ),
+  //           ),
+  //           Text(
+  //             text,
+  //             style: TextStyle(
+  //               color: currentTab == index ? config.IconPrimaryColor : Colors.black87,
+  //               fontFamily: "Proxima",
+  //               fontSize: 13,
+  //             ),
+  //           ),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
 
   void _onTabTapped(int index) {
     setState(() {

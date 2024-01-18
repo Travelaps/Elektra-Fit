@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
                 elevation: 0,
                 toolbarHeight: 50,
                 centerTitle: true,
-                systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.black87)),
+                systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.white)),
           ),
           darkTheme: ThemeData(
             brightness: Brightness.dark,

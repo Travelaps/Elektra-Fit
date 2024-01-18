@@ -4,6 +4,7 @@ import 'package:elektra_fit/global/helper.dart';
 import 'package:elektra_fit/module/auth/login/login-service.dart';
 import 'package:elektra_fit/widget/CButton.dart';
 import 'package:elektra_fit/widget/CTextFromField.dart';
+import 'package:elektra_fit/widget/Cloading.dart';
 import 'package:elektra_fit/widget/tabBar.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
@@ -63,7 +64,7 @@ class _LoginState extends State<Login> {
           FocusScope.of(scaffoldKey.currentContext!).unfocus();
         },
         child: StreamBuilder(
-            stream: Rx.combineLatest2(isVisibility$, isSaved$, (a, b) => null),
+            stream: Rx.combineLatest3(isVisibility$, isSaved$, isLoading$, (a, b, c) => null),
             builder: (context, snapshot) {
               return Container(
                 width: W,
@@ -80,75 +81,80 @@ class _LoginState extends State<Login> {
                 ),
                 child: Padding(
                   padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top, left: 10, right: 10, bottom: 10),
-                  child: Column(
-                    children: [
-                      Expanded(flex: 1, child: Container()),
-                      CTextFormField(_email, "Email", prefixIcon: Icon(Icons.email)),
-                      SizedBox(height: W / 40),
-                      CTextFormField(_password, "Password",
-                          obscureText: isVisibility$.value,
-                          keyboardType: TextInputType.text,
-                          textInputAction: TextInputAction.done,
-                          prefixIcon: Icon(Icons.lock, color: Colors.white70),
-                          suffixIconColor: Colors.white70,
-                          onchange: (value) {
-                            _password.text = value;
-                          },
-                          suffixIcon: IconButton(
-                              onPressed: () {
-                                isVisibility$.add(!isVisibility$.value);
-                              },
-                              icon: isVisibility$.value ? const Icon(Icons.visibility_off) : const Icon(Icons.visibility)),
-                          validator: (value) {
-                            if (value!.isEmpty) return _password.text;
-                            return null;
-                          }),
-                      SizedBox(height: W / 60),
-                      Row(
-                        children: [
-                          Checkbox(
-                            checkColor: Colors.white,
-                            focusColor: Colors.black,
-                            activeColor: config.primaryColor,
-                            hoverColor: Colors.red,
-                            value: isSaved$.value,
-                            onChanged: (value) {
-                              isSaved$.add(!isSaved$.value);
-                            },
-                          ),
-                          Text("Remember me", style: kProxima16.copyWith(color: Colors.white)),
-                        ],
-                      ),
-                      SizedBox(height: W / 60),
-                      CButton(
-                          title: "Login",
-                          func: () async {
-                            try {
-                              bool response = await service.postLogin(_email.text, _password.text);
-                              if (response) {
-                                isLoading$.add(true);
-                                savePreferences();
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => CTabBar()));
-                                isLoading$.add(true);
-                              } else {
-                                kShowBanner(BannerType.ERROR, "Login failed. Please try again.", context);
-                                Future.delayed(Duration(seconds: 2), () {
-                                  Navigator.of(context).pop();
-                                });
-                              }
-                            } catch (e) {
-                              kShowBanner(BannerType.ERROR, "${e.toString()}", context);
-                              Future.delayed(Duration(seconds: 2), () {
-                                Navigator.of(context).pop();
-                              });
-                              print(e);
-                            }
-                          },
-                          width: W),
-                      SizedBox(height: W / 10),
-                      // Expanded(child: Container()),
-                    ],
-                  ),
+                  child: isLoading$.value
+                      ? CLoading()
+                      : Column(
+                          children: [
+                            Expanded(flex: 1, child: Container()),
+                            CTextFormField(_email, "Email", prefixIcon: Icon(Icons.email)),
+                            SizedBox(height: W / 40),
+                            CTextFormField(_password, "Password",
+                                obscureText: isVisibility$.value,
+                                keyboardType: TextInputType.text,
+                                textInputAction: TextInputAction.done,
+                                prefixIcon: Icon(Icons.lock, color: Colors.white70),
+                                suffixIconColor: Colors.white70,
+                                onchange: (value) {
+                                  _password.text = value;
+                                },
+                                suffixIcon: IconButton(
+                                    onPressed: () {
+                                      isVisibility$.add(!isVisibility$.value);
+                                    },
+                                    icon: isVisibility$.value ? const Icon(Icons.visibility_off) : const Icon(Icons.visibility)),
+                                validator: (value) {
+                                  if (value!.isEmpty) return _password.text;
+                                  return null;
+                                }),
+                            SizedBox(height: W / 60),
+                            Row(
+                              children: [
+                                Checkbox(
+                                  checkColor: Colors.white,
+                                  focusColor: Colors.black,
+                                  activeColor: config.primaryColor,
+                                  hoverColor: Colors.red,
+                                  value: isSaved$.value,
+                                  onChanged: (value) {
+                                    isSaved$.add(!isSaved$.value);
+                                  },
+                                ),
+                                Text("Remember me", style: kProxima16.copyWith(color: Colors.white)),
+                              ],
+                            ),
+                            SizedBox(height: W / 60),
+                            CButton(
+                                title: "Login",
+                                func: () {
+                                  isLoading$.add(true);
+                                  try {
+                                    service.postLogin(_email.text, _password.text).then((value) {
+                                      isLoading$.add(false);
+                                      if (value!.result) {
+                                        savePreferences();
+
+                                        Navigator.popUntil(context, (route) => route.isFirst);
+                                        Navigator.pushReplacement(
+                                          context,
+                                          PageRouteBuilder(
+                                            pageBuilder: (context, animation, secondaryAnimation) => CTabBar(),
+                                          ),
+                                        );
+                                        // isLoading$.add(true);
+                                      } else {
+                                        kShowBanner(BannerType.ERROR, value.message, context);
+                                      }
+                                    });
+                                  } catch (e) {
+                                    kShowBanner(BannerType.ERROR, "${e.toString()}", context);
+
+                                    print(e);
+                                  }
+                                },
+                                width: W),
+                            SizedBox(height: W / 10),
+                          ],
+                        ),
                 ),
               );
             }),

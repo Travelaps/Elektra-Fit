@@ -1,6 +1,6 @@
 import 'package:elektra_fit/global/global-variables.dart';
-import 'package:elektra_fit/widget/CExpandedSection.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:rxdart/rxdart.dart';
 
 class MemberType extends StatefulWidget {
@@ -18,70 +18,49 @@ class _MemberTypeState extends State<MemberType> {
     final double H = MediaQuery.of(context).size.height;
     final double W = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: AppBar(title: const Text("Member Types")),
-      body: StreamBuilder(
-          stream: isOpen$.stream,
-          builder: (context, snapshot) {
-            return SingleChildScrollView(
-              child: Column(children: [
-                Container(
+        appBar: AppBar(title: const Text("Member Types")),
+        body: Column(
+          children: fitness$.value!.map((e) {
+            return Column(
+              children: e.membership!.map((item) {
+                return Container(
                   margin: marginAll10,
+                  width: W,
+                  padding: paddingAll10,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: borderRadius10,
+                    color: Colors.white,
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black.withOpacity(0.6),
                         spreadRadius: 3,
-                        // blurRadius: 10,
+                        blurRadius: 10,
                         offset: Offset(0, 3),
                       ),
                     ],
                   ),
-                  child: ListTile(
-                    title: InkWell(
-                      onTap: () {
-                        isOpen$.add(!isOpen$.value);
-                      },
-                      child: Row(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(item.membershiptype ?? "", style: kMontserrat20),
+                      const Divider(color: Colors.black),
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Container(
-                            color: Colors.green,
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                SizedBox(
-                                    height: W / 14,
-                                    width: W / 14,
-                                    child: Image.asset(
-                                      "assets/icon/membershıp2.png",
-                                      color: config.primaryColor,
-                                    )),
-                                // S
-                                SizedBox(width: W / 30),
-                                Text("Premium Member", style: kMontserrat20),
-                              ],
-                            ),
+                          Text(DateFormat("dd-MMM-yyyy").format(item.contractdate!), style: kProxima17),
+                          Text(
+                            "${item.price!.toStringAsFixed(2)} ${item.currency}",
+                            style: kProxima17,
                           ),
-                          InkWell(
-                              onTap: () {
-                                isOpen$.add(!isOpen$.value);
-                              },
-                              child: isOpen$.value == true ? Icon(Icons.arrow_drop_down_outlined) : Icon(Icons.arrow_drop_up_outlined)),
                         ],
-                      ),
-                    ),
-                    subtitle: ExpandedSection(
-                        expand: isOpen$.value,
-                        child: Container(
-                          child: Text("vhjvhjhnghcfgfcgfcgfcfg"),
-                        )),
+                      )
+                    ],
                   ),
-                )
-              ]),
+                );
+              }).toList(),
             );
-          }),
-    );
+          }).toList(),
+        ));
   }
 }

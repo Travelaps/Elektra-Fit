@@ -31,17 +31,19 @@ class _QrState extends State<Qr> {
     final double H = MediaQuery.of(context).size.height;
     final double W = MediaQuery.of(context).size.width;
     return Scaffold(
+      appBar: AppBar(
+        title: Text("QR Scaner"),
+        leading: null,
+      ),
       body: SingleChildScrollView(
         child: Container(
-          height: H,
-          padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top, left: 10, right: 10, bottom: 10),
+          height: H * 0.8,
+          padding: paddingAll10,
           child: Column(
             children: [
-              SizedBox(height: W / 5),
               result != null
                   ? Container(
                       height: W - 40,
-                      width: W - 40,
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                           begin: Alignment.topCenter,
@@ -65,7 +67,6 @@ class _QrState extends State<Qr> {
                     )
                   : Container(
                       height: W - 40,
-                      width: W - 40,
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                           begin: Alignment.topCenter,
@@ -87,11 +88,9 @@ class _QrState extends State<Qr> {
                         fit: BoxFit.cover,
                       ),
                     ),
-              SizedBox(height: W / 30),
-              Center(
-                child: (result != null) ? Text('Barcode Type: ${describeEnum(result!.format.formatName)}   Data: ${result!.code}') : Text('Scan a code', style: kMontserrat20),
-              ),
-              SizedBox(height: W / 30),
+              SizedBox(height: W / 8),
+              Center(child: (result != null) ? Text('Barcode Type: ${describeEnum(result!.format.formatName)}   Data: ${result!.code}') : Text('Scan a code', style: kMontserrat20)),
+              Spacer(),
               CButton(title: "Starting Scanning ", func: () {}, width: W),
             ],
           ),
