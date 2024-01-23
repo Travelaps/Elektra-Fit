@@ -17,7 +17,6 @@ class _HomeState extends State<Home> {
       appBar: AppBar(
         title: Text("Lessons"),
       ),
-      // floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       body: SingleChildScrollView(
         child: Column(
           children: [

@@ -28,6 +28,8 @@ class _ProfileState extends State<Profile> {
               child: Padding(
                 padding: paddingAll10,
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
                       margin: marginAll10,
@@ -46,6 +48,8 @@ class _ProfileState extends State<Profile> {
                       ),
                       // width: W,
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           SizedBox(height: W / 40),
                           Container(
@@ -82,69 +86,23 @@ class _ProfileState extends State<Profile> {
                             }).toList(),
                           ),
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  const Icon(Icons.email),
-                                  Text(
-                                    " ozkan@gmail.com",
-                                    style: kMontserrat17,
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  Icon(Icons.phone),
-                                  Text(
-                                    fitness$.value?.first.profile?.phone ?? " 5468701079",
-                                    style: kMontserrat17,
-                                  ),
-                                ],
-                              ),
+                              const Icon(Icons.email),
+                              Text(" ozkan@gmail.com", style: kMontserrat17),
+                            ],
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Icon(Icons.phone),
+                              Text(fitness$.value?.first.profile?.phone ?? " 5468701079", style: kMontserrat17),
                             ],
                           )
                         ],
                       ),
                     ),
                     SizedBox(height: W / 30),
-                    // InkWell(
-                    //   onTap: () {
-                    //     Navigator.push(
-                    //         context,
-                    //         MaterialPageRoute(
-                    //           builder: (context) => MemberType(),
-                    //         ));
-                    //   },
-                    //   child: Container(
-                    //     height: W / 8,
-                    //     padding: paddingAll10,
-                    //     margin: marginAll5,
-                    //     alignment: Alignment.center,
-                    //     decoration: BoxDecoration(
-                    //       color: Colors.white,
-                    //       borderRadius: borderRadius10,
-                    //       boxShadow: [
-                    //         BoxShadow(
-                    //           color: Colors.black.withOpacity(0.4),
-                    //           spreadRadius: 3,
-                    //           blurRadius: 10,
-                    //           offset: Offset(0, 3),
-                    //         ),
-                    //       ],
-                    //     ),
-                    //     width: W,
-                    //     child: Row(
-                    //       children: [
-                    //         Icon(Icons.published_with_changes_sharp, color: config.IconPrimaryColor, size: 26),
-                    //         SizedBox(width: W / 40),
-                    //         Text("Edit Profile", style: kMontserrat16),
-                    //       ],
-                    //     ),
-                    //   ),
-                    // ),
-                    // SizedBox(height: W / 30),
                     InkWell(
                       onTap: () {
                         Navigator.push(

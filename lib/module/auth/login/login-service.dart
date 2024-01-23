@@ -12,9 +12,6 @@ class LoginService {
 
     try {
       final response = await http.post(url, body: {});
-
-      // print(response.body); // Output for debugging
-
       if (response.statusCode >= 200 && response.statusCode < 300) {
         final jsonData = json.decode(utf8.decode(response.bodyBytes));
 
