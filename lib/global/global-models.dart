@@ -5,18 +5,18 @@ class RequestResponse {
   RequestResponse({required this.message, required this.result});
 }
 
-class FitnessModal {
+class FitnessModel {
   Profile? profile;
   List<Program>? program;
   List<Membership>? membership;
 
-  FitnessModal({
+  FitnessModel({
     this.profile,
     this.program,
     this.membership,
   });
 
-  factory FitnessModal.fromMap(Map<String, dynamic> json) => FitnessModal(
+  factory FitnessModel.fromMap(Map<String, dynamic> json) => FitnessModel(
         profile: json["PROFILE"] == null ? null : Profile.fromMap(json["PROFILE"]),
         program: json["PROGRAM"] == null ? [] : List<Program>.from(json["PROGRAM"]!.map((x) => Program.fromMap(x))),
         membership: json["MEMBERSHIP"] == null ? [] : List<Membership>.from(json["MEMBERSHIP"]!.map((x) => Membership.fromMap(x))),
@@ -98,6 +98,8 @@ class Membership {
 }
 
 class Profile {
+  int? guestid;
+  String? email;
   String? fullname;
   dynamic photourl;
   dynamic cardno;
@@ -109,6 +111,8 @@ class Profile {
   dynamic phone;
 
   Profile({
+    this.guestid,
+    this.email,
     this.fullname,
     this.photourl,
     this.cardno,
@@ -121,6 +125,8 @@ class Profile {
   });
 
   factory Profile.fromMap(Map<String, dynamic> json) => Profile(
+        guestid: json["GUESTID"],
+        email: json["EMAIL"],
         fullname: json["FULLNAME"],
         photourl: json["PHOTOURL"],
         cardno: json["CARDNO"],
@@ -133,6 +139,8 @@ class Profile {
       );
 
   Map<String, dynamic> toMap() => {
+        "GUESTID": guestid,
+        "EMAIL": email,
         "FULLNAME": fullname,
         "PHOTOURL": photourl,
         "CARDNO": cardno,

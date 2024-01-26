@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:elektra_fit/global/global-variables.dart';
 import 'package:elektra_fit/module/auth/login/login.dart';
 import 'package:elektra_fit/module/profile/profile-module/member-type.dart';
@@ -61,10 +62,12 @@ class _ProfileState extends State<Profile> {
                               height: W / 3,
                               width: W / 3,
                               child: ClipOval(
-                                child: Image.network(
-                                  fitness$.value?.first.profile?.photourl ??
+                                child: CachedNetworkImage(
+                                  imageUrl: fitness$.value?.first.profile?.photourl ??
                                       "https://www.mnp.ca/-/media/foundation/integrations/personnel/2020/12/16/13/57/personnel-image-4483.jpg?h=800&w=600&hash=9D5E5FCBEE00EB562DCD8AC8FDA8433D",
                                   fit: BoxFit.cover,
+                                  placeholder: (context, url) => CircularProgressIndicator(),
+                                  errorWidget: (context, url, error) => Icon(Icons.error),
                                 ),
                               ),
                             ),
@@ -89,14 +92,14 @@ class _ProfileState extends State<Profile> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               const Icon(Icons.email),
-                              Text(" ozkan@gmail.com", style: kMontserrat17),
+                              Text("${fitness$.value?.first.profile?.email}", style: kMontserrat17),
                             ],
                           ),
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Icon(Icons.phone),
-                              Text(fitness$.value?.first.profile?.phone ?? " 5468701079", style: kMontserrat17),
+                              Text(fitness$.value?.first.profile?.phone ?? "", style: kMontserrat17),
                             ],
                           )
                         ],

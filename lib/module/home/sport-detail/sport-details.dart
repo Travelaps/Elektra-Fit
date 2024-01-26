@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:elektra_fit/global/global-variables.dart';
 import 'package:flutter/material.dart';
 
@@ -51,11 +52,13 @@ class _SportDetailsState extends State<SportDetails> {
                                 children: [
                                   ClipRRect(
                                     borderRadius: BorderRadius.only(topRight: Radius.circular(10), topLeft: Radius.circular(10)),
-                                    child: Image.network(
+                                    child: CachedNetworkImage(
                                       height: W / 1.4,
                                       width: W,
-                                      program![index].exercisephotourl ?? "https://images.pexels.com/photos/841131/pexels-photo-841131.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+                                      imageUrl: program![index].exercisephotourl ?? "https://images.pexels.com/photos/841131/pexels-photo-841131.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
                                       fit: BoxFit.cover,
+                                      placeholder: (context, url) => CircularProgressIndicator(),
+                                      errorWidget: (context, url, error) => Icon(Icons.error),
                                     ),
                                   ),
                                   Positioned(

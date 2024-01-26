@@ -132,7 +132,6 @@ class _LoginState extends State<Login> {
                                       isLoading$.add(false);
                                       if (value!.result) {
                                         savePreferences();
-
                                         Navigator.popUntil(context, (route) => route.isFirst);
                                         Navigator.pushReplacement(
                                           context,
@@ -146,9 +145,7 @@ class _LoginState extends State<Login> {
                                       }
                                     });
                                   } catch (e) {
-                                    kShowBanner(BannerType.ERROR, "${e.toString()}", context);
-
-                                    print(e);
+                                    kShowBanner(BannerType.ERROR, e.toString(), context);
                                   }
                                 },
                                 width: W),

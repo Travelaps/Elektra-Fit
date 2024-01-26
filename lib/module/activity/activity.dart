@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:elektra_fit/global/global-variables.dart';
 import 'package:flutter/material.dart';
 
@@ -35,8 +36,10 @@ class _ActivityState extends State<Activity> {
                 children: [
                   ClipRRect(
                     borderRadius: const BorderRadius.all(Radius.circular(10)),
-                    child: Image.asset(
-                      "assets/image/sport6.jpg",
+                    child: CachedNetworkImage(
+                      imageUrl: fitness$.value?.first.program?.first.exercisephotourl ?? "https://www.skechers.com.tr/blog/wp-content/uploads/2023/03/fitnes-770x513.jpg",
+                      placeholder: (context, url) => const CircularProgressIndicator(),
+                      errorWidget: (context, url, error) => const Icon(Icons.error),
                       fit: BoxFit.cover,
                     ),
                   ),

@@ -16,10 +16,10 @@ class LoginService {
         final jsonData = json.decode(utf8.decode(response.bodyBytes));
 
         if (jsonData != "KullanÄ±cÄ± BulunamadÄ±!") {
-          List<FitnessModal> fitnesList = [];
+          List<FitnessModel> fitnesList = [];
 
           for (var item in jsonData) {
-            fitnesList.add(FitnessModal.fromMap(item));
+            fitnesList.add(FitnessModel.fromMap(item));
           }
 
           fitness$.add(fitnesList);
@@ -33,7 +33,6 @@ class LoginService {
         return RequestResponse(message: "An error occurred while logging in", result: false);
       }
     } catch (e) {
-      print(e); // Output for debugging
       return RequestResponse(message: e.toString(), result: false);
     }
   }

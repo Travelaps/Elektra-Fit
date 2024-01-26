@@ -33,8 +33,8 @@ class _QrState extends State<Qr> {
         placeID = localResult.code;
       });
 
-      print('Format: ${localResult.format}');
-      print('Code: ${localResult.code}');
+      // print('Format: ${localResult.format}');
+      // print('Code: ${localResult.code}');
     });
   }
 
@@ -45,7 +45,7 @@ class _QrState extends State<Qr> {
       print("Camera resumed");
     }
 
-    var response = await service.postQrScanner(placeID.toString(), guestId, dateTime);
+    var response = await service.postQrScanner(placeID.toString());
     if (response.result) {
       kShowBanner(BannerType.SUCCESS, "The entrance process to the hall was completed successfully.", context);
     } else {
