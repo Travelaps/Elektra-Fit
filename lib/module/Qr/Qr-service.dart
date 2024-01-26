@@ -5,19 +5,18 @@ import 'package:elektra_fit/global/global-variables.dart';
 import 'package:http/http.dart' as http;
 
 class QrService {
-  Future<RequestResponse> postQrScanner(String placeId) async {
-    final url = Uri.parse('https://4001.hoteladvisor.net/apisequence/SPAFitnessLogin?PLACEID=$placeId&GUESTID=${fitness$.value?.first.profile?.guestid}&ENTRANCEDATE=${DateTime.now()}');
+  Future<RequestResponse> postQrScanner(String placeId, String formattedDate) async {
+    final url = Uri.parse('https://4001.hoteladvisor.net/apisequence/SPAFitnessMemberEntrance?PLACEID=$placeId&GUESTID=${fitness$.value?.first.profile?.guestid}&ENTRANCEDATE=$formattedDate');
 
     try {
       final response = await http.post(url, body: {});
-      if (response.statusCode >= 200) {
-        final jsonData = json.decode(utf8.decode(response.bodyBytes));
-        return RequestResponse(message: jsonData.toString(), result: false);
-      } else {
-        return RequestResponse(message: "An error occurred while logging in", result: false);
-      }
+
+      print(response.body);
+      return RequestResponse(message: "${utf8.decode(response.bodyBytes)}", result: true);
     } catch (e) {
-      return RequestResponse(message: "sjdasjdaksjdlaskj", result: false);
+      print(e);
+
+      return RequestResponse(message: e.toString(), result: false);
     }
   }
 }

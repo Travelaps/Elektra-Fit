@@ -46,8 +46,9 @@ dependencies:
   flutter_flushbar: ^0.0.2
   curved_navigation_bar: ^1.0.3
   data_format: ^0.0.4
-  intl: ^0.19.0
+  intl: ^0.18.1
   cached_network_image: ^3.3.1
+  easy_localization: ^3.0.3
 #  flutter_flushbar: ^0.0.2
 
 dev_dependencies:
@@ -111,7 +112,8 @@ flutter:
     - assets/icon/banner-icon/
     - assets/icon/tab-icon/
     - assets/image/sports-vector/
-#    - assets/weather-icon/
+    - assets/translations/
+    - assets/icon/flat-icon/
   fonts:
     - family: Montserrat
       fonts:

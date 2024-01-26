@@ -1,9 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:elektra_fit/global/global-variables.dart';
 import 'package:elektra_fit/module/auth/login/login.dart';
 import 'package:elektra_fit/module/profile/profile-module/member-type.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class Profile extends StatefulWidget {
   const Profile({Key? key}) : super(key: key);
@@ -13,16 +13,93 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  // void _showPopupMenu(BuildContext context, Offset position) async {
+  //   final selectedValue = await showMenu(
+  //     context: context,
+  //     position: RelativeRect.fromLTRB(position.dx, position.dy, 0, 0),
+  //     items: [
+  //       PopupMenuItem(
+  //         padding: EdgeInsets.all(0),
+  //         height: 0,
+  //         value: 1,
+  //         child: Column(
+  //           children: [
+  //             Container(
+  //               padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+  //               color: Colors.white,
+  //               child: Row(
+  //                 children: [
+  //                   Image(
+  //                     image: AssetImage("assets/icon/flat-icon/tr-flag.png"),
+  //                     width: 25,
+  //                     height: 15,
+  //                   ),
+  //                   SizedBox(width: 10),
+  //                   Text(
+  //                     tr("Türkçe"),
+  //                     style: kMontserrat18,
+  //                   ),
+  //                 ],
+  //               ),
+  //             ),
+  //           ],
+  //         ),
+  //       ),
+  //       PopupMenuItem(
+  //         padding: EdgeInsets.all(0),
+  //         height: 0,
+  //         value: 2,
+  //         child: Column(
+  //           children: [
+  //             Container(
+  //               color: Colors.white,
+  //               padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+  //               child: Row(
+  //                 children: [
+  //                   Image(
+  //                     image: AssetImage("assets/icon/flat-icon/en-flag.png"),
+  //                     width: 25,
+  //                     height: 15,
+  //                   ),
+  //                   SizedBox(width: 10),
+  //                   Text(
+  //                     tr("English"),
+  //                     style: kMontserrat18,
+  //                   ),
+  //                 ],
+  //               ),
+  //             ),
+  //           ],
+  //         ),
+  //       ),
+  //     ],
+  //   );
+  //   if (selectedValue != null) {
+  //     if (selectedValue == 1) {
+  //       setState(() {
+  //         selectedlang = "tr";
+  //         context.locale = Locale("tr");
+  //       });
+  //     } else if (selectedValue == 2) {
+  //       setState(() {
+  //         selectedlang = "en";
+  //         context.locale = Locale("en");
+  //       });
+  //     } else {}
+  //   }
+  // }
+
   @override
   Widget build(BuildContext context) {
     final double H = MediaQuery.of(context).size.height;
     final double W = MediaQuery.of(context).size.width;
+
     return StreamBuilder(
         stream: fitness$.stream,
         builder: (context, snapshot) {
           return Scaffold(
             appBar: AppBar(
-              title: Text("Profile"),
+              title: Text("Profile".tr()),
               leading: null,
             ),
             body: SingleChildScrollView(
@@ -80,7 +157,7 @@ class _ProfileState extends State<Profile> {
                                 children: e.membership!.map((item) {
                                   return Column(
                                     children: [
-                                      Text(item.membershiptype ?? "", style: kMontserrat20.copyWith(color: config.primaryColor)),
+                                      Text(item.membershiptype ?? "".tr(), style: kMontserrat20.copyWith(color: config.primaryColor)),
                                       Text("${DateFormat("dd-MMM-yyyy").format(item.startdate!)} - ${DateFormat("dd-MMM-yyyy").format(item.startdate!)}", style: kMontserrat20),
                                     ],
                                   );
@@ -136,14 +213,16 @@ class _ProfileState extends State<Profile> {
                           children: [
                             Icon(Icons.published_with_changes_sharp, color: config.IconPrimaryColor, size: 26),
                             SizedBox(width: W / 40),
-                            Text("Member Type", style: kMontserrat16),
+                            Text("Member Type".tr(), style: kMontserrat16),
                           ],
                         ),
                       ),
                     ),
                     SizedBox(height: W / 30),
                     InkWell(
-                      onTap: () {},
+                      // onTapDown: (details) {
+                      //   _showPopupMenu(context, details.globalPosition);
+                      // },
                       child: Container(
                         padding: paddingAll10,
                         height: W / 8,
@@ -166,7 +245,7 @@ class _ProfileState extends State<Profile> {
                           children: [
                             Icon(Icons.language, color: config.IconPrimaryColor, size: 25),
                             SizedBox(width: W / 40),
-                            Text("Language", style: kMontserrat16),
+                            Text("Language".tr(), style: kMontserrat16),
                           ],
                         ),
                       ),
@@ -200,7 +279,7 @@ class _ProfileState extends State<Profile> {
                               child: Image.asset("assets/icon/settings.png", color: config.primaryColor),
                             ),
                             SizedBox(width: W / 40),
-                            Text("Settings", style: kMontserrat16),
+                            Text("Settings".tr(), style: kMontserrat16),
                           ],
                         ),
                       ),
@@ -243,7 +322,7 @@ class _ProfileState extends State<Profile> {
                               ),
                             ),
                             SizedBox(width: W / 40),
-                            Text("Log Out", style: kMontserrat16.copyWith(color: Colors.red)),
+                            Text("Log Out".tr(), style: kMontserrat16.copyWith(color: Colors.red)),
                           ],
                         ),
                       ),

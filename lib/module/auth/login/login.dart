@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:elektra_fit/global/enum/banner-enum.dart';
 import 'package:elektra_fit/global/global-variables.dart';
 import 'package:elektra_fit/global/helper.dart';
@@ -86,9 +87,9 @@ class _LoginState extends State<Login> {
                       : Column(
                           children: [
                             Expanded(flex: 1, child: Container()),
-                            CTextFormField(_email, "Email", prefixIcon: Icon(Icons.email)),
+                            CTextFormField(_email, "Email".tr(), prefixIcon: Icon(Icons.email)),
                             SizedBox(height: W / 40),
-                            CTextFormField(_password, "Password",
+                            CTextFormField(_password, "Password".tr(),
                                 obscureText: isVisibility$.value,
                                 keyboardType: TextInputType.text,
                                 textInputAction: TextInputAction.done,
@@ -119,36 +120,39 @@ class _LoginState extends State<Login> {
                                     isSaved$.add(!isSaved$.value);
                                   },
                                 ),
-                                Text("Remember me", style: kProxima16.copyWith(color: Colors.white)),
+                                Text("Remember me".tr(), style: kProxima16.copyWith(color: Colors.white)),
                               ],
                             ),
                             SizedBox(height: W / 60),
                             CButton(
-                                title: "Login",
-                                func: () {
-                                  isLoading$.add(true);
-                                  try {
-                                    service.postLogin(_email.text, _password.text).then((value) {
-                                      isLoading$.add(false);
-                                      if (value!.result) {
-                                        savePreferences();
-                                        Navigator.popUntil(context, (route) => route.isFirst);
-                                        Navigator.pushReplacement(
-                                          context,
-                                          PageRouteBuilder(
-                                            pageBuilder: (context, animation, secondaryAnimation) => CTabBar(),
-                                          ),
-                                        );
-                                        // isLoading$.add(true);
-                                      } else {
-                                        kShowBanner(BannerType.ERROR, value.message, context);
-                                      }
-                                    });
-                                  } catch (e) {
-                                    kShowBanner(BannerType.ERROR, e.toString(), context);
-                                  }
-                                },
-                                width: W),
+                              title: "Login".tr(),
+                              func: () {
+                                isLoading$.add(true);
+                                try {
+                                  service.postLogin(_email.text, _password.text).then((value) {
+                                    isLoading$.add(false);
+                                    if (value!.result) {
+                                      savePreferences();
+                                      Navigator.popUntil(context, (route) => route.isFirst);
+                                      Navigator.pushReplacement(
+                                        context,
+                                        PageRouteBuilder(
+                                          pageBuilder: (context, animation, secondaryAnimation) => CTabBar(),
+                                        ),
+                                      );
+                                    } else {
+                                      final errorMessage = value.message.contains('Kullanıcı Bulunamadı!') ? 'Kullanıcı Bulunamadı!' : value.message;
+                                      kShowBanner(BannerType.ERROR, errorMessage, context);
+                                    }
+                                  });
+                                } catch (e) {
+
+                                  final errorMessage = e.toString().contains('Kullanıcı Bulunamadı!') ? 'Kullanıcı Bulunamadı!' : e.toString();
+                                  kShowBanner(BannerType.ERROR, errorMessage, context);
+                                }
+                              },
+                              width: W,
+                            ),
                             SizedBox(height: W / 10),
                           ],
                         ),

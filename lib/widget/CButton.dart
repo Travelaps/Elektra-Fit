@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:elektra_fit/global/global-variables.dart';
 import 'package:flutter/material.dart';
 
@@ -34,7 +35,7 @@ class CButton extends StatelessWidget {
                 child: Container(
                   alignment: Alignment.center,
                   child: Text(
-                    title,
+                    title.tr(),
                     style: const TextStyle(color: Colors.white, fontFamily: "Montserrat", fontSize: 18),
                     textAlign: TextAlign.center,
                   ),

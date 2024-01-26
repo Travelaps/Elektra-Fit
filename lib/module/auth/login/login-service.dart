@@ -12,28 +12,29 @@ class LoginService {
 
     try {
       final response = await http.post(url, body: {});
-      if (response.statusCode >= 200 && response.statusCode < 300) {
+      if (response.statusCode == 200) {
         final jsonData = json.decode(utf8.decode(response.bodyBytes));
+        //
+        // if (jsonData != "KullanÄ±cÄ± BulunamadÄ±!") {
+        //   List<FitnessModel> fitnesList = [];
+        //
+        //   for (var item in jsonData) {
+        //     fitnesList.add(FitnessModel.fromMap(item));
+        //   }
 
-        if (jsonData != "KullanÄ±cÄ± BulunamadÄ±!") {
-          List<FitnessModel> fitnesList = [];
+        List<FitnessModel> fitnesList = [];
 
-          for (var item in jsonData) {
-            fitnesList.add(FitnessModel.fromMap(item));
-          }
-
-          fitness$.add(fitnesList);
-          fitness$.add(fitness$.value);
-
-          return RequestResponse(message: "Login successfully", result: true);
-        } else {
-          return RequestResponse(message: "Kullanıcı Bulunamadı!", result: false);
+        for (var item in jsonData) {
+          fitnesList.add(FitnessModel.fromMap(item));
         }
-      } else {
-        return RequestResponse(message: "An error occurred while logging in", result: false);
+
+        fitness$.add(fitnesList);
+        fitness$.add(fitness$.value);
+
+        return RequestResponse(message: jsonData.toString(), result: true);
       }
-    } catch (e) {
-      return RequestResponse(message: e.toString(), result: false);
+    } catch (item) {
+      return RequestResponse(message: item.toString(), result: false);
     }
   }
 }

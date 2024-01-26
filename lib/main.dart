@@ -4,8 +4,18 @@ import 'package:flutter/services.dart';
 
 import 'global/global-variables.dart';
 
-void main() {
-  runApp(const MyApp());
+Future<void> main() async {
+  // WidgetsFlutterBinding.ensureInitialized();
+  // await EasyLocalization.ensureInitialized();
+
+  runApp(
+    //   EasyLocalization(
+    // supportedLocales: [Locale('en'), Locale('tr')],
+    // path: 'assets/translations',
+    // fallbackLocale: const Locale('en'),
+    // child:
+    const MyApp(),
+  );
 }
 
 class MyApp extends StatelessWidget {

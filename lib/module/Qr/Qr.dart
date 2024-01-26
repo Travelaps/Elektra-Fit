@@ -1,13 +1,13 @@
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:elektra_fit/global/enum/banner-enum.dart';
 import 'package:elektra_fit/global/global-variables.dart';
 import 'package:elektra_fit/global/helper.dart';
 import 'package:elektra_fit/module/Qr/Qr-service.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
-
-import '../../widget/CButton.dart';
+import 'package:rxdart/rxdart.dart';
 
 class Qr extends StatefulWidget {
   const Qr({Key? key}) : super(key: key);
@@ -22,35 +22,34 @@ class _QrState extends State<Qr> {
   Barcode? result;
   QRViewController? controller;
   String? placeID;
-  DateTime dateTime = DateTime.now();
-  int guestId = 280122;
+  DateTime now = DateTime.now();
+
+  BehaviorSubject<String> placedID$ = BehaviorSubject.seeded(""); // Değerimiz boş bir string ile başlatılıyor
+
   void _onQRViewCreated(QRViewController controller) {
     this.controller = controller;
+    bool isQRCodeScanned = false;
+
     controller.scannedDataStream.listen((scanData) {
-      Barcode localResult = scanData;
-      setState(() {
-        result = localResult;
-        placeID = localResult.code;
-      });
+      if (!isQRCodeScanned && placedID$.value.isEmpty) {
+        isQRCodeScanned = true;
+        Barcode localResult = scanData;
+        placedID$.add(localResult.code!);
 
-      // print('Format: ${localResult.format}');
-      // print('Code: ${localResult.code}');
+        String formattedDate = DateFormat('yyyy-MM-dd').format(now);
+        service.postQrScanner(placedID$.value, formattedDate).then((value) {
+          if (value.result) {
+            kShowBanner(BannerType.SUCCESS, value.message, context);
+          } else {
+            kShowBanner(BannerType.ERROR, value.message, context);
+          }
+          Future.delayed(Duration(seconds: 2), () {
+            isQRCodeScanned = false;
+            placedID$.add("");
+          });
+        });
+      }
     });
-  }
-
-  Future<void> _startScanning() async {
-    print("Start Scanning button pressed");
-    if (controller != null) {
-      controller!.resumeCamera();
-      print("Camera resumed");
-    }
-
-    var response = await service.postQrScanner(placeID.toString());
-    if (response.result) {
-      kShowBanner(BannerType.SUCCESS, "The entrance process to the hall was completed successfully.", context);
-    } else {
-      kShowBanner(BannerType.SUCCESS, "The check-out process to the hall was completed successfully.", context);
-    }
   }
 
   @override
@@ -75,7 +74,7 @@ class _QrState extends State<Qr> {
     final double W = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
-        title: Text("QR Scaner"),
+        title: Text("QR Scanner".tr()),
         leading: null,
       ),
       body: SingleChildScrollView(
@@ -130,8 +129,9 @@ class _QrState extends State<Qr> {
               //     child: Image.asset("assets/image/qr.png", fit: BoxFit.cover),
               //   ),
               SizedBox(height: W / 8),
-              Text('Data: ${result?.code ?? 'N/A'}'), Spacer(),
-              CButton(title: "Starting Scanning ", func: _startScanning, width: W),
+              // Text('Data: ${result?.code ?? 'N/A'}'),
+              // Spacer(),
+              // CButton(title: "Starting Scanning ", func: _startScanning, width: W),
             ],
           ),
         ),
