@@ -8,7 +8,7 @@ BehaviorSubject<bool> isLoading$ = BehaviorSubject.seeded(false);
 BehaviorSubject<List<FitnessModel>?> fitness$ = BehaviorSubject.seeded(null);
 
 final config = FitConfig.fromJson(fitConfig);
-String selectedlang = "EN";
+String? selectedlang;
 
 EdgeInsets marginAll5 = EdgeInsets.all(5);
 EdgeInsets marginAll10 = EdgeInsets.all(10);

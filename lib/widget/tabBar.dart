@@ -1,4 +1,5 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:elektra_fit/global/global-variables.dart';
 import 'package:elektra_fit/module/Qr/Qr.dart';
 import 'package:elektra_fit/module/activity/activity.dart';
 import 'package:elektra_fit/module/home/home.dart';
@@ -36,14 +37,15 @@ class _CTabBarState extends State<CTabBar> {
 
     return Scaffold(
       bottomNavigationBar: CurvedNavigationBar(
-        backgroundColor: Colors.blueAccent,
-        buttonBackgroundColor: Colors.white,
+        backgroundColor: Colors.white,
+        buttonBackgroundColor: config.primaryColor,
+        color: config.primaryColor,
         items: icons
             .map((icon) => Icon(
                   icon,
                   // grade: 20,
                   size: 30,
-                  color: Colors.black,
+                  color: Colors.white,
                 ))
             .toList(),
         onTap: (index) {

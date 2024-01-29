@@ -13,85 +13,84 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-  // void _showPopupMenu(BuildContext context, Offset position) async {
-  //   final selectedValue = await showMenu(
-  //     context: context,
-  //     position: RelativeRect.fromLTRB(position.dx, position.dy, 0, 0),
-  //     items: [
-  //       PopupMenuItem(
-  //         padding: EdgeInsets.all(0),
-  //         height: 0,
-  //         value: 1,
-  //         child: Column(
-  //           children: [
-  //             Container(
-  //               padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-  //               color: Colors.white,
-  //               child: Row(
-  //                 children: [
-  //                   Image(
-  //                     image: AssetImage("assets/icon/flat-icon/tr-flag.png"),
-  //                     width: 25,
-  //                     height: 15,
-  //                   ),
-  //                   SizedBox(width: 10),
-  //                   Text(
-  //                     tr("Türkçe"),
-  //                     style: kMontserrat18,
-  //                   ),
-  //                 ],
-  //               ),
-  //             ),
-  //           ],
-  //         ),
-  //       ),
-  //       PopupMenuItem(
-  //         padding: EdgeInsets.all(0),
-  //         height: 0,
-  //         value: 2,
-  //         child: Column(
-  //           children: [
-  //             Container(
-  //               color: Colors.white,
-  //               padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-  //               child: Row(
-  //                 children: [
-  //                   Image(
-  //                     image: AssetImage("assets/icon/flat-icon/en-flag.png"),
-  //                     width: 25,
-  //                     height: 15,
-  //                   ),
-  //                   SizedBox(width: 10),
-  //                   Text(
-  //                     tr("English"),
-  //                     style: kMontserrat18,
-  //                   ),
-  //                 ],
-  //               ),
-  //             ),
-  //           ],
-  //         ),
-  //       ),
-  //     ],
-  //   );
-  //   if (selectedValue != null) {
-  //     if (selectedValue == 1) {
-  //       setState(() {
-  //         selectedlang = "tr";
-  //         context.locale = Locale("tr");
-  //       });
-  //     } else if (selectedValue == 2) {
-  //       setState(() {
-  //         selectedlang = "en";
-  //         context.locale = Locale("en");
-  //       });
-  //     } else {}
-  //   }
-  // }
+  void _showPopupMenu(BuildContext context, Offset position) async {
+    final selectedValue = await showMenu(
+      context: context,
+      position: RelativeRect.fromLTRB(position.dx, position.dy, 0, 0),
+      items: [
+        PopupMenuItem(
+          padding: EdgeInsets.all(0),
+          height: 0,
+          value: 1,
+          child: Column(
+            children: [
+              Container(
+                padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                color: Colors.white,
+                child: Row(
+                  children: [
+                    const Image(
+                      image: AssetImage("assets/icon/flat-icon/tr-flag.png"),
+                      width: 25,
+                      height: 15,
+                    ),
+                    SizedBox(width: 10),
+                    Text(
+                      "Türkçe".tr(),
+                      style: kMontserrat18,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+        PopupMenuItem(
+          padding: EdgeInsets.all(0),
+          height: 0,
+          value: 2,
+          child: Column(
+            children: [
+              Container(
+                color: Colors.white,
+                padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                child: Row(
+                  children: [
+                    const Image(
+                      image: AssetImage("assets/icon/flat-icon/en-flag.png"),
+                      width: 25,
+                      height: 15,
+                    ),
+                    SizedBox(width: 10),
+                    Text(
+                      "English".tr(),
+                      style: kMontserrat18,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+    if (selectedValue != null) {
+      if (selectedValue == 1) {
+        setState(() {
+          selectedlang = "tr";
+          context.locale = Locale("tr");
+        });
+      } else if (selectedValue == 2) {
+        setState(() {
+          selectedlang = "en";
+          context.locale = Locale("en");
+        });
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    final double H = MediaQuery.of(context).size.height;
     final double W = MediaQuery.of(context).size.width;
 
     return StreamBuilder(
@@ -220,9 +219,9 @@ class _ProfileState extends State<Profile> {
                     ),
                     SizedBox(height: W / 30),
                     InkWell(
-                      // onTapDown: (details) {
-                      //   _showPopupMenu(context, details.globalPosition);
-                      // },
+                      onTapDown: (details) {
+                        _showPopupMenu(context, details.globalPosition);
+                      },
                       child: Container(
                         padding: paddingAll10,
                         height: W / 8,

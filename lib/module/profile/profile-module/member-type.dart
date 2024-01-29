@@ -1,6 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:elektra_fit/global/global-variables.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:rxdart/rxdart.dart';
 
 class MemberType extends StatefulWidget {
@@ -18,7 +18,7 @@ class _MemberTypeState extends State<MemberType> {
     final double H = MediaQuery.of(context).size.height;
     final double W = MediaQuery.of(context).size.width;
     return Scaffold(
-        appBar: AppBar(title: const Text("Member Types")),
+        appBar: AppBar(title: Text("Member Types".tr())),
         body: Column(
           children: fitness$.value!.map((e) {
             return Column(

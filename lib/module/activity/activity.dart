@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:elektra_fit/global/global-variables.dart';
 import 'package:flutter/material.dart';
 
@@ -18,7 +19,7 @@ class _ActivityState extends State<Activity> {
     final double W = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      appBar: AppBar(title: Text("My Programing")),
+      appBar: AppBar(title: Text("My Programing".tr())),
       body: Padding(
         padding: paddingAll10,
         child: Column(
@@ -38,15 +39,15 @@ class _ActivityState extends State<Activity> {
                     borderRadius: const BorderRadius.all(Radius.circular(10)),
                     child: CachedNetworkImage(
                       imageUrl: fitness$.value?.first.program?.first.exercisephotourl ?? "https://www.skechers.com.tr/blog/wp-content/uploads/2023/03/fitnes-770x513.jpg",
-                      placeholder: (context, url) => const CircularProgressIndicator(),
-                      errorWidget: (context, url, error) => const Icon(Icons.error),
+                      // placeholder: (context, url) => const CircularProgressIndicator(),
+                      // errorWidget: (context, url, error) => const Icon(Icons.error),
                       fit: BoxFit.cover,
                     ),
                   ),
                   Positioned.fill(
                     bottom: 0,
                     child: Container(
-                      margin: marginAll10,
+                      // margin: marginAll10,
                       width: W / 2.18,
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
@@ -55,7 +56,7 @@ class _ActivityState extends State<Activity> {
                           end: Alignment.bottomCenter,
                           colors: [
                             Colors.transparent,
-                            Colors.black.withOpacity(0.7),
+                            Colors.black.withOpacity(0.4),
                           ],
                         ),
                         borderRadius: BorderRadius.only(bottomRight: Radius.circular(10), bottomLeft: Radius.circular(10)),
@@ -64,7 +65,7 @@ class _ActivityState extends State<Activity> {
                         ],
                       ),
                       child: Text(
-                        'Program',
+                        'Program'.tr(),
                         style: kAxiforma20.copyWith(color: Colors.white),
                         textAlign: TextAlign.center,
                       ),

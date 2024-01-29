@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:elektra_fit/global/global-variables.dart';
 import 'package:flutter/material.dart';
 
@@ -20,12 +21,11 @@ class _SportDetailsState extends State<SportDetails> {
         stream: fitness$.stream,
         builder: (context, snapshot) {
           return Scaffold(
-              appBar: AppBar(title: const Text("My Program")),
+              appBar: AppBar(title: Text("My Program".tr())),
               body: SingleChildScrollView(
                 child: Column(
                     children: fitness$.value!.map((e) {
                   var program = e.program;
-
                   return SizedBox(
                     height: H * 0.9,
                     child: ListView.builder(

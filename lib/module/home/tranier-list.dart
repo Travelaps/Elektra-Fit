@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:elektra_fit/global/global-variables.dart';
 import 'package:flutter/material.dart';
 
@@ -14,7 +15,7 @@ class _TeacherListState extends State<TeacherList> {
     final double H = MediaQuery.of(context).size.height;
     final double W = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: AppBar(title: const Text("Member Types")),
+      appBar: AppBar(title: Text("Member Types").tr()),
       body: SingleChildScrollView(
         child: Column(children: [
           Container(

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:elektra_fit/global/global-variables.dart';
 import 'package:flutter/material.dart';
 
@@ -15,98 +16,11 @@ class _HomeState extends State<Home> {
     final double W = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
-        title: Text("Lessons"),
+        title: Text("Lessons".tr()),
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            // Padding(
-            //   padding: paddingAll10,
-            //   child: Row(
-            //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //     children: [
-            //       Container(
-            //         child: Column(
-            //           children: [
-            //             Row(
-            //               children: [
-            //                 Text("Good Morning!", style: kProxima17),
-            //               ],
-            //             ),
-            //             Text(
-            //               "Kemal ORAL",
-            //               style: kMontserrat18,
-            //             )
-            //           ],
-            //         ),
-            //       ),
-            //       // InkWell(
-            //       //   onTap: () {
-            //       //     Navigator.push(context, MaterialPageRoute(builder: (context) => Profile()));
-            //       //   },
-            //       //   child: Container(
-            //       //     alignment: Alignment.topRight,
-            //       //     // color: Colors.yellow,
-            //       //     child: Container(height: W / 10, width: W / 10, child: Image.asset("assets/icon/profile-icon-open.png")),
-            //       //   ),
-            //       // ),
-            //     ],
-            //   ),
-            // ),
-            // Container(
-            //     height: W / 1.5,
-            //     margin: marginAll10,
-            //     child: ListView(
-            //       scrollDirection: Axis.horizontal,
-            //       children: [
-            //         Column(
-            //           children: [
-            //             Stack(
-            //               children: [
-            //                 ClipRRect(
-            //                   borderRadius: BorderRadius.only(topRight: Radius.circular(10), topLeft: Radius.circular(10)),
-            //                   child: SizedBox(
-            //                     width: W,
-            //                     height: W / 1.6,
-            //                     child: Image.asset("assets/image/sport4.jpg", fit: BoxFit.fitHeight),
-            //                   ),
-            //                 ),
-            //                 Positioned(
-            //                   top: 0,
-            //                   left: 14,
-            //                   child: Container(
-            //                     decoration: BoxDecoration(
-            //                       color: Colors.black.withOpacity(0.1),
-            //                       borderRadius: BorderRadius.only(bottomRight: Radius.circular(10), topRight: Radius.circular(10)),
-            //                       boxShadow: [
-            //                         BoxShadow(
-            //                           color: Colors.grey.withOpacity(0.7),
-            //                           spreadRadius: 2,
-            //                           blurRadius: 1,
-            //                           offset: const Offset(0, 4),
-            //                         ),
-            //                       ],
-            //                     ),
-            //                     padding: EdgeInsets.all(10),
-            //                     child: Text(
-            //                       'Intermediate',
-            //                       style: TextStyle(
-            //                         color: Colors.white,
-            //                         fontSize: 20,
-            //                         fontWeight: FontWeight.bold,
-            //                         fontFamily: "Montserrat",
-            //                       ),
-            //                     ),
-            //                   ),
-            //                 ),
-            //               ],
-            //             ),
-            //           ],
-            //         ),
-            //         Container(),
-            //         Container(),
-            //       ],
-            //     )),
             Container(
               margin: marginAll10,
               height: W / 1.1,
@@ -144,17 +58,12 @@ class _HomeState extends State<Home> {
                           ),
                           child: SizedBox(width: W, height: W / 1.6),
                         ),
-                        const Positioned(
+                        Positioned(
                           top: 10,
                           left: 10,
                           child: Text(
-                            'Fitness',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: "Montserrat",
-                            ),
+                            'Fitness'.tr(),
+                            style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold, fontFamily: "Montserrat"),
                           ),
                         ),
                       ],
@@ -206,7 +115,7 @@ class _HomeState extends State<Home> {
                             ),
                           ),
                           Text(
-                            "Professional Trainer",
+                            "Professional Trainer".tr(),
                             style: kMontserrat18.copyWith(color: config.primaryColor),
                           )
                         ],
@@ -254,11 +163,11 @@ class _HomeState extends State<Home> {
                           ),
                           child: SizedBox(width: W, height: W / 1.6),
                         ),
-                        const Positioned(
+                        Positioned(
                           top: 10,
                           left: 10,
                           child: Text(
-                            'Treadmill',
+                            'Treadmill'.tr(),
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 20,
@@ -316,7 +225,7 @@ class _HomeState extends State<Home> {
                             ),
                           ),
                           Text(
-                            "Professional Trainer",
+                            "Professional Trainer".tr(),
                             style: kMontserrat18.copyWith(color: config.primaryColor),
                           )
                         ],
@@ -364,11 +273,11 @@ class _HomeState extends State<Home> {
                           ),
                           child: SizedBox(width: W, height: W / 1.6),
                         ),
-                        const Positioned(
+                        Positioned(
                           top: 10,
                           left: 10,
                           child: Text(
-                            'Gym',
+                            'Gym'.tr(),
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 20,
@@ -426,7 +335,7 @@ class _HomeState extends State<Home> {
                             ),
                           ),
                           Text(
-                            "Professional Trainer",
+                            "Professional Trainer".tr(),
                             style: kMontserrat18.copyWith(color: config.primaryColor),
                           )
                         ],

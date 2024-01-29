@@ -24,7 +24,7 @@ class _QrState extends State<Qr> {
   String? placeID;
   DateTime now = DateTime.now();
 
-  BehaviorSubject<String> placedID$ = BehaviorSubject.seeded(""); // Değerimiz boş bir string ile başlatılıyor
+  BehaviorSubject<String> placedID$ = BehaviorSubject.seeded("");
 
   void _onQRViewCreated(QRViewController controller) {
     this.controller = controller;
@@ -82,9 +82,15 @@ class _QrState extends State<Qr> {
           height: H * 0.76,
           padding: paddingAll10,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // result != null
-              //     ?
+              SizedBox(height: W / 20),
+              Text(
+                "At entry and exit, please scan the QR code".tr(),
+                textAlign: TextAlign.center,
+                style: kMontserrat16,
+              ),
+              SizedBox(height: W / 20),
               Container(
                 height: W - 40,
                 decoration: BoxDecoration(
@@ -108,6 +114,7 @@ class _QrState extends State<Qr> {
                   onQRViewCreated: _onQRViewCreated,
                 ),
               ),
+
               // : Container(
               //     height: W - 40,
               //     decoration: BoxDecoration(
@@ -128,7 +135,7 @@ class _QrState extends State<Qr> {
               //     ),
               //     child: Image.asset("assets/image/qr.png", fit: BoxFit.cover),
               //   ),
-              SizedBox(height: W / 8),
+              // SizedBox(height: W / 8),
               // Text('Data: ${result?.code ?? 'N/A'}'),
               // Spacer(),
               // CButton(title: "Starting Scanning ", func: _startScanning, width: W),

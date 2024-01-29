@@ -12,7 +12,7 @@ class QrService {
       final response = await http.post(url, body: {});
 
       print(response.body);
-      return RequestResponse(message: "${utf8.decode(response.bodyBytes)}", result: true);
+      return RequestResponse(message: utf8.decode(response.bodyBytes), result: true);
     } catch (e) {
       print(e);
 

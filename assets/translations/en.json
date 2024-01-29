@@ -1,6 +1,4 @@
 {
-
-
   "Email": "Email",
   "Password": "Password",
   "Login": "Login",
@@ -15,8 +13,10 @@
   "Lessons": "Lessons",
   "Professional Trainer": "Professional Trainer",
   "Enter the fitness center": "Enter the fitness center",
-
-
-
+  "Gym": "Gym",
+  "Treadmill": "Treadmill",
+  "My Program":  "My Program",
+  "At entry and exit, please scan the QR code.":"At entry and exit, please scan the QR code.",
+  "QR Scanner": "QR Scanner"
 }
 
