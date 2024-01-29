@@ -126,15 +126,12 @@ class _ProfileState extends State<Profile> {
                       // width: W,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           SizedBox(height: W / 40),
                           Container(
                             alignment: Alignment.center,
                             child: Container(
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                              ),
+                              decoration: BoxDecoration(shape: BoxShape.circle),
                               height: W / 3,
                               width: W / 3,
                               child: ClipOval(
@@ -148,8 +145,8 @@ class _ProfileState extends State<Profile> {
                               ),
                             ),
                           ),
-                          SizedBox(height: W / 40),
-                          Text("${fitness$.value?.first.profile?.fullname ?? ""}", style: kAxiforma20),
+                          SizedBox(height: W / 60),
+                          Text(fitness$.value?.first.profile?.fullname ?? "", style: kAxiforma20),
                           Column(
                             children: fitness$.value!.map((e) {
                               return Column(
@@ -164,14 +161,18 @@ class _ProfileState extends State<Profile> {
                               );
                             }).toList(),
                           ),
+                          SizedBox(height: W / 60),
                           Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               const Icon(Icons.email),
                               Text("${fitness$.value?.first.profile?.email}", style: kMontserrat17),
                             ],
                           ),
+                          SizedBox(height: W / 60),
                           Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Icon(Icons.phone),
