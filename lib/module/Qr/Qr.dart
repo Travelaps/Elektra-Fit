@@ -39,9 +39,9 @@ class _QrState extends State<Qr> {
         String formattedDate = DateFormat('yyyy-MM-dd').format(now);
         service.postQrScanner(placedID$.value, formattedDate).then((value) {
           if (value.result) {
-            kShowBanner(BannerType.SUCCESS, value.message, context);
+            kShowBanner(BannerType.SUCCESS, value.message.tr(), context);
           } else {
-            kShowBanner(BannerType.ERROR, value.message, context);
+            kShowBanner(BannerType.ERROR, value.message.tr(), context);
           }
           Future.delayed(Duration(seconds: 2), () {
             isQRCodeScanned = false;

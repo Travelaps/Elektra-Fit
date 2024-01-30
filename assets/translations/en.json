@@ -16,7 +16,9 @@
   "Gym": "Gym",
   "Treadmill": "Treadmill",
   "My Program":  "My Program",
-  "At entry and exit, please scan the QR code.":"At entry and exit, please scan the QR code.",
-  "QR Scanner": "QR Scanner"
+  "At entry and exit, please scan the QR code":"At entry and exit, please scan the QR code",
+  "QR Scanner": "QR Scanner",
+  "Entry Process Successful": "Entry Process Successful",
+  "Exit Process Successful":"Exit Process Successful"
 }
 
