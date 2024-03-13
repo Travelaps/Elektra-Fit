@@ -34,13 +34,13 @@ class _SportDetailsState extends State<SportDetails> {
                         return Container(
                           decoration: BoxDecoration(
                             color: Colors.white,
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            borderRadius: borderRadius10,
                             boxShadow: [
                               BoxShadow(
                                 color: Colors.black.withOpacity(0.6),
                                 spreadRadius: 3,
                                 blurRadius: 10,
-                                offset: const Offset(0, 3),
+                                offset: const Offset(0, 3)
                               ),
                             ],
                           ),
@@ -55,10 +55,10 @@ class _SportDetailsState extends State<SportDetails> {
                                     child: CachedNetworkImage(
                                       height: W / 1.4,
                                       width: W,
-                                      imageUrl: program![index].exercisephotourl ?? "https://images.pexels.com/photos/841131/pexels-photo-841131.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+                                      imageUrl: program[index].exercisephotourl ?? "https://images.pexels.com/photos/841131/pexels-photo-841131.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
                                       fit: BoxFit.cover,
-                                      placeholder: (context, url) => CircularProgressIndicator(),
-                                      errorWidget: (context, url, error) => Icon(Icons.error),
+                                      placeholder: (context, url) =>  Center(child: CircularProgressIndicator(color:config.primaryColor)),
+                                      errorWidget: (context, url, error) => const Icon(Icons.error),
                                     ),
                                   ),
                                   Positioned(
@@ -85,8 +85,10 @@ class _SportDetailsState extends State<SportDetails> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: program[index].p!.map((item) {
-                                    bool isNotes = program!.any((e) => e.p?.any((element) => element.notes != null) ?? false);
+                                    // bool isNotes = program.any((item) => e.item?.any((element) => element.notes != null) ?? false);
+                                    bool isNotes = item.notes != null ? true : false;
                                     return Column(
+                                      mainAxisAlignment: MainAxisAlignment.end,
                                       crossAxisAlignment: CrossAxisAlignment.end,
                                       children: [
                                         Row(
@@ -100,7 +102,7 @@ class _SportDetailsState extends State<SportDetails> {
                                                 Icon(Icons.calendar_month_outlined),
                                               ],
                                             ),
-                                            Spacer(),
+                                            const Spacer(),
                                             Row(
                                               crossAxisAlignment: CrossAxisAlignment.center,
                                               children: [
@@ -111,7 +113,7 @@ class _SportDetailsState extends State<SportDetails> {
                                             )
                                           ],
                                         ),
-                                        if (isNotes) Text("${item.notes ?? ""}", style: kProxima17),
+                                        if (isNotes) Text(item.notes ?? "", style: kProxima17),
                                       ],
                                     );
                                   }).toList(),

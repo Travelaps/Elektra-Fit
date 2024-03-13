@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:elektra_fit/global/global-variables.dart';
 import 'package:elektra_fit/module/auth/login/login.dart';
+import 'package:elektra_fit/module/profile/profile-module/measurements.dart';
 import 'package:elektra_fit/module/profile/profile-module/member-type.dart';
 import 'package:flutter/material.dart';
 
@@ -97,10 +98,7 @@ class _ProfileState extends State<Profile> {
         stream: fitness$.stream,
         builder: (context, snapshot) {
           return Scaffold(
-            appBar: AppBar(
-              title: Text("Profile".tr()),
-              leading: null,
-            ),
+            appBar: AppBar(title: Text("Profile".tr()), leading: null),
             body: SingleChildScrollView(
               child: Padding(
                 padding: paddingAll10,
@@ -109,21 +107,12 @@ class _ProfileState extends State<Profile> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
-                      margin: marginAll10,
+                      margin: marginAll5,
                       padding: paddingAll10,
                       decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.6),
-                            spreadRadius: 3,
-                            blurRadius: 10,
-                            offset: Offset(0, 3),
-                          ),
-                        ],
-                      ),
-                      // width: W,
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.6), spreadRadius: 3, blurRadius: 10, offset: Offset(0, 3))]),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
@@ -154,35 +143,51 @@ class _ProfileState extends State<Profile> {
                                   return Column(
                                     children: [
                                       Text(item.membershiptype ?? "".tr(), style: kMontserrat20.copyWith(color: config.primaryColor)),
-                                      Text("${DateFormat("dd-MMM-yyyy").format(item.startdate!)} - ${DateFormat("dd-MMM-yyyy").format(item.startdate!)}", style: kMontserrat20),
+                                      Text("${DateFormat("dd-MMM-yyyy").format(item.startdate!)} - ${DateFormat("dd-MMM-yyyy").format(item.lastdate!)}", style: kMontserrat20),
                                     ],
                                   );
                                 }).toList(),
                               );
                             }).toList(),
                           ),
-                          SizedBox(height: W / 60),
+                          SizedBox(height: W / 80),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              const Icon(Icons.email),
-                              Text("${fitness$.value?.first.profile?.email}", style: kMontserrat17),
-                            ],
+                            children: [const Icon(Icons.email), SizedBox(width: W / 30), Text("${fitness$.value?.first.profile?.email}", style: kMontserrat17)],
                           ),
-                          SizedBox(height: W / 60),
+                          SizedBox(height: W / 80),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Icon(Icons.phone),
-                              Text(fitness$.value?.first.profile?.phone ?? "", style: kMontserrat17),
-                            ],
+                            children: [const Icon(Icons.phone), SizedBox(width: W / 30), Text(fitness$.value?.first.profile?.phone ?? "", style: kMontserrat17)],
                           )
                         ],
                       ),
                     ),
-                    SizedBox(height: W / 30),
+                    SizedBox(height: W / 60),
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => const Measurements()));
+                      },
+                      child: Container(
+                        height: W / 8,
+                        padding: paddingAll10,
+                        margin: marginAll5,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                            color: Colors.white, borderRadius: borderRadius10, boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.4), spreadRadius: 3, blurRadius: 10, offset: Offset(0, 3))]),
+                        width: W,
+                        child: Row(
+                          children: [
+                            SizedBox(height: W / 15, width: W / 15, child: Image.asset("assets/icon/mesurements.png", color: config.primaryColor)),
+                            SizedBox(width: W / 40),
+                            Text("My Measurements".tr(), style: kMontserrat16)
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: W / 60),
                     InkWell(
                       onTap: () {
                         Navigator.push(
@@ -218,7 +223,7 @@ class _ProfileState extends State<Profile> {
                         ),
                       ),
                     ),
-                    SizedBox(height: W / 30),
+                    SizedBox(height: W / 60),
                     InkWell(
                       onTapDown: (details) {
                         _showPopupMenu(context, details.globalPosition);
@@ -250,41 +255,7 @@ class _ProfileState extends State<Profile> {
                         ),
                       ),
                     ),
-                    SizedBox(height: W / 30),
-                    InkWell(
-                      onTap: () {},
-                      child: Container(
-                        height: W / 8,
-                        padding: paddingAll10,
-                        margin: marginAll5,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: borderRadius10,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.4),
-                              spreadRadius: 3,
-                              blurRadius: 10,
-                              offset: Offset(0, 3),
-                            ),
-                          ],
-                        ),
-                        width: W,
-                        child: Row(
-                          children: [
-                            SizedBox(
-                              height: W / 15,
-                              width: W / 15,
-                              child: Image.asset("assets/icon/settings.png", color: config.primaryColor),
-                            ),
-                            SizedBox(width: W / 40),
-                            Text("Settings".tr(), style: kMontserrat16),
-                          ],
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: W / 30),
+                    SizedBox(height: W / 60),
                     InkWell(
                       onTap: () {
                         Navigator.popUntil(context, (route) => route.isFirst);
@@ -326,7 +297,7 @@ class _ProfileState extends State<Profile> {
                           ],
                         ),
                       ),
-                    ),
+                    )
                   ],
                 ),
               ),

@@ -73,10 +73,7 @@ class _QrState extends State<Qr> {
     final double H = MediaQuery.of(context).size.height;
     final double W = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: AppBar(
-        title: Text("QR Scanner".tr()),
-        leading: null,
-      ),
+      appBar: AppBar(title: Text("QR Scanner".tr()), leading: null),
       body: SingleChildScrollView(
         child: Container(
           height: H * 0.76,
@@ -85,60 +82,13 @@ class _QrState extends State<Qr> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(height: W / 20),
-              Text(
-                "At entry and exit, please scan the QR code".tr(),
-                textAlign: TextAlign.center,
-                style: kMontserrat16,
-              ),
+              Text("At entry and exit, please scan the QR code".tr(), textAlign: TextAlign.center, style: kMontserrat16),
               SizedBox(height: W / 20),
               Container(
                 height: W - 40,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [Colors.transparent, Colors.black.withOpacity(0.8)],
-                  ),
-                  borderRadius: BorderRadius.circular(10),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.6),
-                      spreadRadius: 3,
-                      // blurRadius: 10,
-                      offset: Offset(0, 3),
-                    ),
-                  ],
-                ),
-                child: QRView(
-                  key: qrKey,
-                  onQRViewCreated: _onQRViewCreated,
-                ),
-              ),
-
-              // : Container(
-              //     height: W - 40,
-              //     decoration: BoxDecoration(
-              //       gradient: LinearGradient(
-              //         begin: Alignment.topCenter,
-              //         end: Alignment.bottomCenter,
-              //         colors: [Colors.transparent, Colors.black.withOpacity(0.8)],
-              //       ),
-              //       borderRadius: BorderRadius.circular(10),
-              //       boxShadow: [
-              //         BoxShadow(
-              //           color: Colors.black.withOpacity(0.6),
-              //           spreadRadius: 3,
-              //           // blurRadius: 10,
-              //           offset: Offset(0, 3),
-              //         ),
-              //       ],
-              //     ),
-              //     child: Image.asset("assets/image/qr.png", fit: BoxFit.cover),
-              //   ),
-              // SizedBox(height: W / 8),
-              // Text('Data: ${result?.code ?? 'N/A'}'),
-              // Spacer(),
-              // CButton(title: "Starting Scanning ", func: _startScanning, width: W),
+                decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.6), spreadRadius: 3, offset: Offset(0, 3))]),
+                child: QRView(key: qrKey, onQRViewCreated: _onQRViewCreated),
+              )
             ],
           ),
         ),

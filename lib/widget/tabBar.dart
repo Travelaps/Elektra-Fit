@@ -1,10 +1,11 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:elektra_fit/global/global-variables.dart';
 import 'package:elektra_fit/module/Qr/Qr.dart';
-import 'package:elektra_fit/module/activity/activity.dart';
 import 'package:elektra_fit/module/home/home.dart';
 import 'package:elektra_fit/module/profile/profile.dart';
 import 'package:flutter/material.dart';
+
+import '../module/my-programing/my-programing.dart';
 
 class CTabBar extends StatefulWidget {
   const CTabBar({Key? key}) : super(key: key);
@@ -15,20 +16,10 @@ class CTabBar extends StatefulWidget {
 
 class _CTabBarState extends State<CTabBar> {
   int currentTab = 0;
-  final List<Widget> screens = [
-    Home(),
-    Qr(),
-    Activity(),
-    Profile(),
-  ];
-  final List<IconData> icons = [
-    Icons.home,
-    Icons.qr_code,
-    Icons.list,
-    Icons.person,
-  ];
+  final List<Widget> screens = [const Home(), const Qr(), const MyPrograming(), const Profile()];
+  final List<IconData> icons = [Icons.home, Icons.qr_code, Icons.list, Icons.person];
 
-  Widget currentScreen = Home();
+  Widget currentScreen = const Home();
 
   @override
   Widget build(BuildContext context) {
@@ -36,27 +27,19 @@ class _CTabBarState extends State<CTabBar> {
     final double W = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      bottomNavigationBar: CurvedNavigationBar(
-        backgroundColor: Colors.white,
-        buttonBackgroundColor: config.primaryColor,
-        color: config.primaryColor,
-        items: icons
-            .map((icon) => Icon(
-                  icon,
-                  // grade: 20,
-                  size: 30,
-                  color: Colors.white,
-                ))
-            .toList(),
-        onTap: (index) {
-          setState(() {
-            currentTab = index;
-          });
-        },
-      ),
-      body: screens[currentTab],
-    );
+        bottomNavigationBar: CurvedNavigationBar(
+            backgroundColor: Colors.white,
+            buttonBackgroundColor: config.primaryColor,
+            color: config.primaryColor,
+            items: icons.map((icon) => Icon(icon, size: 30, color: Colors.white)).toList(),
+            onTap: (index) {
+              setState(() {
+                currentTab = index;
+              });
+            }),
+        body: screens[currentTab]);
   }
+
   //   return Scaffold(
   //     body: screens[currentTab],
   //     floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -73,7 +56,7 @@ class _CTabBarState extends State<CTabBar> {
   //         children: [
   //           _buildTabItem(0, "assets/icon/tab-icon/home-selected.png", "assets/icon/tab-icon/home-unselected.png", "Home"),
   //           _buildTabItem(1, "assets/icon/qr-icon.png", "assets/icon/qr-icon.png", "Qr"),
-  //           _buildTabItem(2, "assets/icon/tab-icon/activity-selected.png", "assets/icon/tab-icon/activity-unselected.png", "Activity"),
+  //           _buildTabItem(2, "assets/icon/tab-icon/my-programing-selected.png", "assets/icon/tab-icon/my-programing-unselected.png", "Activity"),
   //           _buildTabItem(3, "assets/icon/tab-icon/profile-selected.png", "assets/icon/tab-icon/profile-unselected.png", "Profile"),
   //         ],
   //       ),

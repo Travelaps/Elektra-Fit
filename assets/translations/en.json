@@ -2,9 +2,9 @@
   "Email": "Email",
   "Password": "Password",
   "Login": "Login",
-  "Remember me":"Remember me",
+  "Remember me": "Remember me",
   "Profile": "Profile",
-  "Member Type":"Member Type",
+  "Member Type": "Member Type",
   "Languange": "Languange",
   "Log Out": "Log Out",
   "Settings": "Settings",
@@ -15,10 +15,11 @@
   "Enter the fitness center": "Enter the fitness center",
   "Gym": "Gym",
   "Treadmill": "Treadmill",
-  "My Program":  "My Program",
-  "At entry and exit, please scan the QR code":"At entry and exit, please scan the QR code",
+  "My Program": "My Program",
+  "At entry and exit, please scan the QR code": "At entry and exit, please scan the QR code",
   "QR Scanner": "QR Scanner",
   "Entry Process Successful": "Entry Process Successful",
-  "Exit Process Successful":"Exit Process Successful"
+  "Exit Process Successful": "Exit Process Successful",
+  "My Measurements": "My Measurements"
 }
 

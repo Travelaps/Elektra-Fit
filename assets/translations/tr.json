@@ -2,9 +2,9 @@
   "Email": "E-posta",
   "Password": "Şifre",
   "Login": "Giriş Yap",
-  "Remember me":"Beni Hatırla",
+  "Remember me": "Beni Hatırla",
   "Profile": "Profil",
-  "Member Type":"Üye Türü",
+  "Member Type": "Üye Türü",
   "Language": "Dil",
   "Log Out": "Çıkış Yap",
   "Settings": "Ayarlar",
@@ -19,4 +19,6 @@
   "At entry and exit, please scan the QR code": "Girişte ve Çıkışta lütfen QR kodunu tarayın",
   "QR Scanner": "QR Tarayıcı",
   "Entry Process Successful": "Giriş İşlemi Başarılı.",
-  "Exit Process Successful": "Çıkış İşlemi Başarılı."}
+  "Exit Process Successful": "Çıkış İşlemi Başarılı.",
+  "My Measurements": "Ölçümlerim"
+}

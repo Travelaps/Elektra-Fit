@@ -14,20 +14,10 @@ class LoginService {
       final response = await http.post(url, body: {});
       if (response.statusCode == 200) {
         final jsonData = json.decode(utf8.decode(response.bodyBytes));
-        //
-        // if (jsonData != "KullanÄ±cÄ± BulunamadÄ±!") {
-        //   List<FitnessModel> fitnesList = [];
-        //
-        //   for (var item in jsonData) {
-        //     fitnesList.add(FitnessModel.fromMap(item));
-        //   }
-
         List<FitnessModel> fitnesList = [];
-
         for (var item in jsonData) {
           fitnesList.add(FitnessModel.fromMap(item));
         }
-
         fitness$.add(fitnesList);
         fitness$.add(fitness$.value);
 
