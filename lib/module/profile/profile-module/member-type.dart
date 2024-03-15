@@ -20,7 +20,7 @@ class _MemberTypeState extends State<MemberType> {
     return Scaffold(
         appBar: AppBar(title: Text("Member Types".tr())),
         body: Column(
-          children: fitness$.value!.map((e) {
+          children: member$.value!.map((e) {
             return Column(
               children: e.membership!.map((item) {
                 return Container(

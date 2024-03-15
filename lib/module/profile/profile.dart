@@ -95,7 +95,7 @@ class _ProfileState extends State<Profile> {
     final double W = MediaQuery.of(context).size.width;
 
     return StreamBuilder(
-        stream: fitness$.stream,
+        stream: member$.stream,
         builder: (context, snapshot) {
           return Scaffold(
             appBar: AppBar(title: Text("Profile".tr()), leading: null),
@@ -125,7 +125,7 @@ class _ProfileState extends State<Profile> {
                               width: W / 3,
                               child: ClipOval(
                                 child: CachedNetworkImage(
-                                  imageUrl: fitness$.value?.first.profile?.photourl ??
+                                  imageUrl: member$.value?.first.profile.photourl ??
                                       "https://www.mnp.ca/-/media/foundation/integrations/personnel/2020/12/16/13/57/personnel-image-4483.jpg?h=800&w=600&hash=9D5E5FCBEE00EB562DCD8AC8FDA8433D",
                                   fit: BoxFit.cover,
                                   placeholder: (context, url) => CircularProgressIndicator(),
@@ -135,9 +135,9 @@ class _ProfileState extends State<Profile> {
                             ),
                           ),
                           SizedBox(height: W / 60),
-                          Text(fitness$.value?.first.profile?.fullname ?? "", style: kAxiforma20),
+                          Text(member$.value?.first.profile?.fullname ?? "", style: kAxiforma20),
                           Column(
-                            children: fitness$.value!.map((e) {
+                            children: member$.value!.map((e) {
                               return Column(
                                 children: e.membership!.map((item) {
                                   return Column(
@@ -154,13 +154,13 @@ class _ProfileState extends State<Profile> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [const Icon(Icons.email), SizedBox(width: W / 30), Text("${fitness$.value?.first.profile?.email}", style: kMontserrat17)],
+                            children: [const Icon(Icons.email), SizedBox(width: W / 30), Text("${member$.value?.first.profile?.email}", style: kMontserrat17)],
                           ),
                           SizedBox(height: W / 80),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [const Icon(Icons.phone), SizedBox(width: W / 30), Text(fitness$.value?.first.profile?.phone ?? "", style: kMontserrat17)],
+                            children: [const Icon(Icons.phone), SizedBox(width: W / 30), Text(member$.value?.first.profile?.phone ?? "", style: kMontserrat17)],
                           )
                         ],
                       ),

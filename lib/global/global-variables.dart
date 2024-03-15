@@ -5,7 +5,7 @@ import 'package:rxdart/rxdart.dart';
 
 BehaviorSubject<bool> isDarkMode$ = BehaviorSubject.seeded(false);
 BehaviorSubject<bool> isLoading$ = BehaviorSubject.seeded(false);
-BehaviorSubject<List<FitnessModel>?> fitness$ = BehaviorSubject.seeded(null);
+BehaviorSubject<List<MemberModel>?> member$ = BehaviorSubject.seeded(null);
 
 final config = FitConfig.fromJson(fitConfig);
 String? selectedlang;

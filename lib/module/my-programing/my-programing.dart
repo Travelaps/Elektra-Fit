@@ -22,7 +22,7 @@ class _MyProgramingState extends State<MyPrograming> {
       body: Padding(
         padding: paddingAll10,
         child: Column(
-          children: fitness$.value!.map((item) {
+          children: member$.value!.map((item) {
             return InkWell(
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) => SportDetails()));
@@ -32,7 +32,7 @@ class _MyProgramingState extends State<MyPrograming> {
                   ClipRRect(
                       borderRadius: borderRadius10,
                       child: CachedNetworkImage(
-                          imageUrl: fitness$.value?.first.program?.first.exercisephotourl ?? "https://www.skechers.com.tr/blog/wp-content/uploads/2023/03/fitnes-770x513.jpg",
+                          imageUrl: member$.value?.first.program?.first.exercisephotourl ?? "https://www.skechers.com.tr/blog/wp-content/uploads/2023/03/fitnes-770x513.jpg",
                           placeholder: (context, url) => CircularProgressIndicator(color: config.primaryColor),
                           errorWidget: (context, url, error) => const Icon(Icons.error),
                           fit: BoxFit.cover)),

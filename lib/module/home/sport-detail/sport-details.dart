@@ -18,13 +18,13 @@ class _SportDetailsState extends State<SportDetails> {
     final double H = MediaQuery.of(context).size.height;
     final double W = MediaQuery.of(context).size.width;
     return StreamBuilder(
-        stream: fitness$.stream,
+        stream: member$.stream,
         builder: (context, snapshot) {
           return Scaffold(
               appBar: AppBar(title: Text("My Program".tr())),
               body: SingleChildScrollView(
                 child: Column(
-                    children: fitness$.value!.map((e) {
+                    children: member$.value!.map((e) {
                   var program = e.program;
                   return SizedBox(
                     height: H * 0.9,
@@ -36,12 +36,7 @@ class _SportDetailsState extends State<SportDetails> {
                             color: Colors.white,
                             borderRadius: borderRadius10,
                             boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.6),
-                                spreadRadius: 3,
-                                blurRadius: 10,
-                                offset: const Offset(0, 3)
-                              ),
+                              BoxShadow(color: Colors.black.withOpacity(0.6), spreadRadius: 3, blurRadius: 10, offset: const Offset(0, 3)),
                             ],
                           ),
                           margin: marginAll10,
@@ -57,7 +52,7 @@ class _SportDetailsState extends State<SportDetails> {
                                       width: W,
                                       imageUrl: program[index].exercisephotourl ?? "https://images.pexels.com/photos/841131/pexels-photo-841131.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
                                       fit: BoxFit.cover,
-                                      placeholder: (context, url) =>  Center(child: CircularProgressIndicator(color:config.primaryColor)),
+                                      placeholder: (context, url) => Center(child: CircularProgressIndicator(color: config.primaryColor)),
                                       errorWidget: (context, url, error) => const Icon(Icons.error),
                                     ),
                                   ),

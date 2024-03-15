@@ -10,12 +10,7 @@ Future<void> main() async {
   await EasyLocalization.ensureInitialized();
 
   runApp(
-    EasyLocalization(
-      supportedLocales: [Locale('tr'), Locale('en')],
-      path: 'assets/translations',
-      fallbackLocale: const Locale('en'),
-      child: const MyApp(),
-    ),
+    EasyLocalization(supportedLocales: [Locale('tr'), Locale('en')], path: 'assets/translations', fallbackLocale: const Locale('en'), child: const MyApp()),
   );
 }
 
