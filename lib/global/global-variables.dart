@@ -9,6 +9,7 @@ BehaviorSubject<List<MemberModel>?> member$ = BehaviorSubject.seeded(null);
 
 final config = FitConfig.fromJson(fitConfig);
 String? selectedlang;
+int? hotelId;
 
 EdgeInsets marginAll5 = EdgeInsets.all(5);
 EdgeInsets marginAll10 = EdgeInsets.all(10);

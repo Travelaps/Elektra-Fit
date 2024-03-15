@@ -1,13 +1,21 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:elektra_fit/module/auth/login/login-service.dart';
 import 'package:elektra_fit/module/auth/login/login.dart';
+import 'package:elektra_fit/module/home/home-service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get_it/get_it.dart';
 
 import 'global/global-variables.dart';
+import 'module/profile/profile-service.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
+
+  GetIt.I.registerSingleton<LoginService>(LoginService());
+  GetIt.I.registerSingleton<HomeService>(HomeService());
+  GetIt.I.registerSingleton<ProfileService>(ProfileService());
 
   runApp(
     EasyLocalization(supportedLocales: [Locale('tr'), Locale('en')], path: 'assets/translations', fallbackLocale: const Locale('en'), child: const MyApp()),

@@ -135,21 +135,25 @@ class _ProfileState extends State<Profile> {
                             ),
                           ),
                           SizedBox(height: W / 60),
-                          Text(member$.value?.first.profile?.fullname ?? "", style: kAxiforma20),
+                          Text(member$.value?.first.profile.fullname ?? "", style: kAxiforma20),
                           Column(
                             children: member$.value!.map((e) {
-                              return Column(
-                                children: e.membership!.map((item) {
                                   return Column(
-                                    children: [
-                                      Text(item.membershiptype ?? "".tr(), style: kMontserrat20.copyWith(color: config.primaryColor)),
-                                      Text("${DateFormat("dd-MMM-yyyy").format(item.startdate!)} - ${DateFormat("dd-MMM-yyyy").format(item.lastdate!)}", style: kMontserrat20),
-                                    ],
+                                    children: e.membership?.map((item) {
+                                          return Column(
+                                            children: [
+                                              if (item?.membershiptype != null) Text(item!.membershiptype!, style: kMontserrat20.copyWith(color: config.primaryColor)),
+                                              if (item?.startdate != null && item?.lastdate != null)
+                                                Text("${DateFormat("dd-MMM-yyyy").format(item.startdate!)} - ${DateFormat("dd-MMM-yyyy").format(item.lastdate!)}", style: kMontserrat20),
+                                            ],
+                                          );
+                                        }).toList() ??
+                                        [], // Null check for membership list
                                   );
-                                }).toList(),
-                              );
-                            }).toList(),
+                                }).toList() ??
+                                [], // Null check for member list
                           ),
+                          // ),
                           SizedBox(height: W / 80),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,

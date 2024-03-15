@@ -305,94 +305,82 @@ class SpaGroupActivityMemberListModel {
       };
 }
 
-class SpaMemberBodyAnalityModel {
-  int id;
-  int hotelid;
-  DateTime startTime;
-  int groupactivityid;
-  String name;
-  bool active;
-  String photourl;
-  String? notes;
-  int level;
-  int categoriid;
-  int duration;
-  int trainerid;
-  int placeid;
-  dynamic onlyForMembers;
-  int creatorid;
-  DateTime creationDate;
-  int? capacity;
-  String trainername;
-  String placename;
-  String categoriname;
+class SpaMemberBodyAnalysis {
+  int? id;
+  int? hotelId;
+  int? poscardId;
+  int? age;
+  String? date;
+  double? weight;
+  double? height;
+  double? chest;
+  double? arm;
+  double? waist;
+  double? hips;
+  double? thigh;
+  double? calf;
+  double? totalBodyWater;
+  double? totalMuscleMass;
+  double? totalBodyFatMass;
+  double? bodyMassIndex;
+  bool? isDeleted;
+  int? creatorId;
+  String? creationDate;
+  dynamic updateUser;
+  String? lastUpdateDate;
+  String? fullName;
 
-  SpaMemberBodyAnalityModel({
-    required this.id,
-    required this.hotelid,
-    required this.startTime,
-    required this.groupactivityid,
-    required this.name,
-    required this.active,
-    required this.photourl,
-    required this.notes,
-    required this.level,
-    required this.categoriid,
-    required this.duration,
-    required this.trainerid,
-    required this.placeid,
-    required this.onlyForMembers,
-    required this.creatorid,
-    required this.creationDate,
-    required this.capacity,
-    required this.trainername,
-    required this.placename,
-    required this.categoriname,
+  SpaMemberBodyAnalysis({
+    this.id,
+    this.hotelId,
+    this.poscardId,
+    this.age,
+    this.date,
+    this.weight,
+    this.height,
+    this.chest,
+    this.arm,
+    this.waist,
+    this.hips,
+    this.thigh,
+    this.calf,
+    this.totalBodyWater,
+    this.totalMuscleMass,
+    this.totalBodyFatMass,
+    this.bodyMassIndex,
+    this.isDeleted,
+    this.creatorId,
+    this.creationDate,
+    this.updateUser,
+    this.lastUpdateDate,
+    this.fullName,
   });
 
-  factory SpaMemberBodyAnalityModel.fromJson(Map<String, dynamic> json) => SpaMemberBodyAnalityModel(
-        id: json["ID"],
-        hotelid: json["HOTELID"],
-        startTime: DateTime.parse(json["START_TIME"]),
-        groupactivityid: json["GROUPACTIVITYID"],
-        name: json["NAME"],
-        active: json["ACTIVE"],
-        photourl: json["PHOTOURL"],
-        notes: json["NOTES"],
-        level: json["LEVEL"],
-        categoriid: json["CATEGORIID"],
-        duration: json["DURATION"],
-        trainerid: json["TRAINERID"],
-        placeid: json["PLACEID"],
-        onlyForMembers: json["ONLY_FOR_MEMBERS"],
-        creatorid: json["CREATORID"],
-        creationDate: DateTime.parse(json["CREATION_DATE"]),
-        capacity: json["CAPACITY"],
-        trainername: json["TRAINERNAME"],
-        placename: json["PLACENAME"],
-        categoriname: json["CATEGORINAME"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "ID": id,
-        "HOTELID": hotelid,
-        "START_TIME": startTime.toIso8601String(),
-        "GROUPACTIVITYID": groupactivityid,
-        "NAME": name,
-        "ACTIVE": active,
-        "PHOTOURL": photourl,
-        "NOTES": notes,
-        "LEVEL": level,
-        "CATEGORIID": categoriid,
-        "DURATION": duration,
-        "TRAINERID": trainerid,
-        "PLACEID": placeid,
-        "ONLY_FOR_MEMBERS": onlyForMembers,
-        "CREATORID": creatorid,
-        "CREATION_DATE": creationDate.toIso8601String(),
-        "CAPACITY": capacity,
-        "TRAINERNAME": trainername,
-        "PLACENAME": placename,
-        "CATEGORINAME": categoriname,
-      };
+  factory SpaMemberBodyAnalysis.fromJson(Map<String, dynamic> json) {
+    return SpaMemberBodyAnalysis(
+      id: json['ID'],
+      hotelId: json['HOTELID'],
+      poscardId: json['POSCARDID'],
+      age: json['AGE'] ?? 0,
+      date: json['DATE'],
+      weight: json['WEIGHT']?.toDouble() ?? 0.0,
+      height: json['HEIGHT']?.toDouble() ?? 0.0,
+      chest: json['CHEST']?.toDouble(),
+      arm: json['ARM']?.toDouble(),
+      waist: json['WAIST']?.toDouble(),
+      hips: json['HIPS']?.toDouble(),
+      thigh: json['THIGH']?.toDouble(),
+      calf: json['CALF']?.toDouble(),
+      totalBodyWater: json['TOTALBODYWATER']?.toDouble(),
+      totalMuscleMass: json['TOTALMUSCLEMASS']?.toDouble(),
+      totalBodyFatMass: json['TOTALBODYFATMASS']?.toDouble(),
+      bodyMassIndex: json['BODYMASSINDEX']?.toDouble(),
+      isDeleted: json['ISDELETED'],
+      creatorId: json['CREATORID'],
+      creationDate: json['CREATION_DATE'].toString(),
+      updateUser: json['UPDATEUSER'].toString(),
+      lastUpdateDate: json['LASTUPDATE_DATE'].toString(),
+      fullName: json['FULLNAME'].toString(),
+    );
+  }
 }

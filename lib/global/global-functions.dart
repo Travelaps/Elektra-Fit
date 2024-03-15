@@ -9,7 +9,6 @@ Future<T> showAnimation<T>(BuildContext context, Future<T> func) async {
       func.then((v) {
         Navigator.pop(context, v);
       });
-
       return Center(
           child: Stack(
         alignment: Alignment.center,
