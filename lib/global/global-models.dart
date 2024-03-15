@@ -152,6 +152,7 @@ class SpaGroupActivityModel {
   int groupactivityid;
   String name;
   bool active;
+  String photoUrl;
   String notes;
   int level;
   int categoriid;
@@ -172,6 +173,7 @@ class SpaGroupActivityModel {
     required this.groupactivityid,
     required this.name,
     required this.active,
+    required this.photoUrl,
     required this.notes,
     required this.level,
     required this.categoriid,
@@ -186,60 +188,40 @@ class SpaGroupActivityModel {
     required this.categoriname,
   });
 
-  factory SpaGroupActivityModel.fromJson(Map<String, dynamic> json) => SpaGroupActivityModel(
-        id: json["ID"],
-        hotelid: json["HOTELID"],
-        startTime: DateTime.parse(json["START_TIME"]),
-        groupactivityid: json["GROUPACTIVITYID"],
-        name: json["NAME"],
-        active: json["ACTIVE"],
-        notes: json["NOTES"],
-        level: json["LEVEL"],
-        categoriid: json["CATEGORIID"],
-        duration: json["DURATION"],
-        trainerid: json["TRAINERID"],
-        placeid: json["PLACEID"],
-        creatorid: json["CREATORID"],
-        creationDate: DateTime.parse(json["CREATION_DATE"]),
-        capacity: json["CAPACITY"],
-        trainername: json["TRAINERNAME"],
-        placename: json["PLACENAME"],
-        categoriname: json["CATEGORINAME"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "ID": id,
-        "HOTELID": hotelid,
-        "START_TIME": startTime.toIso8601String(),
-        "GROUPACTIVITYID": groupactivityid,
-        "NAME": name,
-        "ACTIVE": active,
-        "NOTES": notes,
-        "LEVEL": level,
-        "CATEGORIID": categoriid,
-        "DURATION": duration,
-        "TRAINERID": trainerid,
-        "PLACEID": placeid,
-        "CREATORID": creatorid,
-        "CREATION_DATE": creationDate.toIso8601String(),
-        "CAPACITY": capacity,
-        "TRAINERNAME": trainername,
-        "PLACENAME": placename,
-        "CATEGORINAME": categoriname,
-      };
+  factory SpaGroupActivityModel.fromJson(Map<String, dynamic> json) {
+    return SpaGroupActivityModel(
+      id: json["ID"],
+      hotelid: json["HOTELID"],
+      startTime: DateTime.parse(json["START_TIME"]),
+      groupactivityid: json["GROUPACTIVITYID"],
+      name: json["NAME"],
+      active: json["ACTIVE"],
+      photoUrl: json["PHOTOURL"],
+      notes: json["NOTES"] ?? "",
+      level: json["LEVEL"],
+      categoriid: json["CATEGORIID"],
+      duration: json["DURATION"],
+      trainerid: json["TRAINERID"],
+      placeid: json["PLACEID"],
+      creatorid: json["CREATORID"],
+      creationDate: DateTime.parse(json["CREATION_DATE"]),
+      capacity: json["CAPACITY"] ?? 0,
+      trainername: json["TRAINERNAME"],
+      placename: json["PLACENAME"],
+      categoriname: json["CATEGORINAME"],
+    );
+  }
 }
 
 class SpaGroupActivityMemberListModel {
   int id;
   int hotelid;
-  int groupactivityTimetableid;
-  int memberid;
   DateTime startTime;
   int groupactivityid;
   String name;
   bool active;
   String photourl;
-  String notes;
+  String? notes;
   int level;
   int categoriid;
   int duration;
@@ -248,17 +230,14 @@ class SpaGroupActivityMemberListModel {
   dynamic onlyForMembers;
   int creatorid;
   DateTime creationDate;
-  int capacity;
+  int? capacity;
   String trainername;
   String placename;
   String categoriname;
-  String membername;
 
   SpaGroupActivityMemberListModel({
     required this.id,
     required this.hotelid,
-    required this.groupactivityTimetableid,
-    required this.memberid,
     required this.startTime,
     required this.groupactivityid,
     required this.name,
@@ -277,14 +256,11 @@ class SpaGroupActivityMemberListModel {
     required this.trainername,
     required this.placename,
     required this.categoriname,
-    required this.membername,
   });
 
   factory SpaGroupActivityMemberListModel.fromJson(Map<String, dynamic> json) => SpaGroupActivityMemberListModel(
         id: json["ID"],
         hotelid: json["HOTELID"],
-        groupactivityTimetableid: json["GROUPACTIVITY_TIMETABLEID"],
-        memberid: json["MEMBERID"],
         startTime: DateTime.parse(json["START_TIME"]),
         groupactivityid: json["GROUPACTIVITYID"],
         name: json["NAME"],
@@ -303,14 +279,11 @@ class SpaGroupActivityMemberListModel {
         trainername: json["TRAINERNAME"],
         placename: json["PLACENAME"],
         categoriname: json["CATEGORINAME"],
-        membername: json["MEMBERNAME"],
       );
 
   Map<String, dynamic> toJson() => {
         "ID": id,
         "HOTELID": hotelid,
-        "GROUPACTIVITY_TIMETABLEID": groupactivityTimetableid,
-        "MEMBERID": memberid,
         "START_TIME": startTime.toIso8601String(),
         "GROUPACTIVITYID": groupactivityid,
         "NAME": name,
@@ -329,106 +302,97 @@ class SpaGroupActivityMemberListModel {
         "TRAINERNAME": trainername,
         "PLACENAME": placename,
         "CATEGORINAME": categoriname,
-        "MEMBERNAME": membername,
       };
 }
 
 class SpaMemberBodyAnalityModel {
   int id;
   int hotelid;
-  int poscardid;
-  int? age;
-  DateTime date;
-  int? weight;
-  int? height;
-  int? chest;
-  int? arm;
-  int? waist;
-  int? hips;
-  int? thigh;
-  int? calf;
-  int? totalbodywater;
-  int? totalmusclemass;
-  int? totalbodyfatmass;
-  int? bodymassindex;
-  bool isdeleted;
+  DateTime startTime;
+  int groupactivityid;
+  String name;
+  bool active;
+  String photourl;
+  String? notes;
+  int level;
+  int categoriid;
+  int duration;
+  int trainerid;
+  int placeid;
+  dynamic onlyForMembers;
   int creatorid;
   DateTime creationDate;
-  DateTime lastupdateDate;
-  String fullname;
+  int? capacity;
+  String trainername;
+  String placename;
+  String categoriname;
 
   SpaMemberBodyAnalityModel({
     required this.id,
     required this.hotelid,
-    required this.poscardid,
-    this.age,
-    required this.date,
-    this.weight,
-    this.height,
-    this.chest,
-    this.arm,
-    this.waist,
-    this.hips,
-    this.thigh,
-    this.calf,
-    this.totalbodywater,
-    this.totalmusclemass,
-    this.totalbodyfatmass,
-    this.bodymassindex,
-    required this.isdeleted,
+    required this.startTime,
+    required this.groupactivityid,
+    required this.name,
+    required this.active,
+    required this.photourl,
+    required this.notes,
+    required this.level,
+    required this.categoriid,
+    required this.duration,
+    required this.trainerid,
+    required this.placeid,
+    required this.onlyForMembers,
     required this.creatorid,
     required this.creationDate,
-    required this.lastupdateDate,
-    required this.fullname,
+    required this.capacity,
+    required this.trainername,
+    required this.placename,
+    required this.categoriname,
   });
 
   factory SpaMemberBodyAnalityModel.fromJson(Map<String, dynamic> json) => SpaMemberBodyAnalityModel(
         id: json["ID"],
         hotelid: json["HOTELID"],
-        poscardid: json["POSCARDID"],
-        age: json["AGE"],
-        date: DateTime.parse(json["DATE"]),
-        weight: json["WEIGHT"],
-        height: json["HEIGHT"],
-        chest: json["CHEST"],
-        arm: json["ARM"],
-        waist: json["WAIST"],
-        hips: json["HIPS"],
-        thigh: json["THIGH"],
-        calf: json["CALF"],
-        totalbodywater: json["TOTALBODYWATER"],
-        totalmusclemass: json["TOTALMUSCLEMASS"],
-        totalbodyfatmass: json["TOTALBODYFATMASS"],
-        bodymassindex: json["BODYMASSINDEX"],
-        isdeleted: json["ISDELETED"],
+        startTime: DateTime.parse(json["START_TIME"]),
+        groupactivityid: json["GROUPACTIVITYID"],
+        name: json["NAME"],
+        active: json["ACTIVE"],
+        photourl: json["PHOTOURL"],
+        notes: json["NOTES"],
+        level: json["LEVEL"],
+        categoriid: json["CATEGORIID"],
+        duration: json["DURATION"],
+        trainerid: json["TRAINERID"],
+        placeid: json["PLACEID"],
+        onlyForMembers: json["ONLY_FOR_MEMBERS"],
         creatorid: json["CREATORID"],
         creationDate: DateTime.parse(json["CREATION_DATE"]),
-        lastupdateDate: DateTime.parse(json["LASTUPDATE_DATE"]),
-        fullname: json["FULLNAME"],
+        capacity: json["CAPACITY"],
+        trainername: json["TRAINERNAME"],
+        placename: json["PLACENAME"],
+        categoriname: json["CATEGORINAME"],
       );
 
   Map<String, dynamic> toJson() => {
         "ID": id,
         "HOTELID": hotelid,
-        "POSCARDID": poscardid,
-        "AGE": age,
-        "DATE": "${date.year.toString().padLeft(4, '0')}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}",
-        "WEIGHT": weight,
-        "HEIGHT": height,
-        "CHEST": chest,
-        "ARM": arm,
-        "WAIST": waist,
-        "HIPS": hips,
-        "THIGH": thigh,
-        "CALF": calf,
-        "TOTALBODYWATER": totalbodywater,
-        "TOTALMUSCLEMASS": totalmusclemass,
-        "TOTALBODYFATMASS": totalbodyfatmass,
-        "BODYMASSINDEX": bodymassindex,
-        "ISDELETED": isdeleted,
+        "START_TIME": startTime.toIso8601String(),
+        "GROUPACTIVITYID": groupactivityid,
+        "NAME": name,
+        "ACTIVE": active,
+        "PHOTOURL": photourl,
+        "NOTES": notes,
+        "LEVEL": level,
+        "CATEGORIID": categoriid,
+        "DURATION": duration,
+        "TRAINERID": trainerid,
+        "PLACEID": placeid,
+        "ONLY_FOR_MEMBERS": onlyForMembers,
         "CREATORID": creatorid,
         "CREATION_DATE": creationDate.toIso8601String(),
-        "LASTUPDATE_DATE": lastupdateDate.toIso8601String(),
-        "FULLNAME": fullname,
+        "CAPACITY": capacity,
+        "TRAINERNAME": trainername,
+        "PLACENAME": placename,
+        "CATEGORINAME": categoriname,
       };
 }

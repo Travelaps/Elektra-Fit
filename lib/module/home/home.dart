@@ -18,7 +18,7 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     homeService.spaGroupActivityTimetableList();
-    homeService.spaGroupActivityTimetableMembersList();
+    // homeService.spaGroupActivityTimetableMembersList();
     super.initState();
   }
 
@@ -101,7 +101,7 @@ class _HomeState extends State<Home> {
                                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                     children: [
                                       SizedBox(height: W / 15, width: W / 15, child: Image.asset("assets/icon/calender.png")),
-                                      Text("${DateFormat("MMM-dd").format(item!.startTime)}", style: kProxima16),
+                                      // Text("${DateFormat("MMM-dd").format(itemstartTime)}", style: kProxima16),
                                     ],
                                   ),
                                 ),
