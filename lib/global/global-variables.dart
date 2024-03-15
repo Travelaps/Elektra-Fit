@@ -1,4 +1,4 @@
-import 'package:elektra_fit/global/gloabl-config.dart';
+import 'package:elektra_fit/global/global-config.dart';
 import 'package:elektra_fit/global/global-models.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';

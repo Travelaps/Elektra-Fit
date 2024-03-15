@@ -1,9 +1,7 @@
-import 'dart:convert';
-
 import 'package:elektra_fit/global/global-models.dart';
 import 'package:http/http.dart' as http;
 
-import '../../../global/global-variables.dart';
+import '../../global/index.dart';
 
 class LoginService {
   Future<RequestResponse?> postLogin(String email, String password) async {
@@ -13,11 +11,11 @@ class LoginService {
       final response = await http.post(url, body: {});
       if (response.statusCode == 200) {
         final jsonData = json.decode(utf8.decode(response.bodyBytes));
-        List<MemberModel> fitnesList = [];
+        List<MemberModel> fitnessList = [];
         for (var item in jsonData) {
-          fitnesList.add(MemberModel.fromJson(item));
+          fitnessList.add(MemberModel.fromJson(item));
         }
-        member$.add(fitnesList);
+        member$.add(fitnessList);
         member$.add(member$.value);
         hotelId = member$.value?.first.profile.hotelid;
         return RequestResponse(message: jsonData.toString(), result: true);

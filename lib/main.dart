@@ -1,13 +1,7 @@
-import 'package:easy_localization/easy_localization.dart';
-import 'package:elektra_fit/module/auth/login/login-service.dart';
-import 'package:elektra_fit/module/auth/login/login.dart';
-import 'package:elektra_fit/module/home/home-service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get_it/get_it.dart';
 
-import 'global/global-variables.dart';
-import 'module/profile/profile-service.dart';
+import 'global/index.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

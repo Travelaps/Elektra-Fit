@@ -1,9 +1,7 @@
-import 'dart:convert';
-
-import 'package:easy_localization/easy_localization.dart';
-import 'package:elektra_fit/global/global-models.dart';
-import 'package:elektra_fit/global/global-variables.dart';
+import 'package:elektra_fit/global/index.dart';
 import 'package:http/http.dart' as http;
+
+import '../../global/global-models.dart';
 
 class QrService {
   Future<RequestResponse> postQrScanner(String placeId, String formattedDate) async {

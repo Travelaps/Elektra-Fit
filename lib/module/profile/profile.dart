@@ -1,10 +1,6 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:elektra_fit/global/global-variables.dart';
-import 'package:elektra_fit/module/auth/login/login.dart';
-import 'package:elektra_fit/module/profile/profile-module/measurements.dart';
-import 'package:elektra_fit/module/profile/profile-module/member-type.dart';
 import 'package:flutter/material.dart';
+
+import '../../global/index.dart';
 
 class Profile extends StatefulWidget {
   const Profile({Key? key}) : super(key: key);
@@ -20,32 +16,15 @@ class _ProfileState extends State<Profile> {
       position: RelativeRect.fromLTRB(position.dx, position.dy, 0, 0),
       items: [
         PopupMenuItem(
-          padding: EdgeInsets.all(0),
-          height: 0,
-          value: 1,
-          child: Column(
-            children: [
+            padding: EdgeInsets.all(0),
+            height: 0,
+            value: 1,
+            child: Column(children: [
               Container(
-                padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-                color: Colors.white,
-                child: Row(
-                  children: [
-                    const Image(
-                      image: AssetImage("assets/icon/flat-icon/tr-flag.png"),
-                      width: 25,
-                      height: 15,
-                    ),
-                    SizedBox(width: 10),
-                    Text(
-                      "Türkçe".tr(),
-                      style: kMontserrat18,
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
+                  padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                  color: Colors.white,
+                  child: Row(children: [const Image(image: AssetImage("assets/icon/flat-icon/tr-flag.png"), width: 25, height: 15), SizedBox(width: 10), Text("Türkçe".tr(), style: kMontserrat18)]))
+            ])),
         PopupMenuItem(
           padding: EdgeInsets.all(0),
           height: 0,

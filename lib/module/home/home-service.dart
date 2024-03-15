@@ -19,7 +19,7 @@ class HomeService {
           body: json.encode({
             "Action": "ApiSequence",
             "Object": "spaGroupActivityTimetableList",
-            "Parameters": {"HOTELID": member$.value?.first.profile.hotelid}
+            "Parameters": {"HOTELID": hotelId}
           }));
 
       if (response.statusCode == 200) {
@@ -48,7 +48,7 @@ class HomeService {
           body: json.encode({
             "Action": "ApiSequence",
             "Object": "spaGroupActivityTimetableMembersList",
-            "Parameters": {"HOTELID": member$.value?.first.profile.hotelid}
+            "Parameters": {"HOTELID": hotelId}
           }));
 
       if (response.statusCode == 200) {

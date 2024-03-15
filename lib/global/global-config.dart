@@ -5,13 +5,10 @@ Map<String, dynamic> fitConfig = {
   "hotel-id": 23155,
   "hotel-name": "Elektra Fit",
   "languange": "EN",
-  "apiUrl": "bookingapi.elektraweb.com",
   "primaryColor": "#2749A7",
   "IconPrimaryColor": "#40598e",
   "buttonSecondColor": "#D1E0E5",
   'ColorBallBlue': "#BC9B6A",
-  // 'hotelStartImageUrl': "https://imgkit.otelz.com/turkiye/antalya/alanya/adin-beach-hotel_56fabc56.jpg?tr=w-500,h-300,fo-auto",
-  'hotelStartImageUrl': "https://www.adinhotel.com/content/thumb/1500x1500/villa1-475686463590dea30c1.55774994.webp"
 };
 
 class FitConfig {

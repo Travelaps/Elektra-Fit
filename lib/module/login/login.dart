@@ -2,14 +2,16 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:elektra_fit/global/enum/banner-enum.dart';
 import 'package:elektra_fit/global/global-variables.dart';
 import 'package:elektra_fit/global/helper.dart';
-import 'package:elektra_fit/module/auth/login/login-service.dart';
 import 'package:elektra_fit/widget/CButton.dart';
 import 'package:elektra_fit/widget/CTextFromField.dart';
 import 'package:elektra_fit/widget/Cloading.dart';
 import 'package:elektra_fit/widget/tabBar.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'login-service.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -25,7 +27,7 @@ class _LoginState extends State<Login> {
   BehaviorSubject<bool> isSaved$ = BehaviorSubject.seeded(false);
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
-  final service = LoginService();
+  final service = GetIt.I<LoginService>();
 
   void loadPreferences() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -146,7 +148,6 @@ class _LoginState extends State<Login> {
                                     }
                                   });
                                 } catch (e) {
-
                                   final errorMessage = e.toString().contains('Kullanıcı Bulunamadı!') ? 'Kullanıcı Bulunamadı!' : e.toString();
                                   kShowBanner(BannerType.ERROR, errorMessage, context);
                                 }

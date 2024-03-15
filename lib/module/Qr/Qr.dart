@@ -1,13 +1,6 @@
-import 'dart:io';
-
-import 'package:easy_localization/easy_localization.dart';
-import 'package:elektra_fit/global/enum/banner-enum.dart';
-import 'package:elektra_fit/global/global-variables.dart';
-import 'package:elektra_fit/global/helper.dart';
-import 'package:elektra_fit/module/Qr/Qr-service.dart';
 import 'package:flutter/material.dart';
-import 'package:qr_code_scanner/qr_code_scanner.dart';
-import 'package:rxdart/rxdart.dart';
+
+import '../../global/index.dart';
 
 class Qr extends StatefulWidget {
   const Qr({Key? key}) : super(key: key);

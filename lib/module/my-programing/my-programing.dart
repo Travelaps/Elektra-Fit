@@ -1,9 +1,6 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:elektra_fit/global/global-variables.dart';
 import 'package:flutter/material.dart';
 
-import '../home/sport-detail/sport-details.dart';
+import '../../global/index.dart';
 
 class MyPrograming extends StatefulWidget {
   const MyPrograming({Key? key}) : super(key: key);
@@ -32,7 +29,7 @@ class _MyProgramingState extends State<MyPrograming> {
                   ClipRRect(
                       borderRadius: borderRadius10,
                       child: CachedNetworkImage(
-                          imageUrl: member$.value?.first.program?.first.exercisephotourl ?? "https://www.skechers.com.tr/blog/wp-content/uploads/2023/03/fitnes-770x513.jpg",
+                          imageUrl: member$.value?.first.program.first.exercisephotourl ?? "https://www.skechers.com.tr/blog/wp-content/uploads/2023/03/fitnes-770x513.jpg",
                           placeholder: (context, url) => CircularProgressIndicator(color: config.primaryColor),
                           errorWidget: (context, url, error) => const Icon(Icons.error),
                           fit: BoxFit.cover)),
