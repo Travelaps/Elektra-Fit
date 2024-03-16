@@ -216,28 +216,33 @@ class SpaGroupActivityModel {
 class SpaGroupActivityMemberListModel {
   int id;
   int hotelid;
-  DateTime startTime;
-  int groupactivityid;
-  String name;
-  bool active;
-  String photourl;
+  int groupactivityTimetableid;
+  int memberid;
+  DateTime? startTime;
+  int? groupactivityid;
+  String? name;
+  bool? active;
+  String? photourl;
   String? notes;
-  int level;
-  int categoriid;
-  int duration;
-  int trainerid;
-  int placeid;
+  int? level;
+  int? categoriid;
+  int? duration;
+  int? trainerid;
+  int? placeid;
   dynamic onlyForMembers;
-  int creatorid;
-  DateTime creationDate;
+  int? creatorid;
+  DateTime? creationDate;
   int? capacity;
-  String trainername;
-  String placename;
-  String categoriname;
+  String? trainername;
+  String? placename;
+  String? categoriname;
+  String membername;
 
   SpaGroupActivityMemberListModel({
     required this.id,
     required this.hotelid,
+    required this.groupactivityTimetableid,
+    required this.memberid,
     required this.startTime,
     required this.groupactivityid,
     required this.name,
@@ -256,12 +261,15 @@ class SpaGroupActivityMemberListModel {
     required this.trainername,
     required this.placename,
     required this.categoriname,
+    required this.membername,
   });
 
   factory SpaGroupActivityMemberListModel.fromJson(Map<String, dynamic> json) => SpaGroupActivityMemberListModel(
         id: json["ID"],
         hotelid: json["HOTELID"],
-        startTime: DateTime.parse(json["START_TIME"]),
+        groupactivityTimetableid: json["GROUPACTIVITY_TIMETABLEID"],
+        memberid: json["MEMBERID"],
+        startTime: json["START_TIME"] == null ? null : DateTime.parse(json["START_TIME"]),
         groupactivityid: json["GROUPACTIVITYID"],
         name: json["NAME"],
         active: json["ACTIVE"],
@@ -274,17 +282,20 @@ class SpaGroupActivityMemberListModel {
         placeid: json["PLACEID"],
         onlyForMembers: json["ONLY_FOR_MEMBERS"],
         creatorid: json["CREATORID"],
-        creationDate: DateTime.parse(json["CREATION_DATE"]),
+        creationDate: json["CREATION_DATE"] == null ? null : DateTime.parse(json["CREATION_DATE"]),
         capacity: json["CAPACITY"],
         trainername: json["TRAINERNAME"],
         placename: json["PLACENAME"],
         categoriname: json["CATEGORINAME"],
+        membername: json["MEMBERNAME"],
       );
 
   Map<String, dynamic> toJson() => {
         "ID": id,
         "HOTELID": hotelid,
-        "START_TIME": startTime.toIso8601String(),
+        "GROUPACTIVITY_TIMETABLEID": groupactivityTimetableid,
+        "MEMBERID": memberid,
+        "START_TIME": startTime?.toIso8601String(),
         "GROUPACTIVITYID": groupactivityid,
         "NAME": name,
         "ACTIVE": active,
@@ -297,11 +308,12 @@ class SpaGroupActivityMemberListModel {
         "PLACEID": placeid,
         "ONLY_FOR_MEMBERS": onlyForMembers,
         "CREATORID": creatorid,
-        "CREATION_DATE": creationDate.toIso8601String(),
+        "CREATION_DATE": creationDate?.toIso8601String(),
         "CAPACITY": capacity,
         "TRAINERNAME": trainername,
         "PLACENAME": placename,
         "CATEGORINAME": categoriname,
+        "MEMBERNAME": membername,
       };
 }
 
@@ -325,9 +337,9 @@ class SpaMemberBodyAnalysis {
   double? bodyMassIndex;
   bool? isDeleted;
   int? creatorId;
-  String? creationDate;
+  DateTime? creationDate; // Değişiklik yapıldı
   dynamic updateUser;
-  String? lastUpdateDate;
+  DateTime? lastUpdateDate; // Değişiklik yapıldı
   String? fullName;
 
   SpaMemberBodyAnalysis({
@@ -377,9 +389,11 @@ class SpaMemberBodyAnalysis {
       bodyMassIndex: json['BODYMASSINDEX']?.toDouble(),
       isDeleted: json['ISDELETED'],
       creatorId: json['CREATORID'],
-      creationDate: json['CREATION_DATE'].toString(),
+      creationDate: DateTime.parse(json['CREATION_DATE']),
+      // Değişiklik yapıldı
       updateUser: json['UPDATEUSER'].toString(),
-      lastUpdateDate: json['LASTUPDATE_DATE'].toString(),
+      lastUpdateDate: DateTime.parse(json['LASTUPDATE_DATE']),
+      // Değişiklik yapıldı
       fullName: json['FULLNAME'].toString(),
     );
   }

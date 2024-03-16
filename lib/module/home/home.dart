@@ -12,12 +12,23 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final homeService = GetIt.I<HomeService>();
+  BehaviorSubject<DateTime> selectedDate$ = BehaviorSubject.seeded(DateTime.now());
+  late BehaviorSubject<DateTime> _selectedDate$;
+
+  // TabController _tabController;
 
   @override
   void initState() {
     homeService.spaGroupActivityTimetableList();
-    homeService.spaGroupActivityTimetableMembersList();
+    _selectedDate$ = BehaviorSubject.seeded(DateTime.now());
+
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _selectedDate$.close();
+    super.dispose();
   }
 
   @override
@@ -25,235 +36,187 @@ class _HomeState extends State<Home> {
     final double H = MediaQuery.of(context).size.height;
     final double W = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: AppBar(title: Text("Lessons".tr())),
-      body: Column(
-        children: [
-          Container(),
-          StreamBuilder(
-              stream: homeService.spaGroupActivityMember$.stream,
-              builder: (context, snapshot) {
-                if (homeService.spaGroupActivityMember$.value == null) {
-                  return Center(child: CLoading());
-                } else if (homeService.spaGroupActivityMember$.value!.isNotEmpty) {
-                  return SizedBox(
-                    height: H,
-                    width: W,
-                    child: ListView.builder(
-                      itemCount: homeService.spaGroupActivityMember$.value!.length,
-                      itemBuilder: (context, index) {
-                        var item = homeService.spaGroupActivityMember$.value?[index];
-                        return Container(
-                          margin: marginAll10,
-                          height: W / 1.1,
-                          decoration: BoxDecoration(
-                              color: isDarkMode$.value ? Colors.black87 : Colors.white,
-                              boxShadow: [
-                                BoxShadow(color: isDarkMode$.value ? Colors.white.withOpacity(0.7) : Colors.black.withOpacity(0.7), spreadRadius: 2, blurRadius: 5, offset: const Offset(0, 4)),
-                              ],
-                              borderRadius: borderRadius10),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              ClipRRect(
-                                  borderRadius: BorderRadius.only(topRight: Radius.circular(10), topLeft: Radius.circular(10)),
-                                  child: Stack(children: [
-                                    SizedBox(
-                                        width: W,
-                                        height: W / 1.6,
-                                        child: CachedNetworkImage(
-                                            imageUrl: item?.photourl ?? "",
-                                            fit: BoxFit.cover,
-                                            placeholder: (context, url) => CLoading(),
-                                            errorWidget: (context, url, error) => const Icon(Icons.error))),
-                                    DecoratedBox(
-                                      decoration: BoxDecoration(
-                                          borderRadius: borderRadius10,
-                                          gradient: LinearGradient(begin: Alignment.bottomCenter, end: Alignment.topCenter, colors: [Colors.transparent, Colors.black.withOpacity(0.5)])),
-                                      child: SizedBox(width: W, height: W / 1.6),
-                                    ),
-                                    Positioned(
-                                        top: 10,
-                                        left: 10,
-                                        child: Text(
-                                          item?.name ?? ''.tr(),
-                                          style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold, fontFamily: "Montserrat"),
-                                        ))
-                                  ])),
-                              Spacer(),
-                              IntrinsicHeight(
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Expanded(
-                                      child: Row(
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          SizedBox(height: W / 15, width: W / 15, child: Image.asset("assets/icon/calender.png")),
-                                          // Text("${DateFormat("MMM-dd").format(itemstartTime)}", style: kProxima16),
-                                        ],
-                                      ),
-                                    ),
-                                    const VerticalDivider(width: 2, endIndent: 2, indent: 2),
-                                    Expanded(
-                                      child: Row(
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          SizedBox(height: W / 15, width: W / 15, child: Image.asset("assets/icon/hours.png")),
-                                          Text("19.00", style: kProxima16),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Divider(indent: 3, endIndent: 3),
-                              Container(
-                                padding: paddingAll5,
-                                child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                                  Row(
-                                    children: [
-                                      SizedBox(
-                                        width: W / 15,
-                                        height: W / 15,
-                                        child: Image.asset("assets/icon/continune.png", fit: BoxFit.cover, color: config.primaryColor),
-                                      ),
-                                      Text("Professional Trainer".tr(), style: kMontserrat18.copyWith(color: config.primaryColor))
+        appBar: AppBar(title: Text("Lessons".tr())),
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(
+                  height: W / 4,
+                  width: W,
+                  child: StreamBuilder<DateTime>(
+                      stream: _selectedDate$,
+                      builder: (context, snapshot) {
+                        final today = DateTime.now();
+                        return ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: 30,
+                            itemBuilder: (BuildContext context, int index) {
+                              DateTime date = today.add(Duration(days: index));
+                              return Container(
+                                  width: W / 5,
+                                  margin: marginAll5,
+                                  decoration: BoxDecoration(
+                                    borderRadius: borderRadius10,
+                                    color: Colors.white,
+                                    boxShadow: [
+                                      BoxShadow(color: Colors.black.withOpacity(0.3), spreadRadius: 3, blurRadius: 10, offset: Offset(0, 3)),
                                     ],
                                   ),
-                                  Text("Hamza Alfawer", style: kMontserrat18)
-                                ]),
-                              )
-                            ],
-                          ),
-                        );
-                      },
-                    ),
-                  );
-                  // return Column(
-                  //   children: [
-                  //
-                  //     Container(
-                  //       margin: marginAll10,
-                  //       height: W / 1.1,
-                  //       decoration: BoxDecoration(
-                  //           color: isDarkMode$.value ? Colors.black87 : Colors.white,
-                  //           boxShadow: [
-                  //             BoxShadow(
-                  //               color: isDarkMode$.value ? Colors.white.withOpacity(0.7) : Colors.black.withOpacity(0.7),
-                  //               spreadRadius: 2,
-                  //               blurRadius: 5,
-                  //               offset: const Offset(0, 4),
-                  //             ),
-                  //           ],
-                  //           borderRadius: const BorderRadius.all(Radius.circular(10))),
-                  //       child: Column(
-                  //         crossAxisAlignment: CrossAxisAlignment.start,
-                  //         children: [
-                  //           ClipRRect(
-                  //             borderRadius: BorderRadius.only(topRight: Radius.circular(10), topLeft: Radius.circular(10)),
-                  //             child: Stack(
-                  //               children: [
-                  //                 SizedBox(
-                  //                   width: W,
-                  //                   height: W / 1.6,
-                  //                   child: Image.asset("assets/image/sport6.jpg", fit: BoxFit.cover),
-                  //                 ),
-                  //                 DecoratedBox(
-                  //                   decoration: BoxDecoration(
-                  //                     borderRadius: const BorderRadius.all(Radius.circular(10)),
-                  //                     gradient: LinearGradient(
-                  //                       begin: Alignment.bottomCenter,
-                  //                       end: Alignment.topCenter,
-                  //                       colors: [Colors.transparent, Colors.black.withOpacity(0.5)],
-                  //                     ),
-                  //                   ),
-                  //                   child: SizedBox(width: W, height: W / 1.6),
-                  //                 ),
-                  //                 Positioned(
-                  //                   top: 10,
-                  //                   left: 10,
-                  //                   child: Text(
-                  //                     'Gym'.tr(),
-                  //                     style: TextStyle(
-                  //                       color: Colors.white,
-                  //                       fontSize: 20,
-                  //                       fontWeight: FontWeight.bold,
-                  //                       fontFamily: "Montserrat",
-                  //                     ),
-                  //                   ),
-                  //                 ),
-                  //               ],
-                  //             ),
-                  //           ),
-                  //           Spacer(),
-                  //           IntrinsicHeight(
-                  //             child: Row(
-                  //               crossAxisAlignment: CrossAxisAlignment.center,
-                  //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //               children: [
-                  //                 Expanded(
-                  //                   child: Row(
-                  //                     crossAxisAlignment: CrossAxisAlignment.center,
-                  //                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  //                     children: [
-                  //                       SizedBox(height: W / 15, width: W / 15, child: Image.asset("assets/icon/calender.png")),
-                  //                       Text("17 Jan", style: kProxima16),
-                  //                     ],
-                  //                   ),
-                  //                 ),
-                  //                 const VerticalDivider(width: 2, endIndent: 2, indent: 2),
-                  //                 Expanded(
-                  //                   child: Row(
-                  //                     crossAxisAlignment: CrossAxisAlignment.center,
-                  //                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  //                     children: [
-                  //                       SizedBox(height: W / 15, width: W / 15, child: Image.asset("assets/icon/hours.png")),
-                  //                       Text("19.00", style: kProxima16),
-                  //                     ],
-                  //                   ),
-                  //                 ),
-                  //               ],
-                  //             ),
-                  //           ),
-                  //           Divider(indent: 3, endIndent: 3),
-                  //           Container(
-                  //             padding: paddingAll5,
-                  //             child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  //               Row(
-                  //                 children: [
-                  //                   SizedBox(
-                  //                     width: W / 15,
-                  //                     height: W / 15,
-                  //                     child: Image.asset(
-                  //                       "assets/icon/continune.png",
-                  //                       fit: BoxFit.cover,
-                  //                       color: config.primaryColor,
-                  //                     ),
-                  //                   ),
-                  //                   Text(
-                  //                     "Professional Trainer".tr(),
-                  //                     style: kMontserrat18.copyWith(color: config.primaryColor),
-                  //                   )
-                  //                 ],
-                  //               ),
-                  //               Text(" Hamza Alfawer", style: kMontserrat18)
-                  //             ]),
-                  //           )
-                  //         ],
-                  //       ),
-                  //     ),
-                  //   ],
-                  // );
-                } else
-                  return Center(
-                    child: Text(""),
-                  );
-              }),
-        ],
-      ),
-    );
+                                  child: InkWell(
+                                      onTap: () {
+                                        _selectedDate$.add(date);
+                                      },
+                                      child: Center(
+                                          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+                                        Text(
+                                          DateFormat("EEE").format(date).tr(),
+                                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                        ),
+                                        Text(
+                                          DateFormat('d').format(date),
+                                          style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                                        )
+                                      ]))));
+                            });
+                      })),
+              StreamBuilder(
+                  stream: homeService.spaGroupActivity$.stream,
+                  builder: (context, snapshot) {
+                    if (homeService.spaGroupActivity$.value == null) {
+                      return Center(child: CLoading());
+                    } else if (homeService.spaGroupActivity$.value!.isNotEmpty) {
+                      return SizedBox(
+                          height: H * 0.79,
+                          child: ListView.builder(
+                              itemCount: homeService.spaGroupActivity$.value!.length,
+                              itemBuilder: (context, index) {
+                                var item = homeService.spaGroupActivity$.value?[index];
+                                return InkWell(
+                                  onTap: () {
+                                    Navigator.push(context, RouteAnimation.createRoute(SpaGroupActivityDetail(item: item!), 1, 0));
+                                  },
+                                  child: Container(
+                                    margin: marginAll10,
+                                    decoration: BoxDecoration(
+                                        color: isDarkMode$.value ? Colors.black87 : Colors.white,
+                                        boxShadow: [
+                                          BoxShadow(
+                                              color: isDarkMode$.value ? Colors.white.withOpacity(0.7) : Colors.black.withOpacity(0.7), spreadRadius: 2, blurRadius: 5, offset: const Offset(0, 4)),
+                                        ],
+                                        borderRadius: borderRadius10),
+                                    child: Stack(
+                                      children: [
+                                        ClipRRect(
+                                          borderRadius: borderRadius10,
+                                          child: CachedNetworkImage(
+                                            imageUrl: item?.photoUrl ?? "",
+                                            fit: BoxFit.cover,
+                                            placeholder: (context, url) => Center(child: CircularProgressIndicator(color: config.primaryColor)),
+                                            errorWidget: (context, url, error) => const Icon(Icons.error),
+                                          ),
+                                        ),
+                                        Positioned.fill(
+                                          bottom: 0,
+                                          child: Container(
+                                            width: W,
+                                            alignment: Alignment.center,
+                                            decoration: BoxDecoration(
+                                              gradient: LinearGradient(
+                                                begin: Alignment.topCenter,
+                                                end: Alignment.bottomCenter,
+                                                colors: [Colors.transparent, Colors.black.withOpacity(0.5)],
+                                              ),
+                                              borderRadius: borderRadius10,
+                                              boxShadow: [
+                                                BoxShadow(color: Colors.black.withOpacity(0.3), spreadRadius: 3, blurRadius: 10, offset: Offset(0, 3)),
+                                              ],
+                                            ),
+                                            child: Text("${item?.name}", style: kAxiforma20.copyWith(color: Colors.white), textAlign: TextAlign.center // Center the text
+                                                ),
+                                          ),
+                                        ),
+                                        Positioned(
+                                            child: Container(
+                                          padding: paddingAll10,
+                                          margin: marginAll5,
+                                          decoration: BoxDecoration(shape: BoxShape.circle, color: config.primaryColor),
+                                          child: Text(
+                                            item!.level.toString(),
+                                            style: kAxiforma19.copyWith(color: Colors.white),
+                                          ),
+                                        )),
+                                        Positioned(
+                                            right: 0,
+                                            bottom: 0,
+                                            child: Container(
+                                              padding: paddingAll5,
+                                              child: Text(
+                                                "${item.duration} min".tr(),
+                                                style: kAxiforma19.copyWith(color: Colors.white),
+                                              ),
+                                            ))
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              }));
+                    } else
+                      return Center(
+                        child: Text("no found Group Activity".tr()),
+                      );
+                  }),
+            ],
+          ),
+        ));
   }
+
+  String getLevelDescription(int? level) {
+    String levelName = '';
+    switch (level) {
+      case 1:
+        levelName = 'Beginner Level';
+        break;
+      case 2:
+        levelName = 'Intermediate Level';
+        break;
+      case 3:
+        levelName = 'Advanced Level';
+        break;
+      case 4:
+        levelName = 'Expert Level';
+        break;
+      case 5:
+        levelName = 'Professional Level';
+        break;
+      default:
+        levelName = 'Unknown Level';
+    }
+    return levelName;
+  }
+//
+// void getGroupActivityByDate(DateTime selectedDate) async {
+//   // Verileri alma isteği yapılıyor
+//   var response = await homeService.spaGroupActivityTimetableList();
+//
+//   // Başarılı bir yanıt alındığında işlemler yapılıyor
+//   if (response.result) {
+//     // Verileri gruplamak için bir harita oluşturuluyor
+//     Map<DateTime, List<SpaGroupActivityModel>> groupedData = {};
+//
+//     for (var item in data) {
+//       DateTime startTime = item.startTime;
+//
+//       if (!groupedData.containsKey(startTime)) {
+//         groupedData[startTime] = [];
+//       }
+//       groupedData[startTime]?.add(item);
+//     }
+//
+//     // Seçilen tarihteki verileri güncelle
+//     homeService.spaGroupActivity$.add(groupedData[selectedDate]);
+//   } else {
+//     // Yanıt başarısızsa hata mesajını yazdır
+//     print(response.message);
+//   }
+// }
 }

@@ -104,13 +104,14 @@ flutter:
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
   assets:
-#    - assets/image/
+    #    - assets/image/
     - assets/image/
     - assets/fonts/
     - assets/icon/
     - assets/animations/
     - assets/icon/banner-icon/
     - assets/icon/tab-icon/
+    - assets/icon/body-icon/
     - assets/image/sports-vector/
     - assets/translations/
     - assets/icon/flat-icon/

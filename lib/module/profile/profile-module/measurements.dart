@@ -1,8 +1,6 @@
-import 'package:easy_localization/easy_localization.dart';
-import 'package:elektra_fit/module/profile/profile-service.dart';
-import 'package:elektra_fit/widget/Cloading.dart';
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
+
+import '../../../global/index.dart';
 
 class Measurements extends StatefulWidget {
   const Measurements({super.key});
@@ -33,17 +31,55 @@ class _MeasurementsState extends State<Measurements> {
               stream: service.spaMemberBody$.stream,
               builder: (context, snapshot) {
                 if (service.spaMemberBody$.value == null) {
-                  return Center(child: CLoading());
+                  return Center(child: CircularProgressIndicator(color: config.primaryColor));
                 } else if (service.spaMemberBody$.value!.isEmpty) {
-                  return Center(child: Text("asdas"));
+                  return const Center(child: Text(" no found measurements"));
                 }
+                return SizedBox(
+                    height: H * 0.89,
+                    width: W,
+                    child: ListView.builder(
+                      itemCount: service.spaMemberBody$.value?.length,
+                      itemBuilder: (context, index) {
+                        var item = service.spaMemberBody$.value?[index];
+                        return Column(
+                          children: [
+                            Wrap(children: [
+                              if (item!.weight != null) itemMeasurement(item.age.toString(), "Age"),
+                              if (item.weight != null) itemMeasurement("${item.height.toString()} cm", "Height"),
+                              if (item.weight != null) itemMeasurement("${item.weight.toString()} kg", "Weight"),
+                              if (item.arm != null) itemMeasurement("${item.arm.toString()} cm ", "Arm"),
+                              if (item.calf != null) itemMeasurement("${item.calf.toString()} cm", "Calf"),
+                              if (item.hips != null) itemMeasurement("${item.hips.toString()} cm", "Hips"),
+                              if (item.thigh != null) itemMeasurement("${item.thigh.toString()} cm", "Thigh"),
+                              if (item.totalBodyFatMass != null) itemMeasurement("${item.totalBodyFatMass.toString()} kg", "Total Body Fat Mass"),
+                              if (item.totalBodyWater != null) itemMeasurement("${item.totalBodyWater.toString()} L", "Total Body Water"),
+                              if (item.totalMuscleMass != null) itemMeasurement("${item.totalMuscleMass.toString()} kg", "Total Muscle Mass"),
+                              if (item.lastUpdateDate != null) itemMeasurement("${DateFormat("dd MMM").format(item.lastUpdateDate!)}", "Last Update Date"),
 
-                return Container(
-                  color: Colors.red,
-                  width: W,
-                  height: W / 3,
-                );
+                              // if (item.lastUpdateDate != null) itemMeasurement(item.lastUpdateDate.toString(), "Last Update Date"),
+                            ]),
+                            Divider()
+                          ],
+                        );
+                      },
+                    ));
               })),
+    );
+  }
+
+  Container itemMeasurement(String? item, String text) {
+    return Container(
+      margin: marginAll5,
+      padding: paddingAll10,
+      decoration: BoxDecoration(
+          color: Colors.white, borderRadius: BorderRadius.circular(10), boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.6), spreadRadius: 3, blurRadius: 10, offset: Offset(0, 3))]),
+      child: Column(
+        children: [
+          Text(text, style: kMontserrat18),
+          Text(item!, style: kProxima17),
+        ],
+      ),
     );
   }
 }

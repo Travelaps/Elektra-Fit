@@ -2,6 +2,7 @@ export 'Qr/Qr-service.dart';
 export 'Qr/Qr.dart';
 export 'home/home-service.dart';
 export 'home/home.dart';
+export 'home/spa-group-activity-detail/spa-group-activity-detail.dart';
 export 'login/login-service.dart';
 export 'login/login.dart';
 export 'my-programing/my-programing.dart';
