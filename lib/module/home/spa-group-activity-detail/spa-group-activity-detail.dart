@@ -39,14 +39,14 @@ class _SpaGroupActivityDetailState extends State<SpaGroupActivityDetail> {
                 children: [
                   Row(
                     children: [
-                      Image.asset("assets/icon/clock.png", fit: BoxFit.cover, height: W / 20, width: W / 20),
+                      // Image.asset("assets/icon/clock.png", fit: BoxFit.cover, height: W / 20, width: W / 20),
                       SizedBox(width: W / 60),
                       Text("${widget.item.duration} Min".tr(), style: kMontserrat18),
                     ],
                   ),
                   Row(
                     children: [
-                      Image.asset("assets/icon/clock.png", fit: BoxFit.cover, height: W / 20, width: W / 20),
+                      // Image.asset("assets/icon/clock.png", fit: BoxFit.cover, height: W / 20, width: W / 20),
                       SizedBox(width: W / 60),
                       Text("${widget.item.duration} Min".tr(), style: kMontserrat18),
                     ],
@@ -64,41 +64,47 @@ class _SpaGroupActivityDetailState extends State<SpaGroupActivityDetail> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Column(
-                    children: [
-                      Text("Level", style: kProxima17),
-                      Container(
-                          padding: paddingAll10,
-                          margin: marginAll5,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Colors.black87.withOpacity(0.2),
-                          ),
-                          child: Text(getLevelDescription(widget.item.level).tr(), style: kMontserrat18)),
-                    ],
+                  Expanded(
+                    child: Column(
+                      children: [
+                        Text("Level", style: kProxima17),
+                        Container(
+                            padding: paddingAll10,
+                            margin: marginAll5,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Colors.black87.withOpacity(0.2),
+                            ),
+                            child: Text(getLevelDescription(widget.item.level).tr(), style: kMontserrat18)),
+                      ],
+                    ),
                   ),
-                  Column(
-                    children: [
-                      Text("Category".tr(), style: kProxima17),
-                      Container(
-                          padding: paddingAll10,
-                          margin: marginAll5,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Colors.black87.withOpacity(0.2),
-                          ),
-                          child: Text(widget.item.categoriname.tr(), style: kMontserrat18)),
-                    ],
+                  Expanded(
+                    child: Column(
+                      children: [
+                        Text("Category".tr(), style: kProxima17),
+                        Container(
+                            padding: paddingAll10,
+                            margin: marginAll5,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Colors.black87.withOpacity(0.2),
+                            ),
+                            child: Text(widget.item.categoriname.tr(), style: kMontserrat18)),
+                      ],
+                    ),
                   ),
-                  Column(
-                    children: [
-                      Text("Place".tr(), style: kProxima17),
-                      Container(
-                          padding: paddingAll10,
-                          margin: marginAll5,
-                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Colors.black87.withOpacity(0.2)),
-                          child: Text(widget.item.placename.tr(), style: kMontserrat18)),
-                    ],
+                  Expanded(
+                    child: Column(
+                      children: [
+                        Text("Place".tr(), style: kProxima17),
+                        Container(
+                            padding: paddingAll10,
+                            margin: marginAll5,
+                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Colors.black87.withOpacity(0.2)),
+                            child: Text(widget.item.placename.tr(), style: kMontserrat18)),
+                      ],
+                    ),
                   ),
                 ],
               ),
@@ -113,7 +119,6 @@ class _SpaGroupActivityDetailState extends State<SpaGroupActivityDetail> {
               ],
             ),
             Text("${widget.item.capacity} Adult max".tr(), style: kProxima17),
-            Text(widget.item.placename.tr(), style: kProxima17),
           ],
         ),
       ),

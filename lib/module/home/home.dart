@@ -1,3 +1,4 @@
+import 'package:elektra_fit/widget/Cloading.dart';
 import 'package:flutter/material.dart';
 
 import '../../global/index.dart';
@@ -90,19 +91,57 @@ class _HomeState extends State<Home> {
                                         )
                                       ]))));
                             })),
-                    Container(
-                      height: H * 0.6,
+                    SizedBox(
+                      height: H * 0.65,
                       width: W,
                       child: ListView.builder(
                         itemCount: homeService.spaGroupActivity$.value!.length,
                         itemBuilder: (context, index) {
                           var item = homeService.spaGroupActivity$.value?[index];
 
-                          return selectedDate$.value == item!.startTime
-                              ? Container(
-                                  child: Text(item.name ?? ""),
-                                )
-                              : SizedBox();
+                          return InkWell(
+                            onTap: () {
+                              Navigator.push(context, RouteAnimation.createRoute(SpaGroupActivityDetail(item: item!), 0, 1));
+                            },
+                            child: Container(
+                              margin: marginAll10,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: borderRadius10,
+                                boxShadow: [
+                                  BoxShadow(color: Colors.black.withOpacity(0.6), spreadRadius: 3, blurRadius: 10, offset: const Offset(0, 3)),
+                                ],
+                              ),
+                              child: Stack(
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: borderRadius10,
+                                    child: CachedNetworkImage(
+                                      imageUrl: item?.photoUrl ?? "",
+                                      fit: BoxFit.cover,
+                                      placeholder: (context, url) => CircularProgressIndicator(),
+                                      errorWidget: (context, url, error) => Icon(Icons.error),
+                                    ),
+                                  ),
+                                  Positioned.fill(
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: borderRadius10,
+                                        color: Colors.black.withOpacity(0.5),
+                                      ),
+                                      padding: paddingAll10,
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        item?.name ?? "",
+                                        style: kAxiforma19.copyWith(color: Colors.white),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
                         },
                       ),
                     )
