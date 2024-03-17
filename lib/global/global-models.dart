@@ -192,7 +192,7 @@ class SpaGroupActivityModel {
     return SpaGroupActivityModel(
       id: json["ID"],
       hotelid: json["HOTELID"],
-      startTime: DateTime.parse(json["START_TIME"]),
+      startTime: json["START_TIME"] != null ? DateTime.parse(json["START_TIME"]) : DateTime.now(),
       groupactivityid: json["GROUPACTIVITYID"],
       name: json["NAME"],
       active: json["ACTIVE"],
