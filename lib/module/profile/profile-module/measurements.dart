@@ -43,14 +43,6 @@ class _MeasurementsState extends State<Measurements> {
                       itemBuilder: (context, index) {
                         var item = service.spaMemberBody$.value?[index];
 
-                        // return Table(
-                        //   children: [
-                        //     TableRow(
-                        //         children: service.spaMemberBody$.value!.map((e) {
-                        //       return Text("data");
-                        //     }).toList())
-                        //   ],
-                        // );
                         return Column(
                           children: [
                             Wrap(children: [
