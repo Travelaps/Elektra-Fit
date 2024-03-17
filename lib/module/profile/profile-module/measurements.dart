@@ -55,9 +55,7 @@ class _MeasurementsState extends State<Measurements> {
                               if (item.totalBodyFatMass != null) itemMeasurement("${item.totalBodyFatMass.toString()} kg", "Total Body Fat Mass"),
                               if (item.totalBodyWater != null) itemMeasurement("${item.totalBodyWater.toString()} L", "Total Body Water"),
                               if (item.totalMuscleMass != null) itemMeasurement("${item.totalMuscleMass.toString()} kg", "Total Muscle Mass"),
-                              if (item.lastUpdateDate != null) itemMeasurement("${DateFormat("dd MMM").format(item.lastUpdateDate!)}", "Last Update Date"),
-
-                              // if (item.lastUpdateDate != null) itemMeasurement(item.lastUpdateDate.toString(), "Last Update Date"),
+                              if (item.lastUpdateDate != null) itemMeasurement(DateFormat("dd MMM").format(item.lastUpdateDate!), "Last Update Date"),
                             ]),
                             Divider()
                           ],
