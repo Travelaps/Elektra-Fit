@@ -7,6 +7,7 @@ class HomeService {
   BehaviorSubject<List<SpaGroupActivityMemberListModel>?> spaGroupActivityMember$ = BehaviorSubject.seeded(null);
 
   BehaviorSubject<List<SpaGroupActivityModel>?> spaGroupActivity$ = BehaviorSubject.seeded(null);
+  BehaviorSubject<DateTime> selectedDate$ = BehaviorSubject.seeded(DateTime.now());
 
   Future<RequestResponse> spaGroupActivityTimetableList() async {
     spaGroupActivity$.add(null);
@@ -26,8 +27,18 @@ class HomeService {
         for (var item in jsonData) {
           spaGroupActivity.add(SpaGroupActivityModel.fromJson(item));
         }
-        spaGroupActivity$.add(spaGroupActivity);
-        spaGroupActivity$.add(spaGroupActivity$.value);
+        Map<DateTime, List<SpaGroupActivityModel>> groupedActivities = {};
+        for (var activity in spaGroupActivity) {
+          DateTime startTime = activity.startTime;
+          if (!groupedActivities.containsKey(startTime)) {
+            groupedActivities[startTime] = [];
+          }
+          groupedActivities[startTime]!.add(activity);
+        }
+
+        List<SpaGroupActivityModel>? selectedDateActivities = groupedActivities[selectedDate$.value];
+
+        spaGroupActivity$.add(selectedDateActivities);
       }
       return RequestResponse(message: utf8.decode(response.bodyBytes).tr(), result: true);
     } catch (e) {
@@ -35,6 +46,35 @@ class HomeService {
       return RequestResponse(message: e.toString(), result: false);
     }
   }
+// BehaviorSubject<List<SpaGroupActivityModel>?> spaGroupActivity$ = BehaviorSubject.seeded(null);
+//
+// Future<RequestResponse> spaGroupActivityTimetableList() async {
+//   spaGroupActivity$.add(null);
+//   final url = Uri.parse('https://4001.hoteladvisor.net');
+//   try {
+//     final response = await http.post(url,
+//         body: json.encode({
+//           "Action": "ApiSequence",
+//           "Object": "spaGroupActivityTimetableList",
+//           "Parameters": {"HOTELID": hotelId}
+//         }));
+//
+//     if (response.statusCode == 200) {
+//       final jsonData = json.decode(utf8.decode(response.bodyBytes));
+//       List<SpaGroupActivityModel> spaGroupActivity = [];
+//
+//       for (var item in jsonData) {
+//         spaGroupActivity.add(SpaGroupActivityModel.fromJson(item));
+//       }
+//       spaGroupActivity$.add(spaGroupActivity);
+//       spaGroupActivity$.add(spaGroupActivity$.value);
+//     }
+//     return RequestResponse(message: utf8.decode(response.bodyBytes).tr(), result: true);
+//   } catch (e) {
+//     print(e);
+//     return RequestResponse(message: e.toString(), result: false);
+//   }
+// }
 // ///
 // // Future<RequestResponse> spaGroupActivityTimetableList() async {
 // //   try {
