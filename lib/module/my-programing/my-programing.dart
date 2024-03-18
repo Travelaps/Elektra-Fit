@@ -29,9 +29,13 @@ class _MyProgramingState extends State<MyPrograming> {
         appBar: AppBar(
           title: Text('Programs & Activities'.tr()),
           bottom: TabBar(
-            indicatorColor: Colors.black87,
+            indicatorSize: TabBarIndicatorSize.tab,
+            indicatorColor: Colors.white,
+            indicatorPadding: paddingAll10,
+            isScrollable: false,
+            labelPadding: paddingAll5,
             tabs: [
-              Tab(child: Text('My Programs'.tr(), style: kMontserrat18.copyWith(color: Colors.white))),
+              Tab(iconMargin: EdgeInsets.zero, child: Text('My Programs'.tr(), style: kMontserrat18.copyWith(color: Colors.white))),
               Tab(child: Text('My Activity'.tr(), style: kMontserrat18.copyWith(color: Colors.white))),
             ],
           ),
@@ -51,7 +55,7 @@ class _MyProgramingState extends State<MyPrograming> {
                       "You do not have any activity records yet.".tr(),
                     ));
                   }
-                  return Container(
+                  return SizedBox(
                     height: H * 0.9,
                     child: ListView.builder(
                       itemCount: service.spaGroupActivityMember$.value!.length,

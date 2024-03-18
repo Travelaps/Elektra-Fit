@@ -2,6 +2,7 @@ import 'package:elektra_fit/module/home/spa-group-activity-detail/spa-group-acti
 import 'package:elektra_fit/widget/Cloading.dart';
 import 'package:flutter/material.dart';
 
+import '../../global/global-models.dart';
 import '../../global/index.dart';
 
 class Home extends StatefulWidget {
@@ -14,19 +15,13 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   final homeService = GetIt.I<HomeService>();
   BehaviorSubject<DateTime> selectedDate$ = BehaviorSubject.seeded(DateTime.now());
+  List<SpaGroupActivityModel> total = [];
+  List<SpaGroupActivityModel> totalfilter = [];
 
   @override
   void initState() {
     homeService.spaGroupActivityTimetableList();
-    // homeService.selectedDate$ = BehaviorSubject.seeded(DateTime.now());
-
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    // homeService.selectedDate$.close();
-    super.dispose();
   }
 
   @override
@@ -46,6 +41,7 @@ class _HomeState extends State<Home> {
                 );
               }
               final today = DateTime.now();
+
               return Container(
                 child: Column(
                   children: [
@@ -68,38 +64,34 @@ class _HomeState extends State<Home> {
                                     ],
                                   ),
                                   child: InkWell(
-                                      onTap: () {
+                                      onTap: () async {
+                                        totalfilter = homeService.spaGroupActivity$.value!.where((element) {
+                                          return element.startTime.difference(selectedDate$.value).inDays == 0;
+                                        }).toList();
                                         selectedDate$.add(date);
                                       },
                                       child: Center(
                                           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-                                        Text(
-                                          DateFormat("EEE").format(date).tr(),
-                                          style: TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.bold,
-                                              color: selectedDate$.value.year == date.year && selectedDate$.value.month == date.month && selectedDate$.value.day == date.day
-                                                  ? Colors.white
-                                                  : Colors.black87),
-                                        ),
+                                        Text(DateFormat("EEE").format(date).tr(),
+                                            style: TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.bold,
+                                                color: selectedDate$.value.year == date.year && selectedDate$.value.month == date.month && selectedDate$.value.day == date.day
+                                                    ? Colors.white
+                                                    : Colors.black87)),
                                         Container(
-                                          padding: paddingAll5,
-                                          decoration: BoxDecoration(color: Colors.white, shape: BoxShape.circle),
-                                          child: Text(
-                                            DateFormat('d').format(date),
-                                            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                                          ),
-                                        )
+                                            padding: paddingAll5,
+                                            decoration: BoxDecoration(color: Colors.white, shape: BoxShape.circle),
+                                            child: Text(DateFormat('d').format(date), style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)))
                                       ]))));
                             })),
                     SizedBox(
                       height: H * 0.65,
                       width: W,
                       child: ListView.builder(
-                        itemCount: homeService.spaGroupActivity$.value!.length,
+                        itemCount: totalfilter.length,
                         itemBuilder: (context, index) {
-                          var item = homeService.spaGroupActivity$.value?[index];
-
+                          var item = totalfilter[index];
                           return InkWell(
                             onTap: () {
                               Navigator.push(context, RouteAnimation.createRoute(SpaGroupActivityDetail(item: item!), 0, 1));
@@ -115,56 +107,56 @@ class _HomeState extends State<Home> {
                               ),
                               child: Stack(
                                 children: [
-                                  ClipRRect(
-                                    borderRadius: borderRadius10,
-                                    child: CachedNetworkImage(
-                                      imageUrl: item?.photoUrl ?? "",
-                                      fit: BoxFit.cover,
-                                      placeholder: (context, url) => CircularProgressIndicator(),
-                                      errorWidget: (context, url, error) => Icon(Icons.error),
-                                    ),
-                                  ),
-                                  Positioned.fill(
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius: borderRadius10,
-                                        color: Colors.black.withOpacity(0.5),
-                                      ),
-                                      padding: paddingAll10,
-                                      alignment: Alignment.center,
-                                      child: Text(
-                                        item?.name ?? "",
-                                        style: kAxiforma19.copyWith(color: Colors.white),
-                                        textAlign: TextAlign.center,
+                                  if (item?.photoUrl != null)
+                                    ClipRRect(
+                                      borderRadius: borderRadius10,
+                                      child: CachedNetworkImage(
+                                        imageUrl: item?.photoUrl ?? "",
+                                        fit: BoxFit.cover,
+                                        placeholder: (context, url) => CircularProgressIndicator(color: config.primaryColor),
+                                        errorWidget: (context, url, error) => const Icon(Icons.error),
                                       ),
                                     ),
-                                  ),
-                                  Positioned(
-                                      right: 0,
-                                      bottom: 0,
-                                      child: Container(
-                                        padding: paddingAll10,
-                                        child: Row(
-                                          children: [
-                                            Image.asset("assets/icon/clock.png", width: W / 20, height: W / 20, fit: BoxFit.cover, color: Colors.white),
-                                            SizedBox(width: W / 40),
-                                            Text("${item?.duration ?? ""} min", style: kMontserrat17.copyWith(color: Colors.white))
-                                          ],
-                                        ),
-                                      )),
-                                  Positioned(
-                                      left: 0,
-                                      top: 0,
-                                      child: Container(
-                                        padding: paddingAll10,
-                                        child: Row(
-                                          children: [
-                                            Icon(Icons.star_outlined, color: getLevelDescriptionColor(item?.level)),
-                                            SizedBox(width: W / 40),
-                                            Text(getLevelDescription(item?.level), style: kMontserrat17.copyWith(color: Colors.white))
-                                          ],
-                                        ),
-                                      ))
+                                  if (item?.name != null)
+                                    Positioned.fill(
+                                        child: Container(
+                                            decoration: BoxDecoration(borderRadius: borderRadius10, color: Colors.black.withOpacity(0.5)),
+                                            padding: paddingAll10,
+                                            alignment: Alignment.center,
+                                            child: Text(item?.name ?? "", style: kAxiforma19.copyWith(color: Colors.white), textAlign: TextAlign.center))),
+                                  if (item?.duration != null)
+                                    Positioned(
+                                        right: 0,
+                                        bottom: 0,
+                                        child: Container(
+                                            padding: paddingAll10,
+                                            child: Row(children: [
+                                              Image.asset("assets/icon/clock.png", width: W / 20, height: W / 20, fit: BoxFit.cover, color: Colors.white),
+                                              SizedBox(width: W / 40),
+                                              Text("${item?.duration ?? ""} min", style: kMontserrat17.copyWith(color: Colors.white))
+                                            ]))),
+                                  if (item?.level != null)
+                                    Positioned(
+                                        left: 0,
+                                        top: 0,
+                                        child: Container(
+                                            padding: paddingAll10,
+                                            child: Row(children: [
+                                              Icon(Icons.star_outlined, color: getLevelDescriptionColor(item?.level)),
+                                              SizedBox(width: W / 40),
+                                              Text(getLevelDescription(item?.level), style: kMontserrat17.copyWith(color: Colors.white))
+                                            ]))),
+                                  if (item?.startTime != null)
+                                    Positioned(
+                                        left: 0,
+                                        bottom: 0,
+                                        child: Container(
+                                            padding: paddingAll10,
+                                            child: Row(children: [
+                                              Image.asset("assets/icon/calender.png", width: W / 20, height: W / 20, fit: BoxFit.cover, color: Colors.white),
+                                              SizedBox(width: W / 40),
+                                              Text(DateFormat("MMM d").format(item!.startTime), style: kMontserrat17.copyWith(color: Colors.white))
+                                            ]))),
                                 ],
                               ),
                             ),

@@ -24,7 +24,12 @@ class MyProgramingService {
         for (var item in jsonData) {
           spaGroupMember.add(SpaGroupActivityMemberListModel.fromJson(item));
         }
-       
+        spaGroupMember.sort((a, b) {
+          var startTimeA = a.startTime ?? DateTime(0);
+          var startTimeB = b.startTime ?? DateTime(0);
+          return startTimeB.compareTo(startTimeA);
+        });
+
         spaGroupActivityMember$.add(spaGroupMember);
         spaGroupActivityMember$.add(spaGroupActivityMember$.value);
       }
