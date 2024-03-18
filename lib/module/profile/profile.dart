@@ -104,8 +104,7 @@ class _ProfileState extends State<Profile> {
                               width: W / 3,
                               child: ClipOval(
                                 child: CachedNetworkImage(
-                                  imageUrl: member$.value?.first.profile.photourl ??
-                                      "https://www.mnp.ca/-/media/foundation/integrations/personnel/2020/12/16/13/57/personnel-image-4483.jpg?h=800&w=600&hash=9D5E5FCBEE00EB562DCD8AC8FDA8433D",
+                                  imageUrl: member$.value?.first.profile.photourl ?? "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
                                   fit: BoxFit.cover,
                                   placeholder: (context, url) => CircularProgressIndicator(),
                                   errorWidget: (context, url, error) => Icon(Icons.error),
@@ -173,11 +172,7 @@ class _ProfileState extends State<Profile> {
                     SizedBox(height: W / 60),
                     InkWell(
                       onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => MemberType(),
-                            ));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => MemberType()));
                       },
                       child: Container(
                         height: W / 8,
@@ -185,24 +180,10 @@ class _ProfileState extends State<Profile> {
                         margin: marginAll5,
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: borderRadius10,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.4),
-                              spreadRadius: 3,
-                              blurRadius: 10,
-                              offset: Offset(0, 3),
-                            ),
-                          ],
-                        ),
+                            color: Colors.white, borderRadius: borderRadius10, boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.4), spreadRadius: 3, blurRadius: 10, offset: Offset(0, 3))]),
                         width: W,
                         child: Row(
-                          children: [
-                            Icon(Icons.published_with_changes_sharp, color: config.IconPrimaryColor, size: 26),
-                            SizedBox(width: W / 40),
-                            Text("Member Type".tr(), style: kMontserrat16),
-                          ],
+                          children: [Icon(Icons.published_with_changes_sharp, color: config.IconPrimaryColor, size: 26), SizedBox(width: W / 40), Text("Member Type".tr(), style: kMontserrat16)],
                         ),
                       ),
                     ),
@@ -252,29 +233,13 @@ class _ProfileState extends State<Profile> {
                         height: W / 8,
                         padding: paddingAll10,
                         alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: borderRadius10,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.4),
-                              spreadRadius: 3,
-                              blurRadius: 10,
-                              offset: Offset(0, 3),
-                            ),
-                          ],
-                        ),
+                        decoration: BoxDecoration(color: Colors.white, borderRadius: borderRadius10, boxShadow: [
+                          BoxShadow(color: Colors.black.withOpacity(0.4), spreadRadius: 3, blurRadius: 10, offset: Offset(0, 3)),
+                        ]),
                         width: W,
                         child: Row(
                           children: [
-                            Container(
-                              height: W / 15,
-                              width: W / 15,
-                              child: Image.asset(
-                                "assets/icon/exit-icon.png",
-                                color: Colors.red,
-                              ),
-                            ),
+                            Container(height: W / 15, width: W / 15, child: Image.asset("assets/icon/exit-icon.png", color: Colors.red)),
                             SizedBox(width: W / 40),
                             Text("Log Out".tr(), style: kMontserrat16.copyWith(color: Colors.red)),
                           ],

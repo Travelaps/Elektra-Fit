@@ -46,7 +46,10 @@ class _MyProgramingState extends State<MyPrograming> {
                   if (service.spaGroupActivityMember$.value == null) {
                     return Center(child: CircularProgressIndicator());
                   } else if (service.spaGroupActivityMember$.value!.isEmpty) {
-                    return Center(child: Text("No found My Activity"));
+                    return Center(
+                        child: Text(
+                      "You do not have any activity records yet.".tr(),
+                    ));
                   }
                   return Container(
                     height: H * 0.9,
@@ -104,7 +107,7 @@ class _MyProgramingState extends State<MyPrograming> {
                                               children: [
                                                 Image.asset("assets/icon/clock.png", fit: BoxFit.cover, height: W / 20, width: W / 20, color: Colors.white),
                                                 SizedBox(width: W / 40),
-                                                Text("${item.duration} min", style: kMontserrat18.copyWith(color: Colors.white)),
+                                                Text("${item.duration} min".tr(), style: kMontserrat18.copyWith(color: Colors.white)),
                                               ],
                                             ),
                                         ],

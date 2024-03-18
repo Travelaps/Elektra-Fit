@@ -33,7 +33,7 @@ class _MeasurementsState extends State<Measurements> {
                 if (service.spaMemberBody$.value == null) {
                   return Center(child: CircularProgressIndicator(color: config.primaryColor));
                 } else if (service.spaMemberBody$.value!.isEmpty) {
-                  return const Center(child: Text(" no found measurements"));
+                  return Center(child: Text("User has no measurement records", style: kProxima17));
                 }
                 return SizedBox(
                     height: H * 0.86,
@@ -53,16 +53,16 @@ class _MeasurementsState extends State<Measurements> {
                             children: [
                               IntrinsicHeight(
                                   child: Row(children: [
-                                if (item?.height != null)
+                                if (item?.height != null && item?.height != 0.0)
                                   Expanded(
                                       child: Column(
-                                    children: [Text("Height", style: kProxima17), Text("${item?.height} cm", style: kProxima17)],
+                                    children: [Text("Height".tr(), style: kProxima17), Text("${item?.height} cm", style: kProxima17)],
                                   )),
                                 if (item?.weight != null) VerticalDivider(),
-                                if (item?.weight != null)
+                                if (item?.weight != null && item?.weight != 0.0)
                                   Expanded(
                                       child: Column(
-                                    children: [Text("Weight", style: kProxima17), Text("${item?.weight} kg", style: kProxima17)],
+                                    children: [Text("Weight".tr(), style: kProxima17), Text("${item?.weight} kg", style: kProxima17)],
                                   ))
                               ])),
                               if (item?.totalBodyWater != null) Divider(),

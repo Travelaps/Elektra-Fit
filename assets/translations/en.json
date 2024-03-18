@@ -1,4 +1,9 @@
 {
+  "There are currently no group activities available.": "There are currently no group activities available.",
+  "You do not have any activity records yet.": "You do not have any activity records yet.",
+  "Programs & Activities": "Programs & Activities",
+  "My Programs": "My Programs",
+  "My Activity": "My Activity",
   "Height": "Height",
   "Weight": "Weight",
   "Age": "Age",
@@ -8,6 +13,8 @@
   "Calf": "Calf",
   "Waist": "Waist",
   "Arm": "Arm",
+  "Last Updated Date": "Last Updated Date",
+  "User has no measurement records": "User has no measurement records",
   "Total Body Water": "Total Body Water",
   "Total Muscle Mass": "Total Muscle Mass",
   "Total Body Fat Mass": "Total Body Fat Mass",

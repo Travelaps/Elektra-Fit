@@ -42,7 +42,7 @@ class _HomeState extends State<Home> {
                 return Center(child: CircularProgressIndicator());
               } else if (homeService.spaGroupActivity$.value!.isEmpty) {
                 return Center(
-                  child: Text("no found group activity"),
+                  child: Text("There are currently no group activities available.".tr()),
                 );
               }
               final today = DateTime.now();
@@ -146,13 +146,7 @@ class _HomeState extends State<Home> {
                                         padding: paddingAll10,
                                         child: Row(
                                           children: [
-                                            Image.asset(
-                                              "assets/icon/clock.png",
-                                              width: W / 20,
-                                              height: W / 20,
-                                              fit: BoxFit.cover,
-                                              color: Colors.white,
-                                            ),
+                                            Image.asset("assets/icon/clock.png", width: W / 20, height: W / 20, fit: BoxFit.cover, color: Colors.white),
                                             SizedBox(width: W / 40),
                                             Text("${item?.duration ?? ""} min", style: kMontserrat17.copyWith(color: Colors.white))
                                           ],
@@ -249,27 +243,3 @@ class _HomeState extends State<Home> {
             }));
   }
 }
-
-// String getLevelDescription(int? level) {
-//   String levelName = '';
-//   switch (level) {
-//     case 1:
-//       levelName = 'Beginner';
-//       break;
-//     case 2:
-//       levelName = 'Intermediate';
-//       break;
-//     case 3:
-//       levelName = 'Advanced';
-//       break;
-//     case 4:
-//       levelName = 'Expert';
-//       break;
-//     case 5:
-//       levelName = 'Professional';
-//       break;
-//     default:
-//       levelName = 'Unknown Level';
-//   }
-//   return levelName;
-// }
