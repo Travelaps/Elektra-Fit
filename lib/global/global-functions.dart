@@ -17,3 +17,53 @@ Future<T> showAnimation<T>(BuildContext context, Future<T> func) async {
     },
   );
 }
+
+String getLevelDescription(int? level) {
+  String levelName = '';
+  switch (level) {
+    case 1:
+      levelName = 'Beginner';
+      break;
+    case 2:
+      levelName = 'Intermediate';
+      break;
+    case 3:
+      levelName = 'Advanced';
+      break;
+    case 4:
+      levelName = 'Expert';
+      break;
+    case 5:
+      levelName = 'Professional';
+      break;
+    default:
+      levelName = 'Unknown Level';
+  }
+  return levelName;
+}
+
+Color getLevelDescriptionColor(int? level) {
+  Color color = Colors.black;
+
+  switch (level) {
+    case 1:
+      color = Colors.green;
+      break;
+    case 2:
+      color = Colors.orange;
+      break;
+    case 3:
+      color = Colors.yellow;
+      break;
+    case 4:
+      color = Colors.deepPurple;
+      break;
+    case 5:
+      color = Colors.blue;
+      break;
+    default:
+      color = Colors.grey;
+  }
+
+  return color;
+}

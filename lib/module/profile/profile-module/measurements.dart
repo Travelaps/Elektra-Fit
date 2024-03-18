@@ -43,24 +43,22 @@ class _MeasurementsState extends State<Measurements> {
                       itemBuilder: (context, index) {
                         var item = service.spaMemberBody$.value?[index];
 
-                        return Column(
-                          children: [
-                            Wrap(children: [
-                              if (item!.weight != null) itemMeasurement(item.age.toString(), "Age"),
-                              if (item.weight != null) itemMeasurement("${item.height.toString()} cm", "Height"),
-                              if (item.weight != null) itemMeasurement("${item.weight.toString()} kg", "Weight"),
-                              if (item.arm != null) itemMeasurement("${item.arm.toString()} cm ", "Arm"),
-                              if (item.calf != null) itemMeasurement("${item.calf.toString()} cm", "Calf"),
-                              if (item.hips != null) itemMeasurement("${item.hips.toString()} cm", "Hips"),
-                              if (item.thigh != null) itemMeasurement("${item.thigh.toString()} cm", "Thigh"),
-                              if (item.totalBodyFatMass != null) itemMeasurement("${item.totalBodyFatMass.toString()} kg", "Total Body Fat Mass"),
-                              if (item.totalBodyWater != null) itemMeasurement("${item.totalBodyWater.toString()} L", "Total Body Water"),
-                              if (item.totalMuscleMass != null) itemMeasurement("${item.totalMuscleMass.toString()} kg", "Total Muscle Mass"),
-                              if (item.lastUpdateDate != null) itemMeasurement(DateFormat("dd MMM").format(item.lastUpdateDate!), "Last Update Date"),
-                            ]),
-                            Divider()
-                          ],
-                        );
+                        return Column(children: [
+                          Wrap(children: [
+                            if (item!.weight != null) itemMeasurement(item.age.toString(), "Age"),
+                            if (item.weight != null) itemMeasurement("${item.height.toString()} cm", "Height"),
+                            if (item.weight != null) itemMeasurement("${item.weight.toString()} kg", "Weight"),
+                            if (item.arm != null) itemMeasurement("${item.arm.toString()} cm ", "Arm"),
+                            if (item.calf != null) itemMeasurement("${item.calf.toString()} cm", "Calf"),
+                            if (item.hips != null) itemMeasurement("${item.hips.toString()} cm", "Hips"),
+                            if (item.thigh != null) itemMeasurement("${item.thigh.toString()} cm", "Thigh"),
+                            if (item.totalBodyFatMass != null) itemMeasurement("${item.totalBodyFatMass.toString()} kg", "Total Body Fat Mass"),
+                            if (item.totalBodyWater != null) itemMeasurement("${item.totalBodyWater.toString()} L", "Total Body Water"),
+                            if (item.totalMuscleMass != null) itemMeasurement("${item.totalMuscleMass.toString()} kg", "Total Muscle Mass"),
+                            if (item.lastUpdateDate != null) itemMeasurement(DateFormat("dd MMM").format(item.lastUpdateDate!), "Last Update Date"),
+                          ]),
+                          Divider()
+                        ]);
                       },
                     ));
               })),
@@ -74,10 +72,7 @@ class _MeasurementsState extends State<Measurements> {
       decoration: BoxDecoration(
           color: Colors.white, borderRadius: BorderRadius.circular(10), boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.6), spreadRadius: 3, blurRadius: 10, offset: Offset(0, 3))]),
       child: Column(
-        children: [
-          Text(text, style: kMontserrat18),
-          Text(item!, style: kProxima17),
-        ],
+        children: [Text(text, style: kMontserrat18), Text(item!, style: kProxima17)],
       ),
     );
   }

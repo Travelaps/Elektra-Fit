@@ -18,7 +18,15 @@ class _SpaGroupActivityDetailState extends State<SpaGroupActivityDetail> {
     final double H = MediaQuery.of(context).size.height;
     final double W = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: AppBar(title: Text(widget.item.name)),
+      // appBar: AppBar(title: Text(widget.item.name)),
+      floatingActionButton: InkWell(
+        onTap: () {
+          Navigator.pop(context);
+        },
+        child: Container(padding: paddingAll5, color: Colors.black.withOpacity(0.4), child: Icon(Icons.arrow_back_ios, color: Colors.white)),
+      ),
+
+      floatingActionButtonLocation: FloatingActionButtonLocation.miniStartTop,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -27,84 +35,54 @@ class _SpaGroupActivityDetailState extends State<SpaGroupActivityDetail> {
               imageUrl: widget.item.photoUrl,
               fit: BoxFit.cover,
               width: W,
-              height: W / 1.7,
+              height: W / 1.2,
               placeholder: (context, url) => Center(child: CircularProgressIndicator(color: config.primaryColor)),
               errorWidget: (context, url, error) => const Icon(Icons.error),
             ),
             Container(
               padding: paddingAll10,
-              margin: marginAll10,
+              margin: marginAll5,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.black87.withOpacity(0.1),
+              ),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(
-                    children: [
-                      // Image.asset("assets/icon/clock.png", fit: BoxFit.cover, height: W / 20, width: W / 20),
-                      SizedBox(width: W / 60),
-                      Text("${widget.item.duration} Min".tr(), style: kMontserrat18),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      // Image.asset("assets/icon/clock.png", fit: BoxFit.cover, height: W / 20, width: W / 20),
-                      SizedBox(width: W / 60),
-                      Text("${widget.item.duration} Min".tr(), style: kMontserrat18),
-                    ],
-                  ),
+                  Icon(Icons.star_outlined, color: getLevelDescriptionColor(widget.item.level)),
+                  SizedBox(width: W / 20),
+                  Text(getLevelDescription(widget.item.level).tr(), style: kMontserrat18),
                 ],
               ),
             ),
             Container(
               padding: paddingAll10,
               margin: marginAll5,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Row(
+              decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10)),
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Expanded(
-                    child: Column(
-                      children: [
-                        Text("Level", style: kProxima17),
-                        Container(
-                            padding: paddingAll10,
-                            margin: marginAll5,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Colors.black87.withOpacity(0.2),
-                            ),
-                            child: Text(getLevelDescription(widget.item.level).tr(), style: kMontserrat18)),
-                      ],
-                    ),
+                  Row(
+                    children: [
+                      Text("Category".tr(), style: kProxima17),
+                      Container(
+                          padding: paddingAll10,
+                          margin: marginAll5,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.black87.withOpacity(0.2),
+                          ),
+                          child: Text(widget.item.categoriname.tr(), style: kMontserrat18)),
+                    ],
                   ),
-                  Expanded(
-                    child: Column(
-                      children: [
-                        Text("Category".tr(), style: kProxima17),
-                        Container(
-                            padding: paddingAll10,
-                            margin: marginAll5,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Colors.black87.withOpacity(0.2),
-                            ),
-                            child: Text(widget.item.categoriname.tr(), style: kMontserrat18)),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    child: Column(
-                      children: [
-                        Text("Place".tr(), style: kProxima17),
-                        Container(
-                            padding: paddingAll10,
-                            margin: marginAll5,
-                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Colors.black87.withOpacity(0.2)),
-                            child: Text(widget.item.placename.tr(), style: kMontserrat18)),
-                      ],
-                    ),
+                  Row(
+                    children: [
+                      Text("Place".tr(), style: kProxima17),
+                      Container(
+                          padding: paddingAll10,
+                          margin: marginAll5,
+                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Colors.black87.withOpacity(0.2)),
+                          child: Text(widget.item.placename.tr(), style: kMontserrat18)),
+                    ],
                   ),
                 ],
               ),
@@ -124,28 +102,4 @@ class _SpaGroupActivityDetailState extends State<SpaGroupActivityDetail> {
       ),
     );
   }
-}
-
-String getLevelDescription(int? level) {
-  String levelName = '';
-  switch (level) {
-    case 1:
-      levelName = 'Beginner';
-      break;
-    case 2:
-      levelName = 'Intermediate';
-      break;
-    case 3:
-      levelName = 'Advanced';
-      break;
-    case 4:
-      levelName = 'Expert';
-      break;
-    case 5:
-      levelName = 'Professional';
-      break;
-    default:
-      levelName = 'Unknown Level';
-  }
-  return levelName;
 }

@@ -1,3 +1,4 @@
+import 'package:elektra_fit/module/home/spa-group-activity-detail/spa-group-activity-detail.dart';
 import 'package:elektra_fit/widget/Cloading.dart';
 import 'package:flutter/material.dart';
 
@@ -138,6 +139,41 @@ class _HomeState extends State<Home> {
                                       ),
                                     ),
                                   ),
+                                  Positioned(
+                                      right: 0,
+                                      bottom: 0,
+                                      child: Container(
+                                        padding: paddingAll10,
+                                        child: Row(
+                                          children: [
+                                            Image.asset(
+                                              "assets/icon/clock.png",
+                                              width: W / 20,
+                                              height: W / 20,
+                                              fit: BoxFit.cover,
+                                              color: Colors.white,
+                                            ),
+                                            SizedBox(width: W / 40),
+                                            Text("${item?.duration ?? ""} min", style: kMontserrat17.copyWith(color: Colors.white))
+                                          ],
+                                        ),
+                                      )),
+                                  Positioned(
+                                      left: 0,
+                                      top: 0,
+                                      child: Container(
+                                        padding: paddingAll10,
+                                        child: Row(
+                                          children: [
+                                            Icon(
+                                              Icons.star_outlined,
+                                              color: getLevelDescriptionColor(item?.level),
+                                            ),
+                                            SizedBox(width: W / 40),
+                                            Text(getLevelDescription(item?.level), style: kMontserrat17.copyWith(color: Colors.white))
+                                          ],
+                                        ),
+                                      ))
                                 ],
                               ),
                             ),
@@ -216,3 +252,27 @@ class _HomeState extends State<Home> {
             }));
   }
 }
+
+// String getLevelDescription(int? level) {
+//   String levelName = '';
+//   switch (level) {
+//     case 1:
+//       levelName = 'Beginner';
+//       break;
+//     case 2:
+//       levelName = 'Intermediate';
+//       break;
+//     case 3:
+//       levelName = 'Advanced';
+//       break;
+//     case 4:
+//       levelName = 'Expert';
+//       break;
+//     case 5:
+//       levelName = 'Professional';
+//       break;
+//     default:
+//       levelName = 'Unknown Level';
+//   }
+//   return levelName;
+// }
