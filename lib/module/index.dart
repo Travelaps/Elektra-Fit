@@ -4,6 +4,7 @@ export 'home/home-service.dart';
 export 'home/home.dart';
 export 'login/login-service.dart';
 export 'login/login.dart';
+export 'my-programing/my-programing-service.dart';
 export 'my-programing/my-programing.dart';
 export 'my-programing/sport-detail/sport-details.dart';
 export 'profile/profile-module/measurements.dart';

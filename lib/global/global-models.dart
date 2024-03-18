@@ -217,7 +217,7 @@ class SpaGroupActivityMemberListModel {
   int id;
   int hotelid;
   int groupactivityTimetableid;
-  int memberid;
+  int? memberid;
   DateTime? startTime;
   int? groupactivityid;
   String? name;
@@ -236,7 +236,7 @@ class SpaGroupActivityMemberListModel {
   String? trainername;
   String? placename;
   String? categoriname;
-  String membername;
+  String? membername;
 
   SpaGroupActivityMemberListModel({
     required this.id,
@@ -337,9 +337,9 @@ class SpaMemberBodyAnalysis {
   double? bodyMassIndex;
   bool? isDeleted;
   int? creatorId;
-  DateTime? creationDate; // Değişiklik yapıldı
+  DateTime? creationDate;
   dynamic updateUser;
-  DateTime? lastUpdateDate; // Değişiklik yapıldı
+  DateTime? lastUpdateDate;
   String? fullName;
 
   SpaMemberBodyAnalysis({

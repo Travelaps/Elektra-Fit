@@ -10,6 +10,7 @@ Future<void> main() async {
   GetIt.I.registerSingleton<LoginService>(LoginService());
   GetIt.I.registerSingleton<HomeService>(HomeService());
   GetIt.I.registerSingleton<ProfileService>(ProfileService());
+  GetIt.I.registerSingleton<MyProgramingService>(MyProgramingService());
 
   runApp(
     EasyLocalization(supportedLocales: [Locale('tr'), Locale('en')], path: 'assets/translations', fallbackLocale: const Locale('en'), child: const MyApp()),

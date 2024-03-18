@@ -165,10 +165,7 @@ class _HomeState extends State<Home> {
                                         padding: paddingAll10,
                                         child: Row(
                                           children: [
-                                            Icon(
-                                              Icons.star_outlined,
-                                              color: getLevelDescriptionColor(item?.level),
-                                            ),
+                                            Icon(Icons.star_outlined, color: getLevelDescriptionColor(item?.level)),
                                             SizedBox(width: W / 40),
                                             Text(getLevelDescription(item?.level), style: kMontserrat17.copyWith(color: Colors.white))
                                           ],
