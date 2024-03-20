@@ -390,11 +390,201 @@ class SpaMemberBodyAnalysis {
       isDeleted: json['ISDELETED'],
       creatorId: json['CREATORID'],
       creationDate: DateTime.parse(json['CREATION_DATE']),
-      // Değişiklik yapıldı
       updateUser: json['UPDATEUSER'].toString(),
       lastUpdateDate: DateTime.parse(json['LASTUPDATE_DATE']),
-      // Değişiklik yapıldı
       fullName: json['FULLNAME'].toString(),
     );
   }
+}
+
+class ReservationModel {
+  int id;
+  int hotelid;
+  int? portalid;
+  int? checkid;
+  int depid;
+  DateTime creationdate;
+  dynamic resstart;
+  dynamic resend;
+  int serviceid;
+  double quantity;
+  double mctotal;
+  int currencyid;
+  double ctotal;
+  bool paid;
+  dynamic staffid;
+  dynamic placeid;
+  dynamic resnameid;
+  int poscardid;
+  dynamic notes;
+  int statusid;
+  int? colorid;
+  dynamic dayoffreasonid;
+  int? packageid;
+  dynamic spaInhouselistid;
+  String depname;
+  String servicename;
+  int producttypeid;
+  String currencycode;
+  dynamic staffname;
+  dynamic placename;
+  dynamic hotelGuestname;
+  String poscardGuestname;
+  String statusname;
+  String? colorname;
+  dynamic dayoffreason;
+  dynamic hotelCheckin;
+  dynamic hotelCheckout;
+  dynamic hotelRoomno;
+  String creatorname;
+  int cancel;
+  String guestname;
+  double netCtotal;
+  double? netMctotal;
+  double discountpercent;
+  dynamic resnameHotelid;
+
+  ReservationModel({
+    required this.id,
+    required this.hotelid,
+    required this.portalid,
+    required this.checkid,
+    required this.depid,
+    required this.creationdate,
+    required this.resstart,
+    required this.resend,
+    required this.serviceid,
+    required this.quantity,
+    required this.mctotal,
+    required this.currencyid,
+    required this.ctotal,
+    required this.paid,
+    required this.staffid,
+    required this.placeid,
+    required this.resnameid,
+    required this.poscardid,
+    required this.notes,
+    required this.statusid,
+    required this.colorid,
+    required this.dayoffreasonid,
+    required this.packageid,
+    required this.spaInhouselistid,
+    required this.depname,
+    required this.servicename,
+    required this.producttypeid,
+    required this.currencycode,
+    required this.staffname,
+    required this.placename,
+    required this.hotelGuestname,
+    required this.poscardGuestname,
+    required this.statusname,
+    required this.colorname,
+    required this.dayoffreason,
+    required this.hotelCheckin,
+    required this.hotelCheckout,
+    required this.hotelRoomno,
+    required this.creatorname,
+    required this.cancel,
+    required this.guestname,
+    required this.netCtotal,
+    required this.netMctotal,
+    required this.discountpercent,
+    required this.resnameHotelid,
+  });
+
+  factory ReservationModel.fromJson(Map<String, dynamic> json) => ReservationModel(
+        id: json["ID"],
+        hotelid: json["HOTELID"],
+        portalid: json["PORTALID"],
+        checkid: json["CHECKID"],
+        depid: json["DEPID"],
+        creationdate: DateTime.parse(json["CREATIONDATE"]),
+        resstart: json["RESSTART"],
+        resend: json["RESEND"],
+        serviceid: json["SERVICEID"],
+        quantity: json["QUANTITY"],
+        mctotal: json["MCTOTAL"]?.toDouble(),
+        currencyid: json["CURRENCYID"],
+        ctotal: json["CTOTAL"],
+        paid: json["PAID"],
+        staffid: json["STAFFID"],
+        placeid: json["PLACEID"],
+        resnameid: json["RESNAMEID"],
+        poscardid: json["POSCARDID"],
+        notes: json["NOTES"],
+        statusid: json["STATUSID"],
+        colorid: json["COLORID"],
+        dayoffreasonid: json["DAYOFFREASONID"],
+        packageid: json["PACKAGEID"],
+        spaInhouselistid: json["SPA_INHOUSELISTID"],
+        depname: json["DEPNAME"],
+        servicename: json["SERVICENAME"],
+        producttypeid: json["PRODUCTTYPEID"],
+        currencycode: json["CURRENCYCODE"],
+        staffname: json["STAFFNAME"],
+        placename: json["PLACENAME"],
+        hotelGuestname: json["HOTEL_GUESTNAME"],
+        poscardGuestname: json["POSCARD_GUESTNAME"],
+        statusname: json["STATUSNAME"],
+        colorname: json["COLORNAME"],
+        dayoffreason: json["DAYOFFREASON"],
+        hotelCheckin: json["HOTEL_CHECKIN"],
+        hotelCheckout: json["HOTEL_CHECKOUT"],
+        hotelRoomno: json["HOTEL_ROOMNO"],
+        creatorname: json["CREATORNAME"],
+        cancel: json["CANCEL"],
+        guestname: json["GUESTNAME"],
+        netCtotal: json["NET_CTOTAL"],
+        netMctotal: json["NET_MCTOTAL"]?.toDouble(),
+        discountpercent: json["DISCOUNTPERCENT"],
+        resnameHotelid: json["RESNAME_HOTELID"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "ID": id,
+        "HOTELID": hotelid,
+        "PORTALID": portalid,
+        "CHECKID": checkid,
+        "DEPID": depid,
+        "CREATIONDATE": creationdate.toIso8601String(),
+        "RESSTART": resstart,
+        "RESEND": resend,
+        "SERVICEID": serviceid,
+        "QUANTITY": quantity,
+        "MCTOTAL": mctotal,
+        "CURRENCYID": currencyid,
+        "CTOTAL": ctotal,
+        "PAID": paid,
+        "STAFFID": staffid,
+        "PLACEID": placeid,
+        "RESNAMEID": resnameid,
+        "POSCARDID": poscardid,
+        "NOTES": notes,
+        "STATUSID": statusid,
+        "COLORID": colorid,
+        "DAYOFFREASONID": dayoffreasonid,
+        "PACKAGEID": packageid,
+        "SPA_INHOUSELISTID": spaInhouselistid,
+        "DEPNAME": depname,
+        "SERVICENAME": servicename,
+        "PRODUCTTYPEID": producttypeid,
+        "CURRENCYCODE": currencycode,
+        "STAFFNAME": staffname,
+        "PLACENAME": placename,
+        "HOTEL_GUESTNAME": hotelGuestname,
+        "POSCARD_GUESTNAME": poscardGuestname,
+        "STATUSNAME": statusname,
+        "COLORNAME": colorname,
+        "DAYOFFREASON": dayoffreason,
+        "HOTEL_CHECKIN": hotelCheckin,
+        "HOTEL_CHECKOUT": hotelCheckout,
+        "HOTEL_ROOMNO": hotelRoomno,
+        "CREATORNAME": creatorname,
+        "CANCEL": cancel,
+        "GUESTNAME": guestname,
+        "NET_CTOTAL": netCtotal,
+        "NET_MCTOTAL": netMctotal,
+        "DISCOUNTPERCENT": discountpercent,
+        "RESNAME_HOTELID": resnameHotelid,
+      };
 }

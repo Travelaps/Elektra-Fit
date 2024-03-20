@@ -1,4 +1,6 @@
+import 'package:elektra_fit/widget/index.dart';
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../../global/global-models.dart';
 import '../../../global/index.dart';
@@ -13,15 +15,19 @@ class SpaGroupActivityDetail extends StatefulWidget {
 }
 
 class _SpaGroupActivityDetailState extends State<SpaGroupActivityDetail> {
+  final homeService = GetIt.I<HomeService>();
+  var uuid = Uuid();
+
   @override
   Widget build(BuildContext context) {
     final double H = MediaQuery.of(context).size.height;
     final double W = MediaQuery.of(context).size.width;
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+              child: Column(children: [
             Stack(
               children: [
                 CachedNetworkImage(
@@ -40,6 +46,7 @@ class _SpaGroupActivityDetailState extends State<SpaGroupActivityDetail> {
                         Navigator.pop(context);
                       },
                       child: Container(
+                        alignment: Alignment.centerRight,
                         padding: paddingAll5,
                         decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.black.withOpacity(0.3)),
                         child: Icon(Icons.arrow_back_ios, color: Colors.white, size: W / 18),
@@ -57,68 +64,71 @@ class _SpaGroupActivityDetailState extends State<SpaGroupActivityDetail> {
               ],
             ),
             Container(
-              padding: paddingAll10,
-              margin: marginAll5,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: config.primaryColor.withOpacity(0.9),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
+                padding: paddingAll10,
+                margin: marginAll5,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: config.primaryColor,
+                ),
+                child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                   Row(
                     children: [
                       Icon(Icons.star_outlined, color: getLevelDescriptionColor(widget.item.level)),
-                      SizedBox(width: W / 20),
+                      SizedBox(width: W / 40),
                       Text(getLevelDescription(widget.item.level).tr(), style: kMontserrat18.copyWith(color: Colors.white)),
                     ],
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Image.asset("assets/icon/clock.png", fit: BoxFit.cover, height: W / 20, width: W / 20, color: Colors.white),
-                      SizedBox(width: W / 40),
-                      Text("${widget.item.duration} min".tr(), style: kProxima17.copyWith(color: Colors.white)),
-                    ],
-                  )
-                ],
-              ),
-            ),
+                  Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+                    Image.asset("assets/icon/clock.png", fit: BoxFit.cover, height: W / 20, width: W / 20, color: Colors.white),
+                    SizedBox(width: W / 40),
+                    Text("${widget.item.duration} min".tr(), style: kMontserrat18.copyWith(color: Colors.white)),
+                  ])
+                ])),
+            Padding(padding: paddingAll10, child: Text(widget.item.notes, style: kProxima17)),
             Container(
-              padding: paddingAll10,
-              margin: marginAll5,
-              decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: config.primaryColor.withOpacity(0.9)),
-              child: IntrinsicHeight(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: Column(
-                        children: [Text("Category", style: kMontserrat16.copyWith(color: Colors.white)), Text(widget.item.categoriname, style: kProxima17.copyWith(color: Colors.white))],
-                      ),
-                    ),
-                    const VerticalDivider(indent: 4, width: 2),
-                    Expanded(
-                      child: Column(
-                        children: [Text("Place", style: kMontserrat16.copyWith(color: Colors.white)), Text(widget.item.placename, style: kProxima17.copyWith(color: Colors.white))],
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ),
-            Padding(padding: paddingAll5, child: Text(widget.item.notes, style: kProxima17)),
-            Row(
-              children: [
-                Image.asset("assets/icon/teacher.png", fit: BoxFit.cover, height: W / 20, width: W / 20, color: config.primaryColor),
-                SizedBox(width: W / 60),
-                Text("Professional Trainer".tr(), style: kMontserrat18),
-              ],
-            ),
-            Padding(padding: const EdgeInsets.only(left: 25), child: Text(widget.item.trainername, style: kProxima17)),
-            // Text("${widget.item.capacity} Adult max".tr(), style: kProxima17),
-          ],
-        ),
+                padding: paddingAll10,
+                margin: marginAll5,
+                child: Column(children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [Text("Professional Trainer".tr(), style: kProxima17), Text(widget.item.trainername, style: kProxima17)],
+                  ),
+                  const Divider(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [Text("Activity Start Date", style: kProxima17), Text("${DateFormat("dd MMM HH:mm").format(widget.item.startTime)}", style: kProxima17)],
+                  ),
+                  const Divider(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [Text("Place", style: kProxima17), Text(widget.item.placename, style: kProxima17)],
+                  ),
+                  const Divider(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [Text("Category", style: kProxima17), Text(widget.item.categoriname, style: kProxima17)],
+                  )
+                ]))
+          ])),
+          Padding(
+            padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom, left: 10, right: 10),
+            child: CButton(
+                title: "Join to Activity".tr(),
+                func: () {
+                  var uuidString = uuid.v4();
+                  homeService.spaGroupActivityTimetableMemberInsert(widget.item.groupactivityid, uuidString).then((value) {
+                    if (value.result) {
+                      print(value.message);
+                      kShowBanner(BannerType.SUCCESS, value.message, context);
+                    } else {
+                      print(value.message);
+                      kShowBanner(BannerType.ERROR, value.message.tr(), context);
+                    }
+                  });
+                },
+                width: W),
+          )
+        ],
       ),
     );
   }

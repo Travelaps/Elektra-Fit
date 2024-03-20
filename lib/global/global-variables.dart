@@ -8,6 +8,7 @@ BehaviorSubject<bool> isLoading$ = BehaviorSubject.seeded(false);
 BehaviorSubject<List<MemberModel>?> member$ = BehaviorSubject.seeded(null);
 
 final config = FitConfig.fromJson(fitConfig);
+final url = Uri.parse('https://4001.hoteladvisor.net');
 String? selectedlang;
 int? hotelId;
 

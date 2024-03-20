@@ -22,7 +22,6 @@ class _QrState extends State<Qr> {
   void _onQRViewCreated(QRViewController controller) {
     this.controller = controller;
     bool isQRCodeScanned = false;
-
     controller.scannedDataStream.listen((scanData) {
       if (!isQRCodeScanned && placedID$.value.isEmpty) {
         isQRCodeScanned = true;

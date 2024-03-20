@@ -1,17 +1,8 @@
-import 'package:easy_localization/easy_localization.dart';
-import 'package:elektra_fit/global/enum/banner-enum.dart';
-import 'package:elektra_fit/global/global-variables.dart';
-import 'package:elektra_fit/global/helper.dart';
-import 'package:elektra_fit/widget/CButton.dart';
-import 'package:elektra_fit/widget/CTextFromField.dart';
-import 'package:elektra_fit/widget/Cloading.dart';
-import 'package:elektra_fit/widget/tabBar.dart';
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'login-service.dart';
+import '../../global/index.dart';
+import '../../widget/index.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
