@@ -1,8 +1,7 @@
-import 'package:elektra_fit/widget/Cloading.dart';
 import 'package:flutter/material.dart';
 
-import '../../global/global-models.dart';
 import '../../global/index.dart';
+import '../../widget/index.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -21,7 +20,14 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     homeService.spaGroupActivityTimetableList();
+    homeService.spaGroupActivityTimetableMembersList();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _selectedDate$.close();
+    super.dispose();
   }
 
   @override
@@ -208,4 +214,54 @@ class _HomeState extends State<Home> {
                   }));
         });
   }
+
+  String getLevelDescription(int? level) {
+    String levelName = '';
+    switch (level) {
+      case 1:
+        levelName = 'Beginner Level';
+        break;
+      case 2:
+        levelName = 'Intermediate Level';
+        break;
+      case 3:
+        levelName = 'Advanced Level';
+        break;
+      case 4:
+        levelName = 'Expert Level';
+        break;
+      case 5:
+        levelName = 'Professional Level';
+        break;
+      default:
+        levelName = 'Unknown Level';
+    }
+    return levelName;
+  }
+//
+// void getGroupActivityByDate(DateTime selectedDate) async {
+//   // Verileri alma isteği yapılıyor
+//   var response = await homeService.spaGroupActivityTimetableList();
+//
+//   // Başarılı bir yanıt alındığında işlemler yapılıyor
+//   if (response.result) {
+//     // Verileri gruplamak için bir harita oluşturuluyor
+//     Map<DateTime, List<SpaGroupActivityModel>> groupedData = {};
+//
+//     for (var item in data) {
+//       DateTime startTime = item.startTime;
+//
+//       if (!groupedData.containsKey(startTime)) {
+//         groupedData[startTime] = [];
+//       }
+//       groupedData[startTime]?.add(item);
+//     }
+//
+//     // Seçilen tarihteki verileri güncelle
+//     homeService.spaGroupActivity$.add(groupedData[selectedDate]);
+//   } else {
+//     // Yanıt başarısızsa hata mesajını yazdır
+//     print(response.message);
+//   }
+// }
 }

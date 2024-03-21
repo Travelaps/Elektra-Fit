@@ -198,7 +198,7 @@ class SpaGroupActivityModel {
       active: json["ACTIVE"],
       photoUrl: json["PHOTOURL"],
       notes: json["NOTES"] ?? "",
-      level: json["LEVEL"],
+      level: json["LEVEL"] ?? 0,
       categoriid: json["CATEGORIID"],
       duration: json["DURATION"],
       trainerid: json["TRAINERID"],

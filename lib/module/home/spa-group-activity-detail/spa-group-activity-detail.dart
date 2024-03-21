@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../global/global-models.dart';
-import '../../../global/index.dart';
 
 class SpaGroupActivityDetail extends StatefulWidget {
   const SpaGroupActivityDetail({super.key, required this.item});
