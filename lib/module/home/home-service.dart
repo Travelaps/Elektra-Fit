@@ -41,19 +41,14 @@ class HomeService {
           body: json.encode({
             "Action": "ApiSequence",
             "Object": "spaGroupActivityTimetableMemberInsert",
-            "Parameters": {
-              "UID": uuid,
-              "TIMETABLEID": timeTableId,
-              "MEMBERID": member$.value?.first.profile.guestid,
-              "HOTELID": hotelId,
-            }
+            "Parameters": {"UID": uuid, "TIMETABLEID": timeTableId, "MEMBERID": member$.value?.first.profile.guestid, "HOTELID": hotelId}
           }));
       var jsonData = json.decode(response.body);
       if (jsonData["Success"] == 1) {
         return RequestResponse(message: jsonData["Message"], result: true);
       } else if (jsonData["Success"] == 0) {
         return RequestResponse(message: jsonData["Message"], result: false);
-      } //28012 22023
+      }
     } catch (e) {
       print(e);
       return RequestResponse(message: e.toString(), result: false);
