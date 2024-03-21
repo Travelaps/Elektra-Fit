@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../global/global-models.dart';
 import '../../global/index.dart';
 import '../../widget/index.dart';
 
@@ -20,13 +21,13 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     homeService.spaGroupActivityTimetableList();
-    homeService.spaGroupActivityTimetableMembersList();
+    // homeService.spaGroupActivityTimetableMembersList();
     super.initState();
   }
 
   @override
   void dispose() {
-    _selectedDate$.close();
+    // _selectedDate$.close();
     super.dispose();
   }
 
