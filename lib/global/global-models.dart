@@ -8,7 +8,7 @@ class RequestResponse {
 class MemberModel {
   Profile profile;
   List<Program> program;
-  dynamic membership;
+  List<Membership> membership;
 
   MemberModel({
     required this.profile,
@@ -19,13 +19,81 @@ class MemberModel {
   factory MemberModel.fromJson(Map<String, dynamic> json) => MemberModel(
         profile: Profile.fromJson(json["PROFILE"]),
         program: List<Program>.from(json["PROGRAM"].map((x) => Program.fromJson(x))),
-        membership: json["MEMBERSHIP"],
+        membership: List<Membership>.from(json["MEMBERSHIP"].map((x) => Membership.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
         "PROFILE": profile.toJson(),
         "PROGRAM": List<dynamic>.from(program.map((x) => x.toJson())),
-        "MEMBERSHIP": membership,
+        "MEMBERSHIP": List<dynamic>.from(membership.map((x) => x.toJson())),
+      };
+}
+
+class Membership {
+  DateTime startdate;
+  DateTime lastdate;
+  DateTime actualenddate;
+  double price;
+  DateTime contractdate;
+  dynamic notes;
+  String membershiptype;
+  String currency;
+  String salespersonnel;
+  String membername;
+  dynamic membercardno;
+  String membernames;
+  int extraday;
+  int frozenday;
+
+  Membership({
+    required this.startdate,
+    required this.lastdate,
+    required this.actualenddate,
+    required this.price,
+    required this.contractdate,
+    required this.notes,
+    required this.membershiptype,
+    required this.currency,
+    required this.salespersonnel,
+    required this.membername,
+    required this.membercardno,
+    required this.membernames,
+    required this.extraday,
+    required this.frozenday,
+  });
+
+  factory Membership.fromJson(Map<String, dynamic> json) => Membership(
+        startdate: DateTime.parse(json["STARTDATE"]),
+        lastdate: DateTime.parse(json["LASTDATE"]),
+        actualenddate: DateTime.parse(json["ACTUALENDDATE"]),
+        price: json["PRICE"],
+        contractdate: DateTime.parse(json["CONTRACTDATE"]),
+        notes: json["NOTES"],
+        membershiptype: json["MEMBERSHIPTYPE"],
+        currency: json["CURRENCY"],
+        salespersonnel: json["SALESPERSONNEL"],
+        membername: json["MEMBERNAME"],
+        membercardno: json["MEMBERCARDNO"],
+        membernames: json["MEMBERNAMES"],
+        extraday: json["EXTRADAY"],
+        frozenday: json["FROZENDAY"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "STARTDATE": startdate.toIso8601String(),
+        "LASTDATE": lastdate.toIso8601String(),
+        "ACTUALENDDATE": actualenddate.toIso8601String(),
+        "PRICE": price,
+        "CONTRACTDATE": contractdate.toIso8601String(),
+        "NOTES": notes,
+        "MEMBERSHIPTYPE": membershiptype,
+        "CURRENCY": currency,
+        "SALESPERSONNEL": salespersonnel,
+        "MEMBERNAME": membername,
+        "MEMBERCARDNO": membercardno,
+        "MEMBERNAMES": membernames,
+        "EXTRADAY": extraday,
+        "FROZENDAY": frozenday,
       };
 }
 
@@ -404,8 +472,8 @@ class ReservationModel {
   int? checkid;
   int depid;
   DateTime creationdate;
-  dynamic resstart;
-  dynamic resend;
+  DateTime resstart;
+  DateTime resend;
   int serviceid;
   double quantity;
   double mctotal;
@@ -499,8 +567,8 @@ class ReservationModel {
         checkid: json["CHECKID"],
         depid: json["DEPID"],
         creationdate: DateTime.parse(json["CREATIONDATE"]),
-        resstart: json["RESSTART"],
-        resend: json["RESEND"],
+        resstart: DateTime.parse(json["RESSTART"]),
+        resend: DateTime.parse(json["RESEND"]),
         serviceid: json["SERVICEID"],
         quantity: json["QUANTITY"],
         mctotal: json["MCTOTAL"]?.toDouble(),

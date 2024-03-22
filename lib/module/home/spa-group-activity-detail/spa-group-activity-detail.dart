@@ -116,12 +116,10 @@ class _SpaGroupActivityDetailState extends State<SpaGroupActivityDetail> {
                 title: "Join to Activity".tr(),
                 func: () {
                   var uuidString = uuid.v4();
-                  homeService.spaGroupActivityTimetableMemberInsert(widget.item.groupactivityid, uuidString).then((value) {
+                  homeService.spaGroupActivityTimetableMemberInsert(widget.item.id, uuidString).then((value) {
                     if (value.result) {
-                      print(value.message);
                       kShowBanner(BannerType.SUCCESS, value.message, context);
                     } else {
-                      print(value.message);
                       kShowBanner(BannerType.ERROR, value.message.tr(), context);
                     }
                   });

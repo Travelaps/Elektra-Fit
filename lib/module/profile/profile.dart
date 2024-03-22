@@ -90,7 +90,7 @@ class _ProfileState extends State<Profile> {
                           SizedBox(height: W / 60),
                           Text(member$.value?.first.profile.fullname ?? "", style: kAxiforma20),
                           Column(
-                            children: member$.value!.map((e) {
+                            children: member$.value?.map((e) {
                                   return Column(
                                       children: e.membership?.map((item) {
                                             return Column(children: [
@@ -152,22 +152,22 @@ class _ProfileState extends State<Profile> {
                               Text("My Operations".tr(), style: kMontserrat16)
                             ]))),
                     SizedBox(height: W / 60),
-                    // InkWell(
-                    //     onTap: () {
-                    //       Navigator.push(context, MaterialPageRoute(builder: (context) => MemberType()));
-                    //     },
-                    //     child: Container(
-                    //         height: W / 8,
-                    //         padding: paddingAll10,
-                    //         margin: marginAll5,
-                    //         alignment: Alignment.center,
-                    //         decoration: BoxDecoration(
-                    //             color: Colors.white, borderRadius: borderRadius10, boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.4), spreadRadius: 3, blurRadius: 10, offset: Offset(0, 3))]),
-                    //         width: W,
-                    //         child: Row(
-                    //           children: [Icon(Icons.published_with_changes_sharp, color: config.IconPrimaryColor, size: 26), SizedBox(width: W / 40), Text("Member Type".tr(), style: kMontserrat16)],
-                    //         ))),
-                    // SizedBox(height: W / 60),
+                    InkWell(
+                        onTap: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => MemberType()));
+                        },
+                        child: Container(
+                            height: W / 8,
+                            padding: paddingAll10,
+                            margin: marginAll5,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                                color: Colors.white, borderRadius: borderRadius10, boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.4), spreadRadius: 3, blurRadius: 10, offset: Offset(0, 3))]),
+                            width: W,
+                            child: Row(
+                              children: [Icon(Icons.published_with_changes_sharp, color: config.IconPrimaryColor, size: 26), SizedBox(width: W / 40), Text("Member Type".tr(), style: kMontserrat16)],
+                            ))),
+                    SizedBox(height: W / 60),
                     InkWell(
                       onTapDown: (details) {
                         _showPopupMenu(context, details.globalPosition);
