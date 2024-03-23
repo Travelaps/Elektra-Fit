@@ -147,14 +147,14 @@ class _ProfileState extends State<Profile> {
                                 color: Colors.white, borderRadius: borderRadius10, boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.4), spreadRadius: 3, blurRadius: 10, offset: Offset(0, 3))]),
                             width: W,
                             child: Row(children: [
-                              SizedBox(height: W / 15, width: W / 15, child: Image.asset("assets/icon/mesurements.png", color: config.primaryColor)),
+                              SizedBox(height: W / 15, width: W / 15, child: Image.asset("assets/icon/operation.png", color: config.primaryColor)),
                               SizedBox(width: W / 40),
                               Text("My Operations".tr(), style: kMontserrat16)
                             ]))),
                     SizedBox(height: W / 60),
                     InkWell(
                         onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => MemberType()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => const MemberType()));
                         },
                         child: Container(
                             height: W / 8,

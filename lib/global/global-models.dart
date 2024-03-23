@@ -472,15 +472,15 @@ class ReservationModel {
   int? checkid;
   int depid;
   DateTime creationdate;
-  DateTime resstart;
-  DateTime resend;
+  DateTime? resstart;
+  DateTime? resend;
   int serviceid;
   double quantity;
   double mctotal;
   int currencyid;
   double ctotal;
   bool paid;
-  dynamic staffid;
+  int? staffid;
   dynamic placeid;
   dynamic resnameid;
   int poscardid;
@@ -488,13 +488,13 @@ class ReservationModel {
   int statusid;
   int? colorid;
   dynamic dayoffreasonid;
-  int? packageid;
+  dynamic packageid;
   dynamic spaInhouselistid;
   String depname;
   String servicename;
   int producttypeid;
   String currencycode;
-  dynamic staffname;
+  String? staffname;
   dynamic placename;
   dynamic hotelGuestname;
   String poscardGuestname;
@@ -508,7 +508,7 @@ class ReservationModel {
   int cancel;
   String guestname;
   double netCtotal;
-  double? netMctotal;
+  double netMctotal;
   double discountpercent;
   dynamic resnameHotelid;
 
@@ -567,8 +567,8 @@ class ReservationModel {
         checkid: json["CHECKID"],
         depid: json["DEPID"],
         creationdate: DateTime.parse(json["CREATIONDATE"]),
-        resstart: DateTime.parse(json["RESSTART"]),
-        resend: DateTime.parse(json["RESEND"]),
+        resstart: json["RESSTART"] == null ? null : DateTime.parse(json["RESSTART"]),
+        resend: json["RESEND"] == null ? null : DateTime.parse(json["RESEND"]),
         serviceid: json["SERVICEID"],
         quantity: json["QUANTITY"],
         mctotal: json["MCTOTAL"]?.toDouble(),
@@ -615,8 +615,8 @@ class ReservationModel {
         "CHECKID": checkid,
         "DEPID": depid,
         "CREATIONDATE": creationdate.toIso8601String(),
-        "RESSTART": resstart,
-        "RESEND": resend,
+        "RESSTART": resstart?.toIso8601String(),
+        "RESEND": resend?.toIso8601String(),
         "SERVICEID": serviceid,
         "QUANTITY": quantity,
         "MCTOTAL": mctotal,

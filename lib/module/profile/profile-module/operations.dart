@@ -14,7 +14,6 @@ class _MyOperationsState extends State<MyOperations> {
   @override
   void initState() {
     service.ressList();
-    // service.reservationList();
     super.initState();
   }
 
@@ -23,12 +22,12 @@ class _MyOperationsState extends State<MyOperations> {
     final double H = MediaQuery.of(context).size.height;
     final double W = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: AppBar(title: Text("data")),
+      appBar: AppBar(title: Text("My Operations".tr())),
       body: StreamBuilder(
           stream: service.res$.stream,
           builder: (context, snapshot) {
             if (service.res$.value == null) {
-              return Center(child: CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator());
             } else if (service.res$.value!.isEmpty) {
               return Center(child: Text("No found Reservations".tr(), style: kMontserrat18));
             }
@@ -37,56 +36,91 @@ class _MyOperationsState extends State<MyOperations> {
                 child: Column(
                   children: [
                     TabBar(
+                        indicatorColor: Colors.black,
+                        unselectedLabelStyle: kMontserrat18,
+                        labelStyle: kMontserrat18.copyWith(color: config.primaryColor),
                         tabs: service.res$.value!.keys.map((e) {
-                      return Tab(text: e);
-                    }).toList()),
+                          return Tab(text: e);
+                        }).toList()),
                     Expanded(
                         child: TabBarView(
                             children: service.res$.value!.keys.map((res) {
                       var item = service.res$.value?[res];
-                      return SizedBox(
-                        height: H * 0.9,
-                        width: W,
-                        child: ListView.builder(
-                          itemCount: item?.length,
-                          itemBuilder: (context, index) {
-                            var resItem = item?[index];
-                            return Container(
-                              padding: paddingAll10,
-                              margin: marginAll5,
-                              decoration: BoxDecoration(color: Colors.white, borderRadius: borderRadius10, boxShadow: [
-                                BoxShadow(color: Colors.black.withOpacity(0.6), spreadRadius: 3, blurRadius: 10, offset: Offset(0, 3)),
-                              ]),
-                              child: Column(
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [Text("Name".tr(), style: kProxima17), Text(resItem!.guestname ?? "", style: kProxima17)],
-                                  ),
-                                  Divider(),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [Text("Category".tr(), style: kProxima17), Text(resItem!.depname ?? "", style: kProxima17)],
-                                  ),
-                                  Divider(),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [Text("Service Name".tr(), style: kProxima17), Text(resItem!.servicename ?? "", style: kProxima17)],
-                                  ),
-                                  Divider(),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text("Creation Date".tr(), style: kProxima17),
-                                      Text("${DateFormat("MMM dd yyyy").format(resItem!.creationdate)}".tr(), style: kProxima17),
-                                    ],
-                                  ),
-                                ],
+                      return item!.isEmpty
+                          ? Center(child: Text("no found $res"))
+                          : SizedBox(
+                              height: H * 0.9,
+                              width: W,
+                              child: ListView.builder(
+                                itemCount: item?.length,
+                                itemBuilder: (context, index) {
+                                  var resItem = item?[index];
+                                  return Container(
+                                    padding: paddingAll10,
+                                    margin: marginAll5,
+                                    decoration: BoxDecoration(color: Colors.white, borderRadius: borderRadius10, boxShadow: [
+                                      BoxShadow(color: Colors.black.withOpacity(0.6), spreadRadius: 3, blurRadius: 10, offset: Offset(0, 3)),
+                                    ]),
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.end,
+                                          children: [Expanded(child: Text("Name".tr(), style: kProxima17)), Spacer(), Expanded(child: Text(resItem!.guestname ?? "", style: kProxima17))],
+                                        ),
+                                        const Divider(),
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [Expanded(child: Text("Category".tr(), style: kProxima17)), Spacer(), Expanded(child: Text(resItem!.depname ?? "", style: kProxima17))],
+                                        ),
+                                        const Divider(),
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [Expanded(child: Text("Service Name".tr(), style: kProxima17)), Spacer(), Expanded(child: Text(resItem!.servicename ?? "", style: kProxima17))],
+                                        ),
+                                        const Divider(),
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Expanded(child: Text("Creation Time".tr(), style: kProxima17)),
+                                            Spacer(),
+                                            Expanded(child: Text("${DateFormat("dd MMM yyyy").format(resItem!.creationdate)}".tr(), style: kProxima17)),
+                                          ],
+                                        ),
+                                        if (resItem.resstart != null) Divider(),
+                                        if (resItem.resstart != null)
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Expanded(child: Text("Reservation Start Time".tr(), style: kProxima17)),
+                                              Spacer(),
+                                              Expanded(child: Text("${DateFormat("dd MMM yyyy HH:mm").format(resItem.resstart!)}".tr(), style: kProxima17)),
+                                            ],
+                                          ),
+                                        if (resItem.resend != null) Divider(),
+                                        if (resItem.resend != null)
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Expanded(child: Text("Reservation End Time".tr(), style: kProxima17)),
+                                              Spacer(),
+                                              Expanded(child: Text("${DateFormat("dd MMM yyyy  HH:mm").format(resItem.resend!)}".tr(), style: kProxima17)),
+                                            ],
+                                          ),
+                                        Divider(),
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Expanded(child: Text("Total Price".tr(), style: kProxima17)),
+                                            Spacer(),
+                                            Expanded(child: Text("${resItem.netCtotal.toStringAsFixed(1)} ${resItem.currencycode} ".tr(), style: kProxima17)),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                },
                               ),
                             );
-                          },
-                        ),
-                      );
                     }).toList()))
                   ],
                 ));

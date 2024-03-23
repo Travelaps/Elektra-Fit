@@ -45,9 +45,9 @@ class HomeService {
           }));
       var jsonData = json.decode(response.body);
       if (jsonData["Success"] == 1) {
-        return RequestResponse(message: "Congratulations! You have successfully participated in the activity.", result: true);
+        return RequestResponse(message: "Congratulations! You have successfully participated in the activity.".tr(), result: true);
       } else if (jsonData["Success"] == 0) {
-        return RequestResponse(message: jsonData["Message"], result: false);
+        return RequestResponse(message: jsonData["Message".tr()], result: false);
       }
     } catch (e) {
       print(e);

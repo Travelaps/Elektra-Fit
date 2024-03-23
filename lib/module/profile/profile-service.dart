@@ -1,16 +1,17 @@
-import 'dart:convert';
-
+import 'package:elektra_fit/global/index.dart';
 import 'package:http/http.dart' as http;
-import 'package:rxdart/rxdart.dart';
 
 import '../../global/global-models.dart';
-import '../../global/global-variables.dart';
 
 class ProfileService {
   BehaviorSubject<List<SpaMemberBodyAnalysis?>?> spaMemberBody$ = BehaviorSubject.seeded(null);
   BehaviorSubject<List<ReservationModel?>?> reservation$ = BehaviorSubject.seeded(null);
 
-  BehaviorSubject<Map<String, List<ReservationModel>?>?> res$ = BehaviorSubject.seeded(null);
+  BehaviorSubject<Map<String, List<ReservationModel>?>?> res$ = BehaviorSubject.seeded({
+    "Past".tr(): [],
+    "Upcoming".tr(): [],
+    "Planned".tr(): [],
+  });
 
   Future<RequestResponse?> spaMemberBodyAnality() async {
     spaMemberBody$.add(null);
@@ -38,63 +39,48 @@ class ProfileService {
     return null;
   }
 
-  // Future<RequestResponse?> reservationList() async {
-  //   reservation$.add(null);
-  //   try {
-  //     final response = await http.post(url,
-  //         body: json.encode({
-  //           "Action": "ApiSequence",
-  //           "Object": "spaMemberReservationList",
-  //           "Parameters": {"HOTELID": hotelId, "MEMBERID": member$.value?.first.profile.guestid}
-  //         }));
-  //     final jsonData = json.decode(utf8.decode(response.bodyBytes));
-  //     if (jsonData != null) {
-  //       List<ReservationModel> reservation = [];
-  //
-  //       for (var item in jsonData) {
-  //         reservation.add(ReservationModel.fromJson(item));
-  //       }
-  //       reservation$.add(reservation);
-  //       return RequestResponse(message: jsonData.toString(), result: true);
-  //     }
-  //   } catch (item) {
-  //     return RequestResponse(message: item.toString(), result: false);
-  //   }
-  //
-  //   return null;
-  // }
-
   Future<RequestResponse?> ressList() async {
-    res$.value = {"Past": [], "Future": [], "Planning": []};
+    res$.value == null;
     try {
-      final response = await http.post(url,
+      var response = await http.post(url,
           body: json.encode({
             "Action": "ApiSequence",
             "Object": "spaMemberReservationList",
             "Parameters": {"HOTELID": hotelId, "MEMBERID": member$.value?.first.profile.guestid}
           }));
       final jsonData = json.decode(utf8.decode(response.bodyBytes));
-
+      res$.value = {"Past".tr(): [], "Upcoming".tr(): [], "Planned".tr(): []};
+      var today = DateTime.now();
       if (jsonData != null) {
-        final today = DateTime.now().toUtc(); // Use UTC for consistent comparison
+        if (res$.value != null) {
+          jsonData.forEach((e) {
+            ReservationModel reservation = ReservationModel.fromJson(e);
 
-        jsonData.forEach((e) {
-          final reservation = ReservationModel.fromJson(e);
+            if (reservation.resstart != null && reservation.resend != null) {
+              if (reservation.resstart!.isBefore(today)) {
+                res$.value?["Upcoming".tr()]?.add(reservation);
+              }
+              if (reservation.resstart!.isAfter(today)) {
+                res$.value?["Past".tr()]?.add(reservation);
+              }
+              res$.value?["Planned".tr()]?.add(reservation);
+            }
+            // if (reservation.resstart != null && reservation.resend != null) {
+            //   if (reservation.resstart!.isBefore(today)) {
+            //     res$.value?["Past".tr()]?.add(reservation);
+            //   } else if (reservation.resstart!.isAfter(today)) {
+            //     res$.value?["Upcoming".tr()]?.add(reservation);
+            //   }
+            // }
+            // res$.value?["Planned".tr()]?.add(reservation);
+          });
 
-          if (reservation.resstart.isBefore(today)) {
-            res$.value?["Past"]?.add(reservation);
-          } else if (reservation.resstart.isAfter(today)) {
-            res$.value?["Future"]?.add(reservation);
-          }
-        });
-
-        res$.add(res$.value);
-        return RequestResponse(message: jsonData.toString(), result: true);
+          res$.add(res$.value);
+        }
       }
+      return RequestResponse(message: jsonData.toString(), result: true);
     } catch (item) {
       return RequestResponse(message: item.toString(), result: false);
     }
-
-    return null;
   }
 }
