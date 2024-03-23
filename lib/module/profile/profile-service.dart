@@ -7,11 +7,7 @@ class ProfileService {
   BehaviorSubject<List<SpaMemberBodyAnalysis?>?> spaMemberBody$ = BehaviorSubject.seeded(null);
   BehaviorSubject<List<ReservationModel?>?> reservation$ = BehaviorSubject.seeded(null);
 
-  BehaviorSubject<Map<String, List<ReservationModel>?>?> res$ = BehaviorSubject.seeded({
-    "Past".tr(): [],
-    "Upcoming".tr(): [],
-    "Planned".tr(): [],
-  });
+  BehaviorSubject<Map<String, List<ReservationModel>?>?> res$ = BehaviorSubject.seeded({"Planned".tr(): [], "To be planned".tr(): [], "Completed".tr(): []});
 
   Future<RequestResponse?> spaMemberBodyAnality() async {
     spaMemberBody$.add(null);
@@ -49,37 +45,36 @@ class ProfileService {
             "Parameters": {"HOTELID": hotelId, "MEMBERID": member$.value?.first.profile.guestid}
           }));
       final jsonData = json.decode(utf8.decode(response.bodyBytes));
-      res$.value = {"Past".tr(): [], "Upcoming".tr(): [], "Planned".tr(): []};
-      var today = DateTime.now();
       if (jsonData != null) {
-        if (res$.value != null) {
-          jsonData.forEach((e) {
-            ReservationModel reservation = ReservationModel.fromJson(e);
+        var today = DateTime.now();
+        res$.value = {"Planned".tr(): [], "To be planned".tr(): [], "Completed".tr(): []};
+        jsonData.forEach((e) {
+          ReservationModel reservation = ReservationModel.fromJson(e);
 
-            if (reservation.resstart != null && reservation.resend != null) {
-              if (reservation.resstart!.isBefore(today)) {
-                res$.value?["Upcoming".tr()]?.add(reservation);
-              }
+          if (reservation.resstart == null && reservation.resend == null) {
+            res$.value?["To be planned".tr()]?.add(reservation);
+          } else {
+            if (reservation.resstart != null || reservation.resend != null) {
               if (reservation.resstart!.isAfter(today)) {
-                res$.value?["Past".tr()]?.add(reservation);
+                res$.value?["Planned".tr()]?.add(reservation);
               }
-              res$.value?["Planned".tr()]?.add(reservation);
-            }
-            // if (reservation.resstart != null && reservation.resend != null) {
-            //   if (reservation.resstart!.isBefore(today)) {
-            //     res$.value?["Past".tr()]?.add(reservation);
-            //   } else if (reservation.resstart!.isAfter(today)) {
-            //     res$.value?["Upcoming".tr()]?.add(reservation);
-            //   }
-            // }
-            // res$.value?["Planned".tr()]?.add(reservation);
-          });
+              res$.value?["Completed".tr()]?.add(reservation);
 
-          res$.add(res$.value);
-        }
+              // if (reservation.resstart!.isBefore(today) && reservation.resend!.isBefore(today)) {
+              //   res$.value?["Completed".tr()]?.add(reservation);
+              // } else {
+              //   print("asdasdas");
+              //   res$.value?["Planned".tr()]?.add(reservation);
+              // }
+            }
+          }
+        });
+
+        res$.add(res$.value);
       }
       return RequestResponse(message: jsonData.toString(), result: true);
     } catch (item) {
+      print(item);
       return RequestResponse(message: item.toString(), result: false);
     }
   }

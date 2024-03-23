@@ -36,7 +36,8 @@ class _MyOperationsState extends State<MyOperations> {
                 child: Column(
                   children: [
                     TabBar(
-                        indicatorColor: Colors.black,
+                        isScrollable: true,
+                        indicatorColor: config.primaryColor,
                         unselectedLabelStyle: kMontserrat18,
                         labelStyle: kMontserrat18.copyWith(color: config.primaryColor),
                         tabs: service.res$.value!.keys.map((e) {
@@ -57,7 +58,7 @@ class _MyOperationsState extends State<MyOperations> {
                                   var resItem = item?[index];
                                   return Container(
                                     padding: paddingAll10,
-                                    margin: marginAll5,
+                                    margin: marginAll10,
                                     decoration: BoxDecoration(color: Colors.white, borderRadius: borderRadius10, boxShadow: [
                                       BoxShadow(color: Colors.black.withOpacity(0.6), spreadRadius: 3, blurRadius: 10, offset: Offset(0, 3)),
                                     ]),
@@ -67,25 +68,32 @@ class _MyOperationsState extends State<MyOperations> {
                                           mainAxisAlignment: MainAxisAlignment.end,
                                           children: [Expanded(child: Text("Name".tr(), style: kProxima17)), Spacer(), Expanded(child: Text(resItem!.guestname ?? "", style: kProxima17))],
                                         ),
-                                        const Divider(),
+                                        Divider(),
                                         Row(
                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [Expanded(child: Text("Category".tr(), style: kProxima17)), Spacer(), Expanded(child: Text(resItem!.depname ?? "", style: kProxima17))],
                                         ),
-                                        const Divider(),
+                                        Divider(),
                                         Row(
                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [Expanded(child: Text("Service Name".tr(), style: kProxima17)), Spacer(), Expanded(child: Text(resItem!.servicename ?? "", style: kProxima17))],
                                         ),
-                                        const Divider(),
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Expanded(child: Text("Creation Time".tr(), style: kProxima17)),
-                                            Spacer(),
-                                            Expanded(child: Text("${DateFormat("dd MMM yyyy").format(resItem!.creationdate)}".tr(), style: kProxima17)),
-                                          ],
-                                        ),
+                                        if (resItem.staffname != null) Divider(),
+                                        if (resItem.staffname != null)
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [Expanded(child: Text("Staff Name".tr(), style: kProxima17)), Spacer(), Expanded(child: Text(resItem!.staffname ?? "", style: kProxima17))],
+                                          ),
+                                        if (resItem.creationdate != null) Divider(),
+                                        if (resItem.creationdate != null)
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Expanded(child: Text("Creation Time".tr(), style: kProxima17)),
+                                              Spacer(),
+                                              Expanded(child: Text("${DateFormat("dd MMM yyyy").format(resItem!.creationdate)}".tr(), style: kProxima17)),
+                                            ],
+                                          ),
                                         if (resItem.resstart != null) Divider(),
                                         if (resItem.resstart != null)
                                           Row(
