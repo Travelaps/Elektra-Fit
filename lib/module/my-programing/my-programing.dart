@@ -65,10 +65,14 @@ class _MyProgramingState extends State<MyPrograming> {
                           return Container(
                               margin: marginAll10,
                               width: W,
-                              decoration: BoxDecoration(
-                                  borderRadius: borderRadius10,
-                                  color: Colors.white,
-                                  boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.5), spreadRadius: 5, blurRadius: 7, offset: const Offset(0, 1))]),
+                              decoration: BoxDecoration(borderRadius: borderRadius10, color: Colors.white, boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.5),
+                                  spreadRadius: 5,
+                                  blurRadius: 10,
+                                  offset: const Offset(0, 3),
+                                ),
+                              ]),
                               child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                                 Stack(children: [
                                   ClipRRect(
@@ -93,11 +97,11 @@ class _MyProgramingState extends State<MyPrograming> {
                                         ))
                                 ]),
                                 Padding(
-                                  padding: paddingAll5,
+                                  padding: paddingAll10,
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Text(item.name ?? '', style: kMontserrat19, textAlign: TextAlign.center),
+                                      Text(item.name ?? '', style: kProxima19, textAlign: TextAlign.center),
                                       const Divider(),
                                       Row(
                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -124,19 +128,19 @@ class _MyProgramingState extends State<MyPrograming> {
                                             SizedBox(width: W / 40),
                                             Text(DateFormat("MMM d").format(item.startTime!), style: kProxima17)
                                           ]),
-                                        const VerticalDivider(),
+                                        if (item.startTime != null) const VerticalDivider(),
                                         if (item.startTime != null)
                                           Row(children: [
                                             Image.asset("assets/icon/clock2.png", width: W / 20, height: W / 20, fit: BoxFit.cover),
                                             SizedBox(width: W / 40),
                                             Text(DateFormat("HH:mm").format(item.startTime!), style: kProxima17)
                                           ]),
-                                        const VerticalDivider(),
+                                        if (item.duration != null) const VerticalDivider(),
                                         if (item.duration != null)
                                           Row(children: [
-                                            Image.asset("assets/icon/continue.png", width: W / 20, height: W / 20, fit: BoxFit.cover),
-                                            SizedBox(width: W / 40),
-                                            Text("${item.duration} min".tr(), style: kProxima17)
+                                            if (item.duration != null) Image.asset("assets/icon/continue.png", width: W / 20, height: W / 20, fit: BoxFit.cover),
+                                            if (item.duration != null) SizedBox(width: W / 40),
+                                            if (item.duration != null) Text("${item.duration} min".tr(), style: kProxima17)
                                           ])
                                       ])),
                                     ],

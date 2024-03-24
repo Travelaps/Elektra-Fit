@@ -93,18 +93,15 @@ class _SportDetailsState extends State<SportDetails> {
                                               crossAxisAlignment: CrossAxisAlignment.center,
                                               children: [
                                                 Text("${item.dayoftheweek}", style: kMontserrat18.copyWith(fontSize: 22)),
-                                                Icon(Icons.calendar_month_outlined),
+                                                const Icon(Icons.calendar_month_outlined),
                                               ],
                                             ),
                                             const Spacer(),
-                                            Row(
-                                              crossAxisAlignment: CrossAxisAlignment.center,
-                                              children: [
-                                                Text("${item.quantity}", style: kMontserrat18),
-                                                Text("X", style: kMontserrat18.copyWith(color: config.primaryColor)),
-                                                Text("${item.repeatnumber}", style: kMontserrat18)
-                                              ],
-                                            )
+                                            Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+                                              Text("${item.quantity}", style: kMontserrat18),
+                                              Text("X", style: kMontserrat18.copyWith(color: config.primaryColor)),
+                                              Text("${item.repeatnumber}", style: kMontserrat18)
+                                            ])
                                           ],
                                         ),
                                         if (isNotes) Text(item.notes ?? "", style: kProxima17),

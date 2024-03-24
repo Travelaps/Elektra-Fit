@@ -63,12 +63,7 @@ class _LoginState extends State<Login> {
               return Padding(
                 padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top, left: 10, right: 10, bottom: 10),
                 child: isLoading$.value
-                    ? Container(
-                        width: W,
-                        height: H * 0.59,
-                        decoration: const BoxDecoration(image: DecorationImage(fit: BoxFit.cover, image: AssetImage("assets/image/start4.png"))),
-                        child: CLoading(),
-                      )
+                    ? Container(width: W, height: H * 0.59, decoration: const BoxDecoration(image: DecorationImage(fit: BoxFit.cover, image: AssetImage("assets/image/start4.png"))), child: CLoading())
                     : Column(children: [
                         SizedBox(height: H * 0.59, width: W, child: Image.asset("assets/image/start4.png", fit: BoxFit.cover)),
                         CTextFormField(_email, "Email".tr(), prefixIcon: Icon(Icons.email)),
@@ -91,7 +86,7 @@ class _LoginState extends State<Login> {
                               if (value!.isEmpty) return _password.text;
                               return null;
                             }),
-                        SizedBox(height: W / 60),
+                        SizedBox(height: W / 40),
                         Row(
                           children: [
                             Checkbox(
@@ -104,10 +99,10 @@ class _LoginState extends State<Login> {
                                 isSaved$.add(!isSaved$.value);
                               },
                             ),
-                            Text("Remember me".tr(), style: kProxima16),
+                            Text("Remember me".tr(), style: kProxima16)
                           ],
                         ),
-                        SizedBox(height: W / 60),
+                        SizedBox(height: W / 70),
                         CButton(
                           title: "Login".tr(),
                           func: () {

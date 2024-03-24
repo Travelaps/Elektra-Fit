@@ -58,7 +58,7 @@ class _MyOperationsState extends State<MyOperations> {
                                     padding: paddingAll10,
                                     margin: marginAll10,
                                     decoration: BoxDecoration(color: Colors.white, borderRadius: borderRadius10, boxShadow: [
-                                      BoxShadow(color: Colors.black.withOpacity(0.6), spreadRadius: 3, blurRadius: 10, offset: Offset(0, 3)),
+                                      BoxShadow(color: Colors.black.withOpacity(0.9), spreadRadius: 2, blurRadius: 10, offset: Offset(0, 7)),
                                     ]),
                                     child: Column(
                                       children: [
@@ -73,51 +73,52 @@ class _MyOperationsState extends State<MyOperations> {
                                               Text(resItem.guestname, style: kProxima17)
                                             ],
                                           )),
-                                          const VerticalDivider(),
-                                          Expanded(
-                                              child: Row(
-                                            children: [
+                                          if (resItem.placename != null) const VerticalDivider(),
+                                          if (resItem.placename != null)
+                                            Expanded(
+                                                child: Row(children: [
                                               Image.asset("assets/icon/place.png", height: W / 18, width: W / 18, color: Colors.black),
                                               SizedBox(width: W / 60),
-                                              Text(resItem.placename ?? "", style: kProxima17),
-                                            ],
-                                          ))
+                                              Text(resItem.placename, style: kProxima17)
+                                            ]))
                                         ])),
-                                        const Divider(),
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [Expanded(child: Text("Service Name".tr(), style: kProxima17)), Spacer(), Expanded(child: Text(resItem!.servicename ?? "", style: kProxima17))],
-                                        ),
+                                        if (resItem.servicename != "") const Divider(),
+                                        if (resItem.servicename != "")
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [Expanded(child: Text("Service Name".tr(), style: kProxima17)), Spacer(), Expanded(child: Text(resItem.servicename ?? "", style: kProxima17))],
+                                          ),
+                                        // const Divider(),
                                         if (resItem.staffname != null) const Divider(),
                                         if (resItem.staffname != null)
                                           Row(
                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [Expanded(child: Text("Staff Name".tr(), style: kProxima17)), Spacer(), Expanded(child: Text(resItem!.staffname ?? "", style: kProxima17))],
                                           ),
-                                        if (resItem.resstart != null) Divider(),
+                                        const Divider(),
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Expanded(child: Text("Total Price".tr(), style: kProxima17)),
+                                            const Spacer(),
+                                            Expanded(child: Text("${resItem.netCtotal.toStringAsFixed(1)} ${resItem.currencycode} ".tr(), style: kProxima17)),
+                                          ],
+                                        ),
+                                        if (resItem.resstart != null) const Divider(),
                                         IntrinsicHeight(
                                             child: Row(children: [
                                           if (resItem.resstart != null)
                                             Expanded(
                                                 child: Column(
-                                              children: [Text("Start Time".tr(), style: kProxima17), Text("${DateFormat("dd MMM yyyy HH:mm").format(resItem.resstart!)}".tr(), style: kProxima17)],
+                                              children: [Text("Start Time".tr(), style: kProxima17), Text(DateFormat("dd MMM yyyy HH:mm").format(resItem.resstart!).tr(), style: kProxima17)],
                                             )),
-                                          if (resItem.resend != null) VerticalDivider(),
+                                          if (resItem.resend != null) const VerticalDivider(),
                                           if (resItem.resend != null)
                                             Expanded(
                                                 child: Column(
-                                              children: [Text("End Time".tr(), style: kProxima17), Text("${DateFormat("dd MMM yyyy  HH:mm").format(resItem.resend!)}".tr(), style: kProxima17)],
+                                              children: [Text("End Time".tr(), style: kProxima17), Text(DateFormat("dd MMM yyyy  HH:mm").format(resItem.resend!).tr(), style: kProxima17)],
                                             ))
                                         ])),
-                                        Divider(),
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Expanded(child: Text("Total Price".tr(), style: kProxima17)),
-                                            Spacer(),
-                                            Expanded(child: Text("${resItem.netCtotal.toStringAsFixed(1)} ${resItem.currencycode} ".tr(), style: kProxima17)),
-                                          ],
-                                        ),
                                       ],
                                     ),
                                   );
