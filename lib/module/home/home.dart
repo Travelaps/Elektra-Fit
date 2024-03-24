@@ -30,13 +30,6 @@ class _HomeState extends State<Home> {
     final double H = MediaQuery.of(context).size.height;
     final double W = MediaQuery.of(context).size.width;
 
-    // selectedDate$.listen((selectedDate) {
-    //   totalfilter = homeService.spaGroupActivity$.value!.where((element) {
-    //     DateTime activityDate = DateTime(element.startTime.year, element.startTime.month, element.startTime.day);
-    //     return activityDate.year == selectedDate.year && activityDate.month == selectedDate.month && activityDate.day == selectedDate.day;
-    //   }).toList();
-    // });
-
     return Scaffold(
         appBar: AppBar(title: Text("Lessons".tr())),
         body: StreamBuilder(
@@ -47,6 +40,7 @@ class _HomeState extends State<Home> {
               } else if (homeService.spaGroupActivity$.value!.isEmpty) {
                 return Center(child: Text("There are currently no group activities available.".tr()));
               }
+
               final today = DateTime.now();
               DateTime selectedDate = selectedDate$.value;
               totalfilter = homeService.spaGroupActivity$.value!.where((element) {
@@ -72,11 +66,6 @@ class _HomeState extends State<Home> {
                               child: InkWell(
                                   onTap: () async {
                                     selectedDate$.add(date);
-                                    // DateTime selectedDate = selectedDate$.value;
-                                    // totalfilter = homeService.spaGroupActivity$.value!.where((element) {
-                                    //   DateTime activityDate = DateTime(element.startTime.year, element.startTime.month, element.startTime.day);
-                                    //   return activityDate.year == selectedDate.year && activityDate.month == selectedDate.month && activityDate.day == selectedDate.day;
-                                    // }).toList();
                                   },
                                   child: Center(
                                       child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -103,77 +92,64 @@ class _HomeState extends State<Home> {
                             itemBuilder: (context, index) {
                               var item = totalfilter[index];
                               return InkWell(
-                                onTap: () {
-                                  Navigator.push(context, RouteAnimation.createRoute(SpaGroupActivityDetail(item: item!), 0, 1));
-                                },
-                                child: Container(
-                                  margin: marginAll10,
-                                  width: W,
-                                  decoration: BoxDecoration(
-                                      borderRadius: borderRadius10,
-                                      color: Colors.white,
-                                      boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.5), spreadRadius: 5, blurRadius: 7, offset: const Offset(0, 1))]),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Stack(children: [
-                                        ClipRRect(
-                                            borderRadius: const BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
-                                            child: CachedNetworkImage(
-                                                imageUrl: item.photoUrl,
-                                                fit: BoxFit.cover,
-                                                placeholder: (context, url) => CircularProgressIndicator(color: config.primaryColor),
-                                                errorWidget: (context, url, error) => const Icon(Icons.error))),
-                                        Positioned(
-                                            left: 0,
-                                            top: 0,
-                                            child: Container(
-                                              padding: paddingAll5,
-                                              decoration: BoxDecoration(color: Colors.black.withOpacity(0.3), borderRadius: BorderRadius.only(topLeft: Radius.circular(10))),
-                                              child: Row(children: [
-                                                Icon(Icons.star_outlined, color: getLevelDescriptionColor(item.level)),
+                                  onTap: () {
+                                    Navigator.push(context, RouteAnimation.createRoute(SpaGroupActivityDetail(item: item!), 0, 1));
+                                  },
+                                  child: Container(
+                                      margin: marginAll10,
+                                      width: W,
+                                      decoration: BoxDecoration(
+                                          borderRadius: borderRadius10,
+                                          color: Colors.white,
+                                          boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.5), spreadRadius: 5, blurRadius: 7, offset: const Offset(0, 1))]),
+                                      child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                                        Stack(children: [
+                                          ClipRRect(
+                                              borderRadius: const BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
+                                              child: CachedNetworkImage(
+                                                  imageUrl: item.photoUrl,
+                                                  fit: BoxFit.cover,
+                                                  placeholder: (context, url) => CircularProgressIndicator(color: config.primaryColor),
+                                                  errorWidget: (context, url, error) => const Icon(Icons.error))),
+                                          Positioned(
+                                              left: 0,
+                                              top: 0,
+                                              child: Container(
+                                                padding: paddingAll5,
+                                                decoration: BoxDecoration(color: Colors.black.withOpacity(0.3), borderRadius: BorderRadius.only(topLeft: Radius.circular(10))),
+                                                child: Row(children: [
+                                                  Icon(Icons.star_outlined, color: getLevelDescriptionColor(item.level)),
+                                                  SizedBox(width: W / 40),
+                                                  Text(getLevelDescription(item.level), style: kMontserrat19.copyWith(color: Colors.white))
+                                                ]),
+                                              ))
+                                        ]),
+                                        Padding(padding: paddingAll5, child: Text(item.name, style: kMontserrat19, textAlign: TextAlign.center)),
+                                        Padding(
+                                            padding: paddingAll5,
+                                            child: IntrinsicHeight(
+                                                child: Row(crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                                              Row(children: [
+                                                Image.asset("assets/icon/calender.png", width: W / 18, height: W / 18, fit: BoxFit.cover),
                                                 SizedBox(width: W / 40),
-                                                Text(getLevelDescription(item.level), style: kMontserrat19.copyWith(color: Colors.white))
+                                                Text(DateFormat("MMM d").format(item.startTime), style: kMontserrat18)
                                               ]),
-                                            ))
-                                      ]),
-                                      // SizedBox(height: W / 60),
-                                      Padding(padding: paddingAll5, child: Text(item.name, style: kMontserrat19, textAlign: TextAlign.center)),
-                                      Padding(
-                                          padding: paddingAll5,
-                                          child: IntrinsicHeight(
-                                              child: Row(crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                                            Row(children: [
-                                              Image.asset(
-                                                "assets/icon/calender.png",
-                                                width: W / 18,
-                                                height: W / 18,
-                                                fit: BoxFit.cover,
-                                              ),
-                                              SizedBox(width: W / 40),
-                                              Text(DateFormat("MMM d").format(item.startTime), style: kMontserrat18)
-                                            ]),
-                                            const VerticalDivider(),
-                                            Row(children: [
-                                              Image.asset("assets/icon/clock2.png", width: W / 20, height: W / 20, fit: BoxFit.cover),
-                                              SizedBox(width: W / 40),
-                                              Text(DateFormat("HH:mm").format(item.startTime), style: kMontserrat17)
-                                            ]),
-                                            const VerticalDivider(),
-                                            Row(children: [
-                                              Image.asset("assets/icon/continue.png", width: W / 20, height: W / 20, fit: BoxFit.cover),
-                                              SizedBox(width: W / 40),
-                                              Text("${item.duration} min", style: kMontserrat17)
-                                            ])
-                                          ]))),
-                                      SizedBox(height: W / 60),
-                                    ],
-                                  ),
-                                ),
-                              );
-                            },
-                          ))
+                                              const VerticalDivider(),
+                                              Row(children: [
+                                                Image.asset("assets/icon/clock2.png", width: W / 20, height: W / 20, fit: BoxFit.cover),
+                                                SizedBox(width: W / 40),
+                                                Text(DateFormat("HH:mm").format(item.startTime), style: kMontserrat17)
+                                              ]),
+                                              const VerticalDivider(),
+                                              Row(children: [
+                                                Image.asset("assets/icon/continue.png", width: W / 20, height: W / 20, fit: BoxFit.cover),
+                                                SizedBox(width: W / 40),
+                                                Text("${item.duration} min", style: kMontserrat17)
+                                              ])
+                                            ]))),
+                                        SizedBox(height: W / 60),
+                                      ])));
+                            }))
               ]);
             }));
   }
@@ -182,19 +158,19 @@ class _HomeState extends State<Home> {
     String levelName = '';
     switch (level) {
       case 1:
-        levelName = 'Beginner Level';
+        levelName = 'Beginner';
         break;
       case 2:
-        levelName = 'Intermediate Level';
+        levelName = 'Intermediate';
         break;
       case 3:
-        levelName = 'Advanced Level';
+        levelName = 'Advanced';
         break;
       case 4:
-        levelName = 'Expert Level';
+        levelName = 'Expert';
         break;
       case 5:
-        levelName = 'Professional Level';
+        levelName = 'Professional';
         break;
       default:
         levelName = 'Unknown Level';

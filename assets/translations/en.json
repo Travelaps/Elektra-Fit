@@ -1,4 +1,11 @@
 {
+  "Monday": "Monday",
+  "Tuesday": "Tuesday",
+  "Wednesday": "Wednesday",
+  "Thursday": "Thursday",
+  "Friday": "Friday",
+  "Saturday": "Saturday",
+  "Sunday": "Sunday",
   "No Operations Found": "No Operations Found",
   "Planned": "Planned",
   "Staff Name": "Staff Name",
@@ -43,7 +50,8 @@
   "Remember me": "Remember me",
   "Profile": "Profile",
   "Member Type": "Member Type",
-  "Languange": "Languange",
+  "Language": "Language",
+  "  min": "  min",
   "Log Out": "Log Out",
   "Settings": "Settings",
   "Program": "Program",
@@ -58,6 +66,13 @@
   "QR Scanner": "QR Scanner",
   "Entry Process Successful": "Entry Process Successful",
   "Exit Process Successful": "Exit Process Successful",
-  "My Measurements": "My Measurements"
+  "My Measurements": "My Measurements",
+  "Mon": "Mon",
+  "Tue": "Tue",
+  "Wed": "Wed",
+  "Thu": "Thu",
+  "Fri": "Fri",
+  "Sat": "Sat",
+  "Sun": "Sun"
 }
 

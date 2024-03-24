@@ -169,36 +169,22 @@ class _ProfileState extends State<Profile> {
                             ))),
                     SizedBox(height: W / 60),
                     InkWell(
-                      onTapDown: (details) {
-                        _showPopupMenu(context, details.globalPosition);
-                      },
-                      child: Container(
-                        padding: paddingAll10,
-                        height: W / 8,
-                        margin: marginAll5,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: borderRadius10,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.4),
-                              spreadRadius: 3,
-                              blurRadius: 10,
-                              offset: Offset(0, 3),
-                            ),
-                          ],
-                        ),
-                        width: W,
-                        child: Row(
-                          children: [
-                            Icon(Icons.language, color: config.IconPrimaryColor, size: 25),
-                            SizedBox(width: W / 40),
-                            Text("Language".tr(), style: kMontserrat16),
-                          ],
-                        ),
-                      ),
-                    ),
+                        onTapDown: (details) {
+                          _showPopupMenu(context, details.globalPosition);
+                        },
+                        child: Container(
+                            padding: paddingAll10,
+                            height: W / 8,
+                            margin: marginAll5,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                                color: Colors.white, borderRadius: borderRadius10, boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.4), spreadRadius: 3, blurRadius: 10, offset: Offset(0, 3))]),
+                            width: W,
+                            child: Row(children: [
+                              Icon(Icons.language, color: config.IconPrimaryColor, size: 25),
+                              SizedBox(width: W / 40),
+                              Text("Language".tr(), style: kMontserrat16),
+                            ]))),
                     SizedBox(height: W / 60),
                     InkWell(
                       onTap: () {
@@ -210,12 +196,12 @@ class _ProfileState extends State<Profile> {
                             ));
                       },
                       child: Container(
-                        height: W / 8,
                         padding: paddingAll10,
+                        height: W / 8,
+                        margin: marginAll5,
                         alignment: Alignment.center,
-                        decoration: BoxDecoration(color: Colors.white, borderRadius: borderRadius10, boxShadow: [
-                          BoxShadow(color: Colors.black.withOpacity(0.4), spreadRadius: 3, blurRadius: 10, offset: Offset(0, 3)),
-                        ]),
+                        decoration: BoxDecoration(
+                            color: Colors.white, borderRadius: borderRadius10, boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.4), spreadRadius: 3, blurRadius: 10, offset: Offset(0, 3))]),
                         width: W,
                         child: Row(
                           children: [

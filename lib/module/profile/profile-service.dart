@@ -36,7 +36,7 @@ class ProfileService {
   }
 
   Future<RequestResponse?> ressList() async {
-    res$.value == null;
+    res$.value = null;
     try {
       var response = await http.post(url,
           body: json.encode({
@@ -54,22 +54,13 @@ class ProfileService {
           if (reservation.resstart == null && reservation.resend == null) {
             res$.value?["To be planned".tr()]?.add(reservation);
           } else {
-            if (reservation.resstart != null || reservation.resend != null) {
-              if (reservation.resstart!.isAfter(today)) {
-                res$.value?["Planned".tr()]?.add(reservation);
-              }
+            if (reservation.resstart != null && reservation.resstart!.isBefore(today)) {
               res$.value?["Completed".tr()]?.add(reservation);
-
-              // if (reservation.resstart!.isBefore(today) && reservation.resend!.isBefore(today)) {
-              //   res$.value?["Completed".tr()]?.add(reservation);
-              // } else {
-              //   print("asdasdas");
-              //   res$.value?["Planned".tr()]?.add(reservation);
-              // }
+            } else {
+              res$.value?["Planned".tr()]?.add(reservation);
             }
           }
         });
-
         res$.add(res$.value);
       }
       return RequestResponse(message: jsonData.toString(), result: true);

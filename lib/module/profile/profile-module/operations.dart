@@ -28,8 +28,6 @@ class _MyOperationsState extends State<MyOperations> {
           builder: (context, snapshot) {
             if (service.res$.value == null) {
               return const Center(child: CircularProgressIndicator());
-            } else if (service.res$.value!.isEmpty) {
-              return Center(child: Text("No found Reservations".tr(), style: kMontserrat18));
             }
             return DefaultTabController(
                 length: service.res$.value!.length,
@@ -53,9 +51,9 @@ class _MyOperationsState extends State<MyOperations> {
                               height: H * 0.9,
                               width: W,
                               child: ListView.builder(
-                                itemCount: item?.length,
+                                itemCount: item.length,
                                 itemBuilder: (context, index) {
-                                  var resItem = item?[index];
+                                  var resItem = item[index];
                                   return Container(
                                     padding: paddingAll10,
                                     margin: marginAll10,
@@ -64,56 +62,53 @@ class _MyOperationsState extends State<MyOperations> {
                                     ]),
                                     child: Column(
                                       children: [
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.end,
-                                          children: [Expanded(child: Text("Name".tr(), style: kProxima17)), Spacer(), Expanded(child: Text(resItem!.guestname ?? "", style: kProxima17))],
-                                        ),
-                                        Divider(),
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [Expanded(child: Text("Category".tr(), style: kProxima17)), Spacer(), Expanded(child: Text(resItem!.depname ?? "", style: kProxima17))],
-                                        ),
-                                        Divider(),
+                                        IntrinsicHeight(
+                                            child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                                          Expanded(
+                                              child: Row(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Image.asset("assets/icon/person.png", height: W / 18, width: W / 18, color: Colors.black),
+                                              SizedBox(width: W / 60),
+                                              Text(resItem.guestname, style: kProxima17)
+                                            ],
+                                          )),
+                                          const VerticalDivider(),
+                                          Expanded(
+                                              child: Row(
+                                            children: [
+                                              Image.asset("assets/icon/place.png", height: W / 18, width: W / 18, color: Colors.black),
+                                              SizedBox(width: W / 60),
+                                              Text(resItem.placename ?? "", style: kProxima17),
+                                            ],
+                                          ))
+                                        ])),
+                                        const Divider(),
                                         Row(
                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [Expanded(child: Text("Service Name".tr(), style: kProxima17)), Spacer(), Expanded(child: Text(resItem!.servicename ?? "", style: kProxima17))],
                                         ),
-                                        if (resItem.staffname != null) Divider(),
+                                        if (resItem.staffname != null) const Divider(),
                                         if (resItem.staffname != null)
                                           Row(
                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [Expanded(child: Text("Staff Name".tr(), style: kProxima17)), Spacer(), Expanded(child: Text(resItem!.staffname ?? "", style: kProxima17))],
                                           ),
-                                        if (resItem.creationdate != null) Divider(),
-                                        if (resItem.creationdate != null)
-                                          Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Expanded(child: Text("Creation Time".tr(), style: kProxima17)),
-                                              Spacer(),
-                                              Expanded(child: Text("${DateFormat("dd MMM yyyy").format(resItem!.creationdate)}".tr(), style: kProxima17)),
-                                            ],
-                                          ),
                                         if (resItem.resstart != null) Divider(),
-                                        if (resItem.resstart != null)
-                                          Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Expanded(child: Text("Reservation Start Time".tr(), style: kProxima17)),
-                                              Spacer(),
-                                              Expanded(child: Text("${DateFormat("dd MMM yyyy HH:mm").format(resItem.resstart!)}".tr(), style: kProxima17)),
-                                            ],
-                                          ),
-                                        if (resItem.resend != null) Divider(),
-                                        if (resItem.resend != null)
-                                          Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Expanded(child: Text("Reservation End Time".tr(), style: kProxima17)),
-                                              Spacer(),
-                                              Expanded(child: Text("${DateFormat("dd MMM yyyy  HH:mm").format(resItem.resend!)}".tr(), style: kProxima17)),
-                                            ],
-                                          ),
+                                        IntrinsicHeight(
+                                            child: Row(children: [
+                                          if (resItem.resstart != null)
+                                            Expanded(
+                                                child: Column(
+                                              children: [Text("Start Time".tr(), style: kProxima17), Text("${DateFormat("dd MMM yyyy HH:mm").format(resItem.resstart!)}".tr(), style: kProxima17)],
+                                            )),
+                                          if (resItem.resend != null) VerticalDivider(),
+                                          if (resItem.resend != null)
+                                            Expanded(
+                                                child: Column(
+                                              children: [Text("End Time".tr(), style: kProxima17), Text("${DateFormat("dd MMM yyyy  HH:mm").format(resItem.resend!)}".tr(), style: kProxima17)],
+                                            ))
+                                        ])),
                                         Divider(),
                                         Row(
                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,

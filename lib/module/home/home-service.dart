@@ -35,13 +35,13 @@ class HomeService {
     }
   }
 
-  Future<RequestResponse> spaGroupActivityTimetableMemberInsert(int timeTableId, String uuid) async {
+  Future<RequestResponse> spaGroupActivityTimetableMemberInsert(int timeTableId) async {
     try {
       var response = await http.post(url,
           body: json.encode({
             "Action": "ApiSequence",
             "Object": "spaGroupActivityTimetableMemberInsert",
-            "Parameters": {"UID": uuid, "TIMETABLEID": timeTableId, "MEMBERID": member$.value?.first.profile.guestid, "HOTELID": hotelId}
+            "Parameters": {"HOTELID": hotelId, "TIMETABLEID": timeTableId, "MEMBERID": member$.value?.first.profile.guestid, "HOTELID": hotelId}
           }));
       var jsonData = json.decode(response.body);
       if (jsonData["Success"] == 1) {

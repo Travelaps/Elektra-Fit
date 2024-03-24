@@ -1,6 +1,5 @@
 import 'package:elektra_fit/widget/index.dart';
 import 'package:flutter/material.dart';
-import 'package:uuid/uuid.dart';
 
 import '../../../global/global-models.dart';
 import '../../../global/index.dart';
@@ -16,7 +15,6 @@ class SpaGroupActivityDetail extends StatefulWidget {
 
 class _SpaGroupActivityDetailState extends State<SpaGroupActivityDetail> {
   final homeService = GetIt.I<HomeService>();
-  var uuid = Uuid();
 
   @override
   Widget build(BuildContext context) {
@@ -41,17 +39,18 @@ class _SpaGroupActivityDetailState extends State<SpaGroupActivityDetail> {
                 Positioned(
                     top: 60,
                     left: 10,
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: Container(
-                        alignment: Alignment.centerRight,
-                        padding: paddingAll5,
-                        decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.black.withOpacity(0.3)),
-                        child: Icon(Icons.arrow_back_ios, color: Colors.white, size: W / 18),
-                      ),
-                    )),
+                    child: SizedBox(
+                        width: W / 12,
+                        height: W / 12,
+                        child: InkWell(
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: Container(
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.black.withOpacity(0.3)),
+                              child: Icon(Icons.arrow_back_ios, color: Colors.white, size: W / 18),
+                            )))),
                 Positioned(
                     bottom: 0,
                     right: 0,
@@ -115,8 +114,7 @@ class _SpaGroupActivityDetailState extends State<SpaGroupActivityDetail> {
             child: CButton(
                 title: "Join to Activity".tr(),
                 func: () {
-                  var uuidString = uuid.v4();
-                  homeService.spaGroupActivityTimetableMemberInsert(widget.item.id, uuidString).then((value) {
+                  homeService.spaGroupActivityTimetableMemberInsert(widget.item.id).then((value) {
                     if (value.result) {
                       kShowBanner(BannerType.SUCCESS, value.message, context);
                     } else {
