@@ -69,24 +69,21 @@ class _MyOperationsState extends State<MyOperations> {
                                             children: [Expanded(child: Text(resItem.servicename ?? "", style: kMontserrat18))],
                                           ),
                                         Container(
-                                          decoration: BoxDecoration(
-                                              borderRadius: borderRadius10,
-                                              color: res == 'Planned'.tr()
-                                                  ? config.primaryColor
-                                                  : res == 'Completed'.tr()
-                                                      ? Colors.grey
-                                                      : Colors.green),
-                                          padding: paddingAll5,
-                                          child: Row(
-                                            children: [
-                                              if (res == "Completed") Image.asset("assets/icon/completion.png", height: W / 18, width: W / 18, fit: BoxFit.cover, color: Colors.white),
-                                              if (res == "Planned") Image.asset("assets/icon/planned.png", height: W / 18, width: W / 18, fit: BoxFit.cover, color: Colors.white),
-                                              if (res == "To be planned") Image.asset("assets/icon/tobeplanned.png", height: W / 18, width: W / 18, fit: BoxFit.cover, color: Colors.white),
+                                            decoration: BoxDecoration(
+                                                borderRadius: borderRadius10,
+                                                color: res == 'Planned'.tr()
+                                                    ? config.primaryColor
+                                                    : res == 'Completed'.tr()
+                                                        ? Colors.grey
+                                                        : Colors.green),
+                                            padding: paddingAll5,
+                                            child: Row(children: [
+                                              if (res == "Completed".tr()) Image.asset("assets/icon/completion.png", height: W / 18, width: W / 18, fit: BoxFit.cover, color: Colors.white),
+                                              if (res == "Planned".tr()) Image.asset("assets/icon/planned.png", height: W / 18, width: W / 18, fit: BoxFit.cover, color: Colors.white),
+                                              if (res == "To be planned".tr()) Image.asset("assets/icon/tobeplanned.png", height: W / 18, width: W / 18, fit: BoxFit.cover, color: Colors.white),
                                               SizedBox(width: W / 40),
                                               Text(res.tr(), style: kMontserrat17.copyWith(color: Colors.white))
-                                            ],
-                                          ),
-                                        ),
+                                            ])),
                                         if (resItem.placename != null) const Divider(),
                                         if (resItem.placename != null)
                                           Row(children: [
