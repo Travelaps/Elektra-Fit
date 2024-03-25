@@ -1,3 +1,4 @@
+import 'package:elektra_fit/global/index.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
@@ -22,22 +23,22 @@ String getLevelDescription(int? level) {
   String levelName = '';
   switch (level) {
     case 1:
-      levelName = 'Beginner';
+      levelName = 'Beginner'.tr();
       break;
     case 2:
-      levelName = 'Intermediate';
+      levelName = 'Intermediate'.tr();
       break;
     case 3:
-      levelName = 'Advanced';
+      levelName = 'Advanced'.tr();
       break;
     case 4:
-      levelName = 'Expert';
+      levelName = 'Expert'.tr();
       break;
     case 5:
-      levelName = 'Professional';
+      levelName = 'Professional'.tr();
       break;
     default:
-      levelName = 'Unknown Level';
+      levelName = '';
   }
   return levelName;
 }

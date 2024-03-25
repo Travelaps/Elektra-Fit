@@ -120,7 +120,7 @@ class _HomeState extends State<Home> {
                                                 child: Row(children: [
                                                   Icon(Icons.star_outlined, color: getLevelDescriptionColor(item.level)),
                                                   SizedBox(width: W / 40),
-                                                  Text(getLevelDescription(item.level), style: kMontserrat19.copyWith(color: Colors.white))
+                                                  Text(getLevelDescription(item.level).tr(), style: kMontserrat19.copyWith(color: Colors.white))
                                                 ]),
                                               ))
                                         ]),
@@ -144,7 +144,9 @@ class _HomeState extends State<Home> {
                                               Row(children: [
                                                 Image.asset("assets/icon/continue.png", width: W / 20, height: W / 20, fit: BoxFit.cover),
                                                 SizedBox(width: W / 40),
-                                                Text("${item.duration} min", style: kMontserrat17)
+                                                Row(
+                                                  children: [Text("${item.duration}", style: kMontserrat17), SizedBox(width: W / 70), Text("min".tr(), style: kMontserrat17)],
+                                                )
                                               ])
                                             ]))),
                                         SizedBox(height: W / 60),

@@ -21,7 +21,7 @@ class _MemberTypeState extends State<MemberType> {
         body: Column(
           children: member$.value!.map((e) {
                 return Column(
-                  children: e.membership!.map((item) {
+                  children: e.membership.map((item) {
                         return Container(
                             margin: marginAll10,
                             width: W,

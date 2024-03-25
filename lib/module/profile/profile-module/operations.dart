@@ -61,62 +61,67 @@ class _MyOperationsState extends State<MyOperations> {
                                       BoxShadow(color: Colors.black.withOpacity(0.9), spreadRadius: 2, blurRadius: 10, offset: Offset(0, 7)),
                                     ]),
                                     child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        IntrinsicHeight(
-                                            child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                                          Expanded(
-                                              child: Row(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              Image.asset("assets/icon/person.png", height: W / 18, width: W / 18, color: Colors.black),
-                                              SizedBox(width: W / 60),
-                                              Text(resItem.guestname, style: kProxima17)
-                                            ],
-                                          )),
-                                          if (resItem.placename != null) const VerticalDivider(),
-                                          if (resItem.placename != null)
-                                            Expanded(
-                                                child: Row(children: [
-                                              Image.asset("assets/icon/place.png", height: W / 18, width: W / 18, color: Colors.black),
-                                              SizedBox(width: W / 60),
-                                              Text(resItem.placename, style: kProxima17)
-                                            ]))
-                                        ])),
-                                        if (resItem.servicename != "") const Divider(),
                                         if (resItem.servicename != "")
                                           Row(
                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            children: [Expanded(child: Text("Service Name".tr(), style: kProxima17)), Spacer(), Expanded(child: Text(resItem.servicename ?? "", style: kProxima17))],
+                                            children: [Expanded(child: Text(resItem.servicename ?? "", style: kMontserrat18))],
                                           ),
-                                        // const Divider(),
+                                        Container(
+                                          decoration: BoxDecoration(
+                                              borderRadius: borderRadius10,
+                                              color: res == 'Planned'.tr()
+                                                  ? config.primaryColor
+                                                  : res == 'Completed'.tr()
+                                                      ? Colors.grey
+                                                      : Colors.green),
+                                          padding: paddingAll5,
+                                          child: Row(
+                                            children: [
+                                              if (res == "Completed") Image.asset("assets/icon/completion.png", height: W / 18, width: W / 18, fit: BoxFit.cover, color: Colors.white),
+                                              if (res == "Planned") Image.asset("assets/icon/planned.png", height: W / 18, width: W / 18, fit: BoxFit.cover, color: Colors.white),
+                                              if (res == "To be planned") Image.asset("assets/icon/tobeplanned.png", height: W / 18, width: W / 18, fit: BoxFit.cover, color: Colors.white),
+                                              SizedBox(width: W / 40),
+                                              Text(res.tr(), style: kMontserrat17.copyWith(color: Colors.white))
+                                            ],
+                                          ),
+                                        ),
+                                        if (resItem.placename != null) const Divider(),
+                                        if (resItem.placename != null)
+                                          Row(children: [
+                                            Image.asset("assets/icon/place.png", height: W / 18, width: W / 18, color: Colors.black),
+                                            SizedBox(width: W / 60),
+                                            Text(resItem.placename, style: kProxima17)
+                                          ]),
                                         if (resItem.staffname != null) const Divider(),
                                         if (resItem.staffname != null)
                                           Row(
                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            children: [Expanded(child: Text("Staff Name".tr(), style: kProxima17)), Spacer(), Expanded(child: Text(resItem!.staffname ?? "", style: kProxima17))],
+                                            children: [Text("Staff Name".tr(), style: kProxima17), Expanded(child: Text(" : ${resItem.staffname}", style: kMontserrat16))],
                                           ),
-                                        const Divider(),
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Expanded(child: Text("Total Price".tr(), style: kProxima17)),
-                                            const Spacer(),
-                                            Expanded(child: Text("${resItem.netCtotal.toStringAsFixed(1)} ${resItem.currencycode} ".tr(), style: kProxima17)),
-                                          ],
-                                        ),
+                                        if (resItem.netCtotal != 0) const Divider(),
+                                        if (resItem.netCtotal != 0)
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text("Total Price".tr(), style: kProxima17),
+                                              Expanded(child: Text(" : ${resItem.netCtotal.toStringAsFixed(1)} ${resItem.currencycode} ".tr(), style: kMontserrat16)),
+                                            ],
+                                          ),
                                         if (resItem.resstart != null) const Divider(),
                                         IntrinsicHeight(
                                             child: Row(children: [
                                           if (resItem.resstart != null)
                                             Expanded(
                                                 child: Column(
-                                              children: [Text("Start Time".tr(), style: kProxima17), Text(DateFormat("dd MMM yyyy HH:mm").format(resItem.resstart!).tr(), style: kProxima17)],
+                                              children: [Text("Start Time".tr(), style: kProxima17), Text(DateFormat("HH:mm  dd MMM yyyy").format(resItem.resstart!).tr(), style: kMontserrat16)],
                                             )),
                                           if (resItem.resend != null) const VerticalDivider(),
                                           if (resItem.resend != null)
                                             Expanded(
                                                 child: Column(
-                                              children: [Text("End Time".tr(), style: kProxima17), Text(DateFormat("dd MMM yyyy  HH:mm").format(resItem.resend!).tr(), style: kProxima17)],
+                                              children: [Text("End Time".tr(), style: kProxima17), Text(DateFormat("HH:mm  dd MMM yyyy").format(resItem.resend!).tr(), style: kMontserrat16)],
                                             ))
                                         ])),
                                       ],

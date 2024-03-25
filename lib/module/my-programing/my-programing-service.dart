@@ -36,7 +36,7 @@ class MyProgramingService {
 
       return RequestResponse(message: utf8.decode(response.bodyBytes).tr(), result: true);
     } catch (e) {
-      print(e);
+      // print(e);
       return RequestResponse(message: e.toString(), result: false);
     }
   }

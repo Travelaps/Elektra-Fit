@@ -80,7 +80,13 @@ class _SpaGroupActivityDetailState extends State<SpaGroupActivityDetail> {
                   Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
                     Image.asset("assets/icon/clock.png", fit: BoxFit.cover, height: W / 20, width: W / 20, color: Colors.white),
                     SizedBox(width: W / 40),
-                    Text("${widget.item.duration} min".tr(), style: kMontserrat18.copyWith(color: Colors.white)),
+                    Row(
+                      children: [
+                        Text("${widget.item.duration}", style: kMontserrat18.copyWith(color: Colors.white)),
+                        SizedBox(width: W / 70),
+                        Text("min".tr(), style: kMontserrat18.copyWith(color: Colors.white))
+                      ],
+                    )
                   ])
                 ])),
             Padding(padding: paddingAll10, child: Text(widget.item.notes, style: kProxima17)),
@@ -95,17 +101,17 @@ class _SpaGroupActivityDetailState extends State<SpaGroupActivityDetail> {
                   const Divider(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [Text("Activity Start Date", style: kProxima17), Text("${DateFormat("dd MMM HH:mm").format(widget.item.startTime)}", style: kProxima17)],
+                    children: [Text("Activity Start Date".tr(), style: kProxima17), Text("${DateFormat("dd MMM HH:mm").format(widget.item.startTime)}", style: kProxima17)],
                   ),
                   const Divider(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [Text("Place", style: kProxima17), Text(widget.item.placename, style: kProxima17)],
+                    children: [Text("Event venue".tr(), style: kProxima17), Text(widget.item.placename, style: kProxima17)],
                   ),
                   const Divider(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [Text("Category", style: kProxima17), Text(widget.item.categoriname, style: kProxima17)],
+                    children: [Text("Category".tr(), style: kProxima17), Text(widget.item.categoriname, style: kProxima17)],
                   )
                 ]))
           ])),

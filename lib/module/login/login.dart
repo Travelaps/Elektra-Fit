@@ -63,10 +63,10 @@ class _LoginState extends State<Login> {
               return Padding(
                 padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top, left: 10, right: 10, bottom: 10),
                 child: isLoading$.value
-                    ? Container(width: W, height: H * 0.59, decoration: const BoxDecoration(image: DecorationImage(fit: BoxFit.cover, image: AssetImage("assets/image/start4.png"))), child: CLoading())
+                    ? Center(child: CircularProgressIndicator(color: config.primaryColor))
                     : Column(children: [
                         SizedBox(height: H * 0.59, width: W, child: Image.asset("assets/image/start4.png", fit: BoxFit.cover)),
-                        CTextFormField(_email, "Email".tr(), prefixIcon: Icon(Icons.email)),
+                        CTextFormField(_email, "Email".tr(), prefixIcon: const Icon(Icons.email)),
                         SizedBox(height: W / 40),
                         CTextFormField(_password, "Password".tr(),
                             obscureText: isVisibility$.value,

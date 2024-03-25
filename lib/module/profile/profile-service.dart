@@ -7,7 +7,7 @@ class ProfileService {
   BehaviorSubject<List<SpaMemberBodyAnalysis?>?> spaMemberBody$ = BehaviorSubject.seeded(null);
   BehaviorSubject<List<ReservationModel?>?> reservation$ = BehaviorSubject.seeded(null);
 
-  BehaviorSubject<Map<String, List<ReservationModel>?>?> res$ = BehaviorSubject.seeded({"Planned".tr(): [], "To be planned".tr(): [], "Completed".tr(): []});
+  BehaviorSubject<Map<String, List<ReservationModel>?>?> res$ = BehaviorSubject.seeded({"To be planned".tr(): [], "Planned".tr(): [], "Completed".tr(): []});
 
   Future<RequestResponse?> spaMemberBodyAnality() async {
     spaMemberBody$.add(null);
@@ -47,7 +47,7 @@ class ProfileService {
       final jsonData = json.decode(utf8.decode(response.bodyBytes));
       if (jsonData != null) {
         var today = DateTime.now();
-        res$.value = {"Planned".tr(): [], "To be planned".tr(): [], "Completed".tr(): []};
+        res$.value = {"To be planned".tr(): [], "Planned".tr(): [], "Completed".tr(): []};
         jsonData.forEach((e) {
           ReservationModel reservation = ReservationModel.fromJson(e);
 
@@ -55,8 +55,10 @@ class ProfileService {
             res$.value?["To be planned".tr()]?.add(reservation);
           } else {
             if (reservation.resstart != null && reservation.resstart!.isBefore(today)) {
+              res$.value?["Completed".tr()]?.sort((a, b) => a.resstart!.compareTo(b.resstart!));
               res$.value?["Completed".tr()]?.add(reservation);
             } else {
+              res$.value?["Planned".tr()]?.sort((a, b) => a.resstart!.compareTo(b.resstart!));
               res$.value?["Planned".tr()]?.add(reservation);
             }
           }

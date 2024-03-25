@@ -1,7 +1,6 @@
-import 'package:elektra_fit/global/global-config.dart';
 import 'package:elektra_fit/global/global-models.dart';
+import 'package:elektra_fit/global/index.dart';
 import 'package:flutter/material.dart';
-import 'package:rxdart/rxdart.dart';
 
 BehaviorSubject<bool> isDarkMode$ = BehaviorSubject.seeded(false);
 BehaviorSubject<bool> isLoading$ = BehaviorSubject.seeded(false);
@@ -10,6 +9,7 @@ BehaviorSubject<List<MemberModel>?> member$ = BehaviorSubject.seeded(null);
 final config = FitConfig.fromJson(fitConfig);
 final url = Uri.parse('https://4001.hoteladvisor.net');
 String? selectedlang;
+
 int? hotelId;
 
 EdgeInsets marginAll5 = EdgeInsets.all(5);

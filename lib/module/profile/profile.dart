@@ -90,20 +90,17 @@ class _ProfileState extends State<Profile> {
                           SizedBox(height: W / 60),
                           Text(member$.value?.first.profile.fullname ?? "", style: kAxiforma20),
                           Column(
-                            children: member$.value?.map((e) {
-                                  return Column(
-                                      children: e.membership?.map((item) {
-                                            return Column(children: [
-                                              if (item?.membershiptype != null) Text(item!.membershiptype!, style: kMontserrat20.copyWith(color: config.primaryColor)),
-                                              if (item?.startdate != null && item?.lastdate != null)
-                                                Text("${DateFormat("dd-MMM-yyyy").format(item.startdate!)} - ${DateFormat("dd-MMM-yyyy").format(item.lastdate!)}", style: kMontserrat20),
-                                            ]);
-                                          }).toList() ??
-                                          []);
-                                }).toList() ??
-                                [],
-                          ),
-                          // ),
+                              children: member$.value?.map((e) {
+                                    return Column(
+                                        children: e.membership.map((item) {
+                                              return Column(children: [
+                                                Text(item.membershiptype, style: kMontserrat20.copyWith(color: config.primaryColor)),
+                                                Text("${DateFormat("dd-MMM-yyyy").format(item.startdate)} - ${DateFormat("dd-MMM-yyyy").format(item.lastdate!)}", style: kMontserrat20),
+                                              ]);
+                                            }).toList() ??
+                                            []);
+                                  }).toList() ??
+                                  []),
                           SizedBox(height: W / 80),
                           Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -180,11 +177,7 @@ class _ProfileState extends State<Profile> {
                             decoration: BoxDecoration(
                                 color: Colors.white, borderRadius: borderRadius10, boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.4), spreadRadius: 3, blurRadius: 10, offset: Offset(0, 3))]),
                             width: W,
-                            child: Row(children: [
-                              Icon(Icons.language, color: config.IconPrimaryColor, size: 25),
-                              SizedBox(width: W / 40),
-                              Text("Language".tr(), style: kMontserrat16),
-                            ]))),
+                            child: Row(children: [Icon(Icons.language, color: config.IconPrimaryColor, size: 25), SizedBox(width: W / 40), Text("Language".tr(), style: kMontserrat16)]))),
                     SizedBox(height: W / 60),
                     InkWell(
                       onTap: () {
@@ -207,7 +200,7 @@ class _ProfileState extends State<Profile> {
                           children: [
                             Container(height: W / 15, width: W / 15, child: Image.asset("assets/icon/exit-icon.png", color: Colors.red)),
                             SizedBox(width: W / 40),
-                            Text("Log Out".tr(), style: kMontserrat16.copyWith(color: Colors.red)),
+                            Text("Log Out".tr(), style: kMontserrat16.copyWith(color: Colors.red))
                           ],
                         ),
                       ),
