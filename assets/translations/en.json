@@ -2,6 +2,7 @@
   "Beginner": "Beginner",
   "Intermediate": "Intermediate",
   "Advanced": "Advanced",
+  "$res operation not found": "$res operation not found",
   "Expert": "Expert",
   "Professional": "Professional",
   "min": "min",

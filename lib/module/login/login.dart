@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -65,7 +66,7 @@ class _LoginState extends State<Login> {
                 child: isLoading$.value
                     ? Center(child: CircularProgressIndicator(color: config.primaryColor))
                     : Column(children: [
-                        SizedBox(height: H * 0.59, width: W, child: Image.asset("assets/image/start4.png", fit: BoxFit.cover)),
+                        Expanded(child: SizedBox(height: H * 0.59, width: W, child: Image.asset("assets/image/start4.png", fit: BoxFit.cover))),
                         CTextFormField(_email, "Email".tr(), prefixIcon: const Icon(Icons.email)),
                         SizedBox(height: W / 40),
                         CTextFormField(_password, "Password".tr(),
@@ -97,10 +98,10 @@ class _LoginState extends State<Login> {
                               value: isSaved$.value,
                               onChanged: (value) {
                                 isSaved$.add(!isSaved$.value);
-                              },
+                              }
                             ),
                             Text("Remember me".tr(), style: kProxima16)
-                          ],
+                          ]
                         ),
                         SizedBox(height: W / 70),
                         CButton(
@@ -124,9 +125,9 @@ class _LoginState extends State<Login> {
                               kShowBanner(BannerType.ERROR, errorMessage, context);
                             }
                           },
-                          width: W,
+                          width: W
                         ),
-                        SizedBox(height: W / 10)
+                  SizedBox(height: W / 30),
                       ]),
               );
             }),

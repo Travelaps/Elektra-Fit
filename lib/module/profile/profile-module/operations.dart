@@ -46,7 +46,7 @@ class _MyOperationsState extends State<MyOperations> {
                             children: service.res$.value!.keys.map((res) {
                       var item = service.res$.value?[res];
                       return item!.isEmpty
-                          ? Center(child: Text("no found $res"))
+                          ? Center(child: Text("$res operation not found".tr()))
                           : SizedBox(
                               height: H * 0.9,
                               width: W,
@@ -69,6 +69,7 @@ class _MyOperationsState extends State<MyOperations> {
                                             children: [Expanded(child: Text(resItem.servicename ?? "", style: kMontserrat18))],
                                           ),
                                         Container(
+                                        
                                             decoration: BoxDecoration(
                                                 borderRadius: borderRadius10,
                                                 color: res == 'Planned'.tr()
@@ -77,7 +78,9 @@ class _MyOperationsState extends State<MyOperations> {
                                                         ? Colors.grey
                                                         : Colors.green),
                                             padding: paddingAll5,
-                                            child: Row(children: [
+                                            child: Row(
+
+                                                children: [
                                               if (res == "Completed".tr()) Image.asset("assets/icon/completion.png", height: W / 18, width: W / 18, fit: BoxFit.cover, color: Colors.white),
                                               if (res == "Planned".tr()) Image.asset("assets/icon/planned.png", height: W / 18, width: W / 18, fit: BoxFit.cover, color: Colors.white),
                                               if (res == "To be planned".tr()) Image.asset("assets/icon/tobeplanned.png", height: W / 18, width: W / 18, fit: BoxFit.cover, color: Colors.white),
@@ -121,77 +124,17 @@ class _MyOperationsState extends State<MyOperations> {
                                               children: [Text("End Time".tr(), style: kProxima17), Text(DateFormat("HH:mm  dd MMM yyyy").format(resItem.resend!).tr(), style: kMontserrat16)],
                                             ))
                                         ])),
-                                      ],
-                                    ),
+                                      ]
+                                    )
                                   );
-                                },
-                              ),
+                                }
+                              )
                             );
                     }).toList()))
                   ],
                 ));
           }),
     );
-    // body: DefaultTabController(z
-    //   child: Scaffold(
-    //     body: ,
-    //   ),
-    // ));
-    // return Scaffold (
-    //   appBar: AppBar(title: Text("My Operations".tr())),
-    //   body: StreamBuilder(
-    //       stream: service.reservation$.stream,
-    //       builder: (context, snapshot) {
-    //         if (service.reservation$.value == null) {
-    //           return Center(child: CircularProgressIndicator(color: config.primaryColor));
-    //         } else if (service.reservation$.value!.isEmpty) {
-    //           return Center(child: Text("No Operations Found".tr()));
-    //         }
-    //         return SizedBox(
-    //             height: H * 0.8,
-    //             child: ListView.builder(
-    //               itemCount: service.reservation$.value!.length,
-    //               itemBuilder: (context, index) {
-    //                 var item = service.reservation$.value?[index];
-    //                 return Container(
-    //                   padding: paddingAll10,
-    //                   margin: marginAll5,
-    //                   decoration: BoxDecoration(color: Colors.white, borderRadius: borderRadius10, boxShadow: [
-    //                     BoxShadow(color: Colors.black.withOpacity(0.6), spreadRadius: 3, blurRadius: 10, offset: Offset(0, 3)),
-    //                   ]),
-    //                   child: Column(
-    //                     children: [
-    //                       Row(
-    //                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //                         children: [
-    //                           Text("Name".tr(), style: kProxima17),
-    //                           Text(item?.guestname ?? "", style: kProxima17),
-    //                         ],
-    //                       ),
-    //                       Divider(),
-    //                       Row(
-    //                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //                         children: [Text("Category".tr(), style: kProxima17), Text(item?.depname ?? "", style: kProxima17)],
-    //                       ),
-    //                       Divider(),
-    //                       Row(
-    //                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //                         children: [Text("Service Name".tr(), style: kProxima17), Text(item?.servicename ?? "", style: kProxima17)],
-    //                       ),
-    //                       Divider(),
-    //                       Row(
-    //                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //                         children: [
-    //                           Text("Creation Date".tr(), style: kProxima17),
-    //                           Text("${DateFormat("MMM dd yyyy").format(item!.creationdate)}".tr(), style: kProxima17),
-    //                         ],
-    //                       ),
-    //                     ],
-    //                   ),
-    //                 );
-    //               },
-    //             ));
-    //       }),
-    // );
+
   }
 }

@@ -19,6 +19,17 @@ class _QrState extends State<Qr> {
 
   BehaviorSubject<String> placedID$ = BehaviorSubject.seeded("");
 
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (controller != null) {
+        controller!.resumeCamera();
+      }
+    });
+  }
+
   void _onQRViewCreated(QRViewController controller) {
     this.controller = controller;
     bool isQRCodeScanned = false;

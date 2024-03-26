@@ -2,6 +2,7 @@
   "Beginner": "Başlangıç",
   "Intermediate": "Orta Seviye",
   "Advanced": "İleri Seviye",
+  "$res operation not found": "$res işlem bulunamadı",
   "Expert": "Uzman",
   "Professional": "Profesyonel",
   "Instructor name": "Eğitmenin Adı",
