@@ -6,6 +6,9 @@ import '../../global/global-models.dart';
 class ProfileService {
   BehaviorSubject<List<SpaMemberBodyAnalysis?>?> spaMemberBody$ = BehaviorSubject.seeded(null);
   BehaviorSubject<List<ReservationModel?>?> reservation$ = BehaviorSubject.seeded(null);
+  BehaviorSubject<List<SpaInfoModel?>?> spaInfo$ = BehaviorSubject.seeded(null);
+  BehaviorSubject<List<AvailabilityHours?>?> availabilityHours$ = BehaviorSubject.seeded(null);
+  BehaviorSubject<DateTime> selectDateAvailability$ = BehaviorSubject.seeded(DateTime.now());
 
   BehaviorSubject<Map<String, List<ReservationModel>?>?> res$ = BehaviorSubject.seeded({"To be planned".tr(): [], "Planned".tr(): [], "Completed".tr(): []});
 
@@ -35,7 +38,7 @@ class ProfileService {
     return null;
   }
 
-  Future<RequestResponse?> ressList() async {
+  Future<RequestResponse?> operationList() async {
     res$.value = null;
     try {
       var response = await http.post(url,
@@ -69,6 +72,76 @@ class ProfileService {
     } catch (item) {
       print(item);
       return RequestResponse(message: item.toString(), result: false);
+    }
+  }
+
+  Future<RequestResponse?> availability(DateTime dateTime) async {
+    try {
+      var response = await http.post(url,
+          body: json.encode({
+            "Action": "Execute",
+            "Object": "SP_SPA_AVAILABLETIMES",
+            "Parameters": {"DATE": DateTime, "HOTELID": 24204}
+            //todo hotel id add
+          }));
+      if (response.statusCode == 200) {
+        final jsonData = json.decode(utf8.decode(response.bodyBytes));
+        List<AvailabilityHours> availabilityList = [];
+        for (var item in jsonData) {
+          availabilityList.add(AvailabilityHours.fromJson(item));
+        }
+        availabilityHours$.add(availabilityList);
+        availabilityHours$.add(availabilityHours$.value);
+      }
+      return RequestResponse(message: "success", result: true);
+    } catch (e) {
+      print(e);
+      return RequestResponse(message: e.toString(), result: false);
+    }
+    return null;
+  }
+
+  Future<RequestResponse?> spaInfo() async {
+    try {
+      var response = await http.post(url,
+          body: json.encode({
+            "Action": "Execute",
+            "Object": "SP_SPA_INFO",
+            "Parameters": {"HOTELID": 24204}
+            // todo hotel id add
+          }));
+
+      if (response.statusCode == 200) {
+        final jsonData = json.decode(utf8.decode(response.bodyBytes));
+
+        if (jsonData is List && jsonData.isNotEmpty) {
+          final firstItem = jsonData[0];
+          if (firstItem is List && firstItem.isNotEmpty) {
+            final firstItemMap = firstItem[0];
+            if (firstItemMap != null && firstItemMap is Map<String, dynamic> && firstItemMap.containsKey('HOTELINFOS')) {
+              final hotelInfos = firstItemMap['HOTELINFOS'];
+              if (hotelInfos != null && hotelInfos is Iterable) {
+                List<SpaInfoModel> spaInfoList = [];
+                for (var item in hotelInfos) {
+                  spaInfoList.add(SpaInfoModel.fromJson(item));
+                }
+                spaInfo$.add(spaInfoList);
+                spaInfo$.add(spaInfo$.value);
+                return RequestResponse(message: "success", result: true);
+              }
+            }
+          }
+        }
+        // JSON verisi beklendiği gibi değilse veya gerekli bilgiler yoksa:
+        return RequestResponse(message: "No spa information found", result: false);
+      } else {
+        print("a");
+        return RequestResponse(message: "Invalid response format", result: false);
+      }
+    } catch (e) {
+      // Hata varsa:
+      print(e); // Hatanın nedenini görmek için konsola yazdırabilirsiniz.
+      return RequestResponse(message: "An error occurred: ${e.toString()}", result: false);
     }
   }
 }

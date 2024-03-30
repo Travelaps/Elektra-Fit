@@ -656,3 +656,119 @@ class ReservationModel {
         "RESNAME_HOTELID": resnameHotelid,
       };
 }
+
+class AvailabilityHours {
+  String workHours;
+
+  AvailabilityHours({
+    required this.workHours,
+  });
+
+  factory AvailabilityHours.fromJson(Map<String, dynamic> json) => AvailabilityHours(
+        workHours: json["WORK_HOURS"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "WORK_HOURS": workHours,
+      };
+}
+
+class SpaInfoModel {
+  Hotelinfos hotelinfos;
+
+  SpaInfoModel({
+    required this.hotelinfos,
+  });
+
+  factory SpaInfoModel.fromJson(Map<String, dynamic> json) => SpaInfoModel(
+        hotelinfos: Hotelinfos.fromJson(json["HOTELINFOS"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "HOTELINFOS": hotelinfos.toJson(),
+      };
+}
+
+class Hotelinfos {
+  int id;
+  String name;
+  String address;
+  String email;
+  String phone;
+  String logourl;
+  String workingDays;
+  String workingHours;
+  int onlineAppointmentDepartmentid;
+  List<SpaService> spaServices;
+
+  Hotelinfos({
+    required this.id,
+    required this.name,
+    required this.address,
+    required this.email,
+    required this.phone,
+    required this.logourl,
+    required this.workingDays,
+    required this.workingHours,
+    required this.onlineAppointmentDepartmentid,
+    required this.spaServices,
+  });
+
+  factory Hotelinfos.fromJson(Map<String, dynamic> json) => Hotelinfos(
+        id: json["ID"],
+        name: json["NAME"],
+        address: json["ADDRESS"],
+        email: json["EMAIL"],
+        phone: json["PHONE"],
+        logourl: json["LOGOURL"],
+        workingDays: json["WORKING_DAYS"],
+        workingHours: json["WORKING_HOURS"],
+        onlineAppointmentDepartmentid: json["ONLINE_APPOINTMENT_DEPARTMENTID"],
+        spaServices: List<SpaService>.from(json["SPA_SERVICES"].map((x) => SpaService.fromJson(x))),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "ID": id,
+        "NAME": name,
+        "ADDRESS": address,
+        "EMAIL": email,
+        "PHONE": phone,
+        "LOGOURL": logourl,
+        "WORKING_DAYS": workingDays,
+        "WORKING_HOURS": workingHours,
+        "ONLINE_APPOINTMENT_DEPARTMENTID": onlineAppointmentDepartmentid,
+        "SPA_SERVICES": List<dynamic>.from(spaServices.map((x) => x.toJson())),
+      };
+}
+
+class SpaService {
+  int id;
+  String product;
+  int price;
+  int currencyid;
+  String currency;
+
+  SpaService({
+    required this.id,
+    required this.product,
+    required this.price,
+    required this.currencyid,
+    required this.currency,
+  });
+
+  factory SpaService.fromJson(Map<String, dynamic> json) => SpaService(
+        id: json["ID"],
+        product: json["PRODUCT"],
+        price: json["PRICE"],
+        currencyid: json["CURRENCYID"],
+        currency: json["CURRENCY"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "ID": id,
+        "PRODUCT": product,
+        "PRICE": price,
+        "CURRENCYID": currencyid,
+        "CURRENCY": currency,
+      };
+}

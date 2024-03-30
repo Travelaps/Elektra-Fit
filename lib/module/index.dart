@@ -11,5 +11,6 @@ export 'my-programing/sport-detail/sport-details.dart';
 export 'profile/profile-module/measurements.dart';
 export 'profile/profile-module/member-type.dart';
 export 'profile/profile-module/operations.dart';
+export 'profile/profile-module/reservation.dart';
 export 'profile/profile-service.dart';
 export 'profile/profile.dart';
