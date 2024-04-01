@@ -6,11 +6,10 @@ import '../../global/global-models.dart';
 class ProfileService {
   BehaviorSubject<List<SpaMemberBodyAnalysis?>?> spaMemberBody$ = BehaviorSubject.seeded(null);
   BehaviorSubject<List<ReservationModel?>?> reservation$ = BehaviorSubject.seeded(null);
-  BehaviorSubject<List<SpaInfoModel?>?> spaInfo$ = BehaviorSubject.seeded(null);
-  BehaviorSubject<List<SpaInfoModels?>?> spaInfos$ = BehaviorSubject.seeded(null);
+  BehaviorSubject<List<SpaService>?> spaService$ = BehaviorSubject.seeded(null);
+
   BehaviorSubject<List<AvailabilityHours?>?> availabilityHours$ = BehaviorSubject.seeded(null);
   BehaviorSubject<DateTime?> selectDateAvailability$ = BehaviorSubject.seeded(null);
-
   BehaviorSubject<Map<String, List<ReservationModel>?>?> res$ = BehaviorSubject.seeded({"To be planned".tr(): [], "Planned".tr(): [], "Completed".tr(): []});
 
   Future<RequestResponse?> spaMemberBodyAnality() async {
@@ -78,17 +77,19 @@ class ProfileService {
 
   Future<RequestResponse?> availability(DateTime dateTime) async {
     try {
-      var response = await http.post(url,
-          body: json.encode({
-            "Action": "Execute",
-            "Object": "SP_SPA_AVAILABLETIMES",
-            "Parameters": {"DATE": DateTime, "HOTELID": 24204}
-            //todo hotel id add
-          }));
+      var response = await http.post(
+        url,
+        body: json.encode({
+          "Action": "Execute",
+          "Object": "SP_SPA_AVAILABLETIMES",
+          "Parameters": {"DATE": DateFormat("yyyy-MM-dd").format(dateTime), "HOTELID": 24204}
+          //todo hotel id add
+        }),
+      );
       if (response.statusCode == 200) {
         final jsonData = json.decode(utf8.decode(response.bodyBytes));
         List<AvailabilityHours> availabilityList = [];
-        for (var item in jsonData) {
+        for (var item in jsonData[0]) {
           availabilityList.add(AvailabilityHours.fromJson(item));
         }
         availabilityHours$.add(availabilityList);
@@ -101,9 +102,8 @@ class ProfileService {
     }
   }
 
-  BehaviorSubject<List<Map<String, dynamic>?>?> spainfos$ = BehaviorSubject.seeded(null);
-
   Future<RequestResponse?> spaInfo() async {
+    spaService$.add(null);
     try {
       var response = await http.post(url,
           body: json.encode({
@@ -113,27 +113,40 @@ class ProfileService {
           }));
 
       if (response.statusCode == 200) {
-        final jsonData = json.decode(utf8.decode(response.bodyBytes));
-        if (jsonData is List && jsonData.isNotEmpty) {
-          List<SpaInfoModels> spaInfoModelsList = [];
-          for (var item in jsonData[0]) {
-            if (item.containsKey("hotelInfos")) {
-              SpaInfoModels spaInfoModel = SpaInfoModels.fromJson(item["hotelInfos"]);
-              spaInfoModelsList.add(spaInfoModel);
+        List<dynamic> data = json.decode(utf8.decode(response.bodyBytes));
+
+        for (var item in data) {
+          item.forEach((subItem) {
+            String hotelInfos = subItem['HOTELINFOS'];
+            Map<String, dynamic> hotelInfoDict = json.decode(hotelInfos);
+            List<dynamic> spaServices = hotelInfoDict['SPA_SERVICES'];
+            List<SpaService> spaServiceList = [];
+            for (var service in spaServices) {
+              SpaService spaService = SpaService.fromJson(service);
+              spaServiceList.add(spaService);
             }
-          }
-          spaInfos$.add(spaInfoModelsList);
-          print(spaInfos$.value?.first?.hotelinfos.length);
-          return RequestResponse(message: "Veri başarıyla alındı", result: true);
-        } else {
-          return RequestResponse(message: "Boş veri döndü", result: false);
+            spaService$.add(spaServiceList);
+            spaService$.add(spaService$.value);
+          });
         }
-      } else {
-        return RequestResponse(message: "Veri alınamadı. Durum kodu: ${response.statusCode}", result: false);
       }
     } catch (e) {
       print(e);
       return RequestResponse(message: "Bir hata oluştu: ${e.toString()}", result: false);
+    }
+    return null;
+  }
+
+  Future<RequestResponse?> reservationCreate() async {
+    try {
+      var response = await http.post(url,
+          body: json.encode({
+            "Action": "Execute",
+            "Object": "SP_SPA_INFO",
+            "Parameters": {"HOTELID": 24204}
+          }));
+    } catch (e) {
+      print(e);
     }
   }
 }

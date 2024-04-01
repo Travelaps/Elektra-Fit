@@ -1,4 +1,5 @@
 import 'package:elektra_fit/global/index.dart';
+import 'package:elektra_fit/widget/index.dart';
 import 'package:flutter/material.dart';
 
 class Reservation extends StatefulWidget {
@@ -10,11 +11,12 @@ class Reservation extends StatefulWidget {
 
 class _ReservationState extends State<Reservation> {
   final service = GetIt.I<ProfileService>();
-  BehaviorSubject<int> currentContext$ = BehaviorSubject.seeded(0);
+  BehaviorSubject<String> selectedHours$ = BehaviorSubject.seeded("");
 
   @override
   void initState() {
     service.spaInfo();
+    service.availability(DateTime.now());
     super.initState();
   }
 
@@ -42,27 +44,121 @@ class _ReservationState extends State<Reservation> {
                   ),
                 ),
               ),
-              // StreamBuilder(
-              //     stream: service.spainfos$,
-              //     builder: (context, snapshot) {
-              //       if (service.spainfos$.value == null) {
-              //         return Center(child: CircularProgressIndicator(color: Colors.red));
-              //       } else if (service.spainfos$.value?.length == 0) {
-              //         return Center(child: Text("no found"));
-              //       }
-              //       return Container(
-              //         child: Wrap(
-              //           children: service.spainfos$.value!.map((e) {
-              //             return Container(
-              //               child: ListView.builder(
-              //                 itemCount: e!.length,
-              //                 itemBuilder: (context, index) {},
-              //               ),
-              //             );
-              //           }).toList(),
-              //         ),
-              //       );
-              //     })
+              StreamBuilder(
+                stream: service.spaService$,
+                builder: (context, snapshot) {
+                  if (service.spaService$.value == null) {
+                    return Center(
+                      child: CircularProgressIndicator(color: config.primaryColor),
+                    );
+                  } else if (service.spaService$.value!.isEmpty) {
+                    return Center(child: Text("no found", style: kProxima17));
+                  }
+                  return SizedBox(
+                    height: H * 0.78,
+                    child: ListView.builder(
+                      itemCount: service.spaService$.value?.length,
+                      itemBuilder: (context, index) {
+                        var item = service.spaService$.value?[index];
+                        return Container(
+                          padding: paddingAll5,
+                          margin: marginAll5,
+                          decoration: BoxDecoration(
+                            borderRadius: borderRadius10,
+                            border: borderAll,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text("${item?.product}", style: kMontserrat17),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Expanded(child: Text("${item?.price.toStringAsFixed(2)} ${item?.currency}", style: kProxima17)),
+                                  CButton(
+                                    title: "Choose".tr(),
+                                    func: () {
+                                      showModalBottomSheet(
+                                        context: context,
+                                        builder: (context) {
+                                          return Container(
+                                            height: H * 0.6,
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              children: [
+                                                Container(
+                                                    padding: paddingAll10,
+                                                    child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                                                      Text("Select Time".tr(), style: kMontserrat17),
+                                                      InkWell(
+                                                          onTap: () {
+                                                            Navigator.pop(context);
+                                                          },
+                                                          child: Icon(Icons.cancel, color: Colors.red, size: W / 14))
+                                                    ])),
+                                                Expanded(
+                                                  child: StreamBuilder(
+                                                      stream: Rx.combineLatest2(service.availabilityHours$, selectedHours$, (a, b) => null),
+                                                      builder: (context, snapshot) {
+                                                        if (service.availabilityHours$.value == null) {
+                                                          return Center(child: CircularProgressIndicator(color: config.primaryColor));
+                                                        } else if (service.availabilityHours$.value!.isEmpty) {
+                                                          return const Center(child: Text("no found"));
+                                                        }
+                                                        return Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                                                          Wrap(
+                                                            crossAxisAlignment: WrapCrossAlignment.start,
+                                                            runAlignment: WrapAlignment.spaceBetween,
+                                                            alignment: WrapAlignment.start,
+                                                            children: service.availabilityHours$.value!.map((e) {
+                                                              bool selected = selectedHours$.value == e?.workHours;
+                                                              return InkWell(
+                                                                  onTap: () {
+                                                                    selectedHours$.add(e!.workHours);
+                                                                  },
+                                                                  child: Container(
+                                                                    padding: paddingAll10,
+                                                                    margin: marginAll5,
+                                                                    decoration: BoxDecoration(
+                                                                        border: Border.all(color: selected ? config.primaryColor : Colors.black, width: selected ? 3 : 1),
+                                                                        borderRadius: borderRadius10,
+                                                                        color: selected ? config.primaryColor.withOpacity(0.3) : Colors.transparent),
+                                                                    child: Text("${e?.workHours}", style: kProxima18),
+                                                                  ));
+                                                            }).toList(),
+                                                          )
+                                                        ]);
+                                                      }),
+                                                ),
+                                                Container(
+                                                  padding: paddingAll10,
+                                                  margin: marginAll10,
+                                                  child: CButton(
+                                                      title: "Continue".tr(),
+                                                      func: () {
+                                                        Navigator.push(context, RouteAnimation.createRoute(ReservationCreate(spaService: item!), 1, 0));
+                                                      },
+                                                      width: W),
+                                                )
+                                              ],
+                                            ),
+                                          );
+                                        },
+                                      );
+                                      // Navigator.push(context, RouteAnimation.createRoute(ReservationCreate(spaService: item!), 1, 0));
+                                    },
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                  );
+                },
+              )
             ],
           ),
         ));

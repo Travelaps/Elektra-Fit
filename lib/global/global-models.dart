@@ -744,7 +744,7 @@ class Hotelinfos {
 class SpaService {
   int id;
   String product;
-  int price;
+  double price;
   int currencyid;
   String currency;
 
@@ -772,19 +772,19 @@ class SpaService {
         "CURRENCY": currency,
       };
 }
-
-class SpaInfoModels {
-  String hotelinfos;
-
-  SpaInfoModels({
-    required this.hotelinfos,
-  });
-
-  factory SpaInfoModels.fromJson(Map<String, dynamic> json) => SpaInfoModels(
-        hotelinfos: json["HOTELINFOS"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "HOTELINFOS": hotelinfos,
-      };
-}
+//
+// class SpaInfoModels {
+//   String hotelinfos;
+//
+//   SpaInfoModels({
+//     required this.hotelinfos,
+//   });
+//
+//   factory SpaInfoModels.fromJson(Map<String, dynamic> json) => SpaInfoModels(
+//         hotelinfos: json["HOTELINFOS"],
+//       );
+//
+//   Map<String, dynamic> toJson() => {
+//         "HOTELINFOS": hotelinfos,
+//       };
+// }
