@@ -7,8 +7,9 @@ class ProfileService {
   BehaviorSubject<List<SpaMemberBodyAnalysis?>?> spaMemberBody$ = BehaviorSubject.seeded(null);
   BehaviorSubject<List<ReservationModel?>?> reservation$ = BehaviorSubject.seeded(null);
   BehaviorSubject<List<SpaInfoModel?>?> spaInfo$ = BehaviorSubject.seeded(null);
+  BehaviorSubject<List<SpaInfoModels?>?> spaInfos$ = BehaviorSubject.seeded(null);
   BehaviorSubject<List<AvailabilityHours?>?> availabilityHours$ = BehaviorSubject.seeded(null);
-  BehaviorSubject<DateTime> selectDateAvailability$ = BehaviorSubject.seeded(DateTime.now());
+  BehaviorSubject<DateTime?> selectDateAvailability$ = BehaviorSubject.seeded(null);
 
   BehaviorSubject<Map<String, List<ReservationModel>?>?> res$ = BehaviorSubject.seeded({"To be planned".tr(): [], "Planned".tr(): [], "Completed".tr(): []});
 
@@ -98,8 +99,9 @@ class ProfileService {
       print(e);
       return RequestResponse(message: e.toString(), result: false);
     }
-    return null;
   }
+
+  BehaviorSubject<List<Map<String, dynamic>?>?> spainfos$ = BehaviorSubject.seeded(null);
 
   Future<RequestResponse?> spaInfo() async {
     try {
@@ -108,40 +110,30 @@ class ProfileService {
             "Action": "Execute",
             "Object": "SP_SPA_INFO",
             "Parameters": {"HOTELID": 24204}
-            // todo hotel id add
           }));
 
       if (response.statusCode == 200) {
         final jsonData = json.decode(utf8.decode(response.bodyBytes));
-
         if (jsonData is List && jsonData.isNotEmpty) {
-          final firstItem = jsonData[0];
-          if (firstItem is List && firstItem.isNotEmpty) {
-            final firstItemMap = firstItem[0];
-            if (firstItemMap != null && firstItemMap is Map<String, dynamic> && firstItemMap.containsKey('HOTELINFOS')) {
-              final hotelInfos = firstItemMap['HOTELINFOS'];
-              if (hotelInfos != null && hotelInfos is Iterable) {
-                List<SpaInfoModel> spaInfoList = [];
-                for (var item in hotelInfos) {
-                  spaInfoList.add(SpaInfoModel.fromJson(item));
-                }
-                spaInfo$.add(spaInfoList);
-                spaInfo$.add(spaInfo$.value);
-                return RequestResponse(message: "success", result: true);
-              }
+          List<SpaInfoModels> spaInfoModelsList = [];
+          for (var item in jsonData[0]) {
+            if (item.containsKey("hotelInfos")) {
+              SpaInfoModels spaInfoModel = SpaInfoModels.fromJson(item["hotelInfos"]);
+              spaInfoModelsList.add(spaInfoModel);
             }
           }
+          spaInfos$.add(spaInfoModelsList);
+          print(spaInfos$.value?.first?.hotelinfos.length);
+          return RequestResponse(message: "Veri başarıyla alındı", result: true);
+        } else {
+          return RequestResponse(message: "Boş veri döndü", result: false);
         }
-        // JSON verisi beklendiği gibi değilse veya gerekli bilgiler yoksa:
-        return RequestResponse(message: "No spa information found", result: false);
       } else {
-        print("a");
-        return RequestResponse(message: "Invalid response format", result: false);
+        return RequestResponse(message: "Veri alınamadı. Durum kodu: ${response.statusCode}", result: false);
       }
     } catch (e) {
-      // Hata varsa:
-      print(e); // Hatanın nedenini görmek için konsola yazdırabilirsiniz.
-      return RequestResponse(message: "An error occurred: ${e.toString()}", result: false);
+      print(e);
+      return RequestResponse(message: "Bir hata oluştu: ${e.toString()}", result: false);
     }
   }
 }

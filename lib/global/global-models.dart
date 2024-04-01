@@ -772,3 +772,19 @@ class SpaService {
         "CURRENCY": currency,
       };
 }
+
+class SpaInfoModels {
+  String hotelinfos;
+
+  SpaInfoModels({
+    required this.hotelinfos,
+  });
+
+  factory SpaInfoModels.fromJson(Map<String, dynamic> json) => SpaInfoModels(
+        hotelinfos: json["HOTELINFOS"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "HOTELINFOS": hotelinfos,
+      };
+}

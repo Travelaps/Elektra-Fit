@@ -15,7 +15,6 @@ class _MyOperationsState extends State<MyOperations> {
   @override
   void initState() {
     service.operationList();
-
     super.initState();
   }
 
