@@ -8,6 +8,8 @@ export 'login/login.dart';
 export 'my-programing/my-programing-service.dart';
 export 'my-programing/my-programing.dart';
 export 'my-programing/sport-detail/sport-details.dart';
+export 'payment/payment-service.dart';
+export 'payment/payment.dart';
 export 'profile/profile-module/measurements.dart';
 export 'profile/profile-module/member-type.dart';
 export 'profile/profile-module/operations.dart';

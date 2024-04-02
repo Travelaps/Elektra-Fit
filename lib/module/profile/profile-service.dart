@@ -7,7 +7,7 @@ class ProfileService {
   BehaviorSubject<List<SpaMemberBodyAnalysis?>?> spaMemberBody$ = BehaviorSubject.seeded(null);
   BehaviorSubject<List<ReservationModel?>?> reservation$ = BehaviorSubject.seeded(null);
   BehaviorSubject<List<SpaService>?> spaService$ = BehaviorSubject.seeded(null);
-
+  BehaviorSubject<int> paymentType$ = BehaviorSubject.seeded(0);
   BehaviorSubject<List<AvailabilityHours?>?> availabilityHours$ = BehaviorSubject.seeded(null);
   BehaviorSubject<DateTime?> selectDateAvailability$ = BehaviorSubject.seeded(null);
   BehaviorSubject<Map<String, List<ReservationModel>?>?> res$ = BehaviorSubject.seeded({"To be planned".tr(): [], "Planned".tr(): [], "Completed".tr(): []});
@@ -137,16 +137,33 @@ class ProfileService {
     return null;
   }
 
-  Future<RequestResponse?> reservationCreate() async {
+  Future<RequestResponse?> reservationCreate(String fullName, String phone, DateTime resStart, SpaService spaService, int paymentType) async {
     try {
       var response = await http.post(url,
           body: json.encode({
             "Action": "Execute",
-            "Object": "SP_SPA_INFO",
-            "Parameters": {"HOTELID": 24204}
+            "Object": "SP_SPA_SAVE_RES",
+            "Parameters": {
+              "CCID": null,
+              "CURRENCYID": spaService.currencyid,
+              "FULLNAME": fullName,
+              "HOTELID": 24204, // todo hotelid added
+              "PAYMENTTYPE": paymentType,
+              "PHONE": phone,
+              "PRICE": spaService.price,
+              "RESSTART": DateFormat("yyyy-MM-dd").format(resStart),
+              "SERVICEID": spaService.id
+            }
           }));
+
+      var jsonData = json.decode(utf8.decode(response.bodyBytes));
+      if (jsonData[0][0]["SUCCESS"] == 1) {
+        return RequestResponse(message: "success", result: true);
+      }
+      return RequestResponse(message: jsonData[0][0]["MESSAGE"], result: false);
     } catch (e) {
       print(e);
+      return RequestResponse(message: "error", result: false);
     }
   }
 }
