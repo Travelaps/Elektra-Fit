@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../global/global-variables.dart';
-
 Widget CTextFormField(
   TextEditingController cont,
   String label, {
@@ -23,7 +21,7 @@ Widget CTextFormField(
   FocusNode? focusNode,
   TextInputAction? textInputAction,
 }) {
-  var border = OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: config.primaryColor));
+  var border = OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: Colors.black45));
 
   return TextFormField(
     focusNode: focusNode,
@@ -53,7 +51,7 @@ Widget CTextFormField(
       prefixIconColor: Colors.black87,
       suffixIconColor: Colors.black87,
       labelText: label != "" ? label : null,
-      labelStyle: const TextStyle(color: Colors.black87, fontFamily: "Montserrat", fontSize: 17),
+      labelStyle: const TextStyle(color: Colors.black87, fontFamily: "Proxima", fontSize: 17),
     ),
     readOnly: readOnly ?? false,
     onFieldSubmitted: onfieldSubmitted != null ? (v) => onfieldSubmitted(v) : (v) => null,

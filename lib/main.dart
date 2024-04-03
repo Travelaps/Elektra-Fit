@@ -9,6 +9,7 @@ Future<void> main() async {
 
   GetIt.I.registerSingleton<LoginService>(LoginService());
   GetIt.I.registerSingleton<HomeService>(HomeService());
+  GetIt.I.registerSingleton<PaymentService>(PaymentService());
   GetIt.I.registerSingleton<ProfileService>(ProfileService());
   GetIt.I.registerSingleton<MyProgramingService>(MyProgramingService());
 
