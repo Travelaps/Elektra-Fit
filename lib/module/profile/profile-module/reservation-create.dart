@@ -233,25 +233,31 @@ class _ReservationCreateState extends State<ReservationCreate> {
                       CButton(
                         title: "Complete The Reservation".tr(),
                         func: () {
-                          if (service.paymentType$.value == 1) {
-                            paymentService.paymentSend(cardName.text, cardNo.text, cardCvc.text, selectedMonth$.value, selectedMonth$.value)?.then((value) {
-                              if (value.result) {
-                                service.reservationCreate(_nameAndSurname.text, _phone.text, widget.resStart, widget.spaService, service.paymentType$.value).then((value) {
-                                  if (value!.result) {
-                                    kShowBanner(BannerType.SUCCESS, value.message, context);
-                                  }
-                                  kShowBanner(BannerType.ERROR, value.message, context);
-                                });
-                              }
-                              kShowBanner(BannerType.ERROR, value.message, context);
-                            });
-                          }
-                          service.reservationCreate(_nameAndSurname.text, _phone.text, widget.resStart, widget.spaService, service.paymentType$.value).then((value) {
-                            if (value!.result) {
-                              kShowBanner(BannerType.SUCCESS, value.message, context);
+                          paymentService.getPaymentGateOfBinNumber(cardNo.text).then((value) {
+                            if (paymentService.paymentGate$.value?.first?.id != null) {
+                              paymentService.getInstallment(false, paymentService.paymentGate$.value!.first!.id).then((value) {});
                             }
-                            kShowBanner(BannerType.ERROR, value.message, context);
                           });
+
+                          // if (service.paymentType$.value == 1) {
+                          //   paymentService.paymentSend(cardName.text, cardNo.text, cardCvc.text, selectedMonth$.value, selectedMonth$.value)?.then((value) {
+                          //     if (value.result) {
+                          //       service.reservationCreate(_nameAndSurname.text, _phone.text, widget.resStart, widget.spaService, service.paymentType$.value).then((value) {
+                          //         if (value!.result) {
+                          //           kShowBanner(BannerType.SUCCESS, value.message, context);
+                          //         }
+                          //         kShowBanner(BannerType.ERROR, value.message, context);
+                          //       });
+                          //     }
+                          //     kShowBanner(BannerType.ERROR, value.message, context);
+                          //   });
+                          // }
+                          // service.reservationCreate(_nameAndSurname.text, _phone.text, widget.resStart, widget.spaService, service.paymentType$.value).then((value) {
+                          //   if (value!.result) {
+                          //     kShowBanner(BannerType.SUCCESS, value.message, context);
+                          //   }
+                          //   kShowBanner(BannerType.ERROR, value.message, context);
+                          // });
                         },
                         width: W,
                       )

@@ -16,4 +16,5 @@ export 'profile/profile-module/operations.dart';
 export 'profile/profile-module/reservation-create.dart';
 export 'profile/profile-module/reservation.dart';
 export 'profile/profile-service.dart';
+export 'payment/payment-model.dart';
 export 'profile/profile.dart';
