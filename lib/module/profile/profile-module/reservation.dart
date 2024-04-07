@@ -45,7 +45,8 @@ class _ReservationState extends State<Reservation> {
                             child: Row(children: [
                               Icon(Icons.date_range_outlined, size: W / 15),
                               SizedBox(width: W / 4),
-                              Text(service.selectDateAvailability$.value == null ? "No date selected" : DateFormat("dd MMM yyyy").format(service.selectDateAvailability$.value!), style: kProxima18),
+                              Text(service.selectDateAvailability$.value == null ? "Please choose the date".tr() : DateFormat("dd MMMM yyyy").format(service.selectDateAvailability$.value!),
+                                  style: kProxima18),
                             ])));
                   }),
               StreamBuilder(
@@ -87,74 +88,66 @@ class _ReservationState extends State<Reservation> {
                                         showModalBottomSheet(
                                           context: context,
                                           builder: (context) {
-                                            return Container(
-                                              height: H * 0.6,
-                                              child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment.center,
-                                                children: [
-                                                  Container(
-                                                      padding: paddingAll10,
-                                                      child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                                                        Text("Select Time".tr(), style: kMontserrat17),
-                                                        InkWell(
-                                                            onTap: () {
-                                                              Navigator.pop(context);
-                                                            },
-                                                            child: Icon(Icons.cancel, color: Colors.red, size: W / 14))
-                                                      ])),
-                                                  Expanded(
-                                                    child: StreamBuilder(
-                                                        stream: Rx.combineLatest2(service.availabilityHours$, selectedHours$, (a, b) => null),
-                                                        builder: (context, snapshot) {
-                                                          if (service.availabilityHours$.value == null) {
-                                                            return Center(child: CircularProgressIndicator(color: config.primaryColor));
-                                                          } else if (service.availabilityHours$.value!.isEmpty) {
-                                                            return const Center(child: Text("no found"));
-                                                          }
-                                                          return Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                                                            Wrap(
-                                                              crossAxisAlignment: WrapCrossAlignment.start,
-                                                              runAlignment: WrapAlignment.spaceBetween,
-                                                              alignment: WrapAlignment.start,
-                                                              children: service.availabilityHours$.value!.map((e) {
-                                                                bool selected = selectedHours$.value == e?.workHours;
-                                                                return InkWell(
-                                                                    onTap: () {
-                                                                      selectedHours$.add(e!.workHours);
-                                                                    },
-                                                                    child: Container(
-                                                                      padding: paddingAll10,
-                                                                      margin: marginAll5,
-                                                                      decoration: BoxDecoration(
-                                                                          border: Border.all(color: selected ? config.primaryColor : Colors.black, width: selected ? 3 : 1),
-                                                                          borderRadius: borderRadius10,
-                                                                          color: selected ? config.primaryColor.withOpacity(0.3) : Colors.transparent),
-                                                                      child: Text("${e?.workHours}", style: kProxima18),
-                                                                    ));
-                                                              }).toList(),
-                                                            )
-                                                          ]);
-                                                        }),
-                                                  ),
-                                                  Container(
+                                            return Column(
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              children: [
+                                                Container(
                                                     padding: paddingAll10,
-                                                    margin: marginAll10,
-                                                    child: CButton(
-                                                        title: "Continue".tr(),
-                                                        func: () {
-                                                          if (selectedHours$.value != "") {
-                                                            Navigator.push(
-                                                                context,
-                                                                RouteAnimation.createRoute(
-                                                                    ReservationCreate(spaService: item!, resStart: service.selectDateAvailability$.value!, selectedHours: selectedHours$.value), 1, 0));
-                                                          } else {
-                                                            kShowBanner(BannerType.ERROR, "Please select the seans time".tr(), context);
-                                                          }
-                                                        },
-                                                        width: W),
-                                                  )
-                                                ],
-                                              ),
+                                                    child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                                                      Text("Select Time".tr(), style: kMontserrat17),
+                                                      InkWell(
+                                                          onTap: () {
+                                                            Navigator.pop(context);
+                                                          },
+                                                          child: Icon(Icons.cancel, color: Colors.red, size: W / 14))
+                                                    ])),
+                                                StreamBuilder(
+                                                    stream: Rx.combineLatest2(service.availabilityHours$, selectedHours$, (a, b) => null),
+                                                    builder: (context, snapshot) {
+                                                      if (service.availabilityHours$.value == null) {
+                                                        return Center(child: CircularProgressIndicator(color: config.primaryColor));
+                                                      } else if (service.availabilityHours$.value!.isEmpty) {
+                                                        return const Center(child: Text("no found"));
+                                                      }
+                                                      return Wrap(
+                                                          crossAxisAlignment: WrapCrossAlignment.start,
+                                                          runAlignment: WrapAlignment.spaceBetween,
+                                                          alignment: WrapAlignment.start,
+                                                          children: service.availabilityHours$.value!.map((e) {
+                                                            bool selected = selectedHours$.value == e?.workHours;
+                                                            return InkWell(
+                                                                onTap: () {
+                                                                  selectedHours$.add(e!.workHours);
+                                                                },
+                                                                child: Container(
+                                                                  padding: paddingAll10,
+                                                                  margin: marginAll5,
+                                                                  decoration: BoxDecoration(
+                                                                      border: Border.all(color: selected ? config.primaryColor : Colors.black, width: selected ? 3 : 1),
+                                                                      borderRadius: borderRadius10,
+                                                                      color: selected ? config.primaryColor.withOpacity(0.3) : Colors.transparent),
+                                                                  child: Text("${e?.workHours}", style: kProxima18),
+                                                                ));
+                                                          }).toList());
+                                                    }),
+                                                Container(
+                                                  padding: paddingAll10,
+                                                  margin: marginAll10,
+                                                  child: CButton(
+                                                      title: "Continue".tr(),
+                                                      func: () {
+                                                        if (selectedHours$.value != "") {
+                                                          Navigator.push(
+                                                              context,
+                                                              RouteAnimation.createRoute(
+                                                                  ReservationCreate(spaService: item!, resStart: service.selectDateAvailability$.value!, selectedHours: selectedHours$.value), 1, 0));
+                                                        } else {
+                                                          kShowBanner(BannerType.ERROR, "Please select the seans time".tr(), context);
+                                                        }
+                                                      },
+                                                      width: W),
+                                                )
+                                              ],
                                             );
                                           },
                                         );

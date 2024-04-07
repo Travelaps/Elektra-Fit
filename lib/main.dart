@@ -1,3 +1,4 @@
+import 'package:elektra_fit/module/login/splash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -24,6 +25,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowMaterialGrid: false,
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,
@@ -45,7 +47,7 @@ class MyApp extends StatelessWidget {
         SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
         return child!;
       },
-      home: Login(),
+      home: SplashScreen(),
     );
   }
 }

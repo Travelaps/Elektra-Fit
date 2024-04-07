@@ -15,9 +15,5 @@ class PaymentGate {
         mainbank: json["MAINBANK"],
       );
 
-  Map<String, dynamic> toJson() => {
-        "ID": id,
-        "NAME": name,
-        "MAINBANK": mainbank,
-      };
+  Map<String, dynamic> toJson() => {"ID": id, "NAME": name, "MAINBANK": mainbank};
 }

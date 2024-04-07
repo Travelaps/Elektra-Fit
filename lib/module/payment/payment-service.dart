@@ -142,7 +142,6 @@ class PaymentService {
               "NOTES": notes,
               "PHONE": phone,
               "PORTALID": 1,
-              // "RESERVATIONREQUEST": JSON.stringify(reservationRequest),
               "RESUID": null,
               "SESSION": null,
               "SURNAME": "",
@@ -159,11 +158,7 @@ class PaymentService {
 
   Future<void> hotelTransaction(String email, String cardName, String notes, String phone) async {
     try {
-      var response = await http.post(url,
-          body: json.encode({
-            "Action": "Select",
-            "Object": "QB_HOTEL_TRANSACTION",
-          }));
+      var response = await http.post(url, body: json.encode({"Action": "Select", "Object": "QB_HOTEL_TRANSACTION"}));
 
       if (response.statusCode == 200) {
         var data = json.decode(utf8.decode(response.bodyBytes));

@@ -12,12 +12,14 @@ class CButton extends StatelessWidget {
     this.height,
     this.isBorder = false,
   });
+
   final String title;
   final VoidCallback func;
   final Color? backgroundColor;
   final double? width;
   final double? height;
   final bool isBorder;
+
   @override
   Widget build(BuildContext context) {
     double H = MediaQuery.of(context).size.height;
@@ -34,11 +36,7 @@ class CButton extends StatelessWidget {
                     borderRadius: const BorderRadius.all(Radius.circular(10)), color: isBorder ? Colors.transparent : config.primaryColor, border: Border.all(color: config.primaryColor, width: 1)),
                 child: Container(
                   alignment: Alignment.center,
-                  child: Text(
-                    title.tr(),
-                    style: const TextStyle(color: Colors.white, fontFamily: "Montserrat", fontSize: 18),
-                    textAlign: TextAlign.center,
-                  ),
+                  child: Text(title.tr(), style: const TextStyle(color: Colors.white, fontFamily: "Montserrat", fontSize: 18), textAlign: TextAlign.center),
                 ),
               ));
         });
