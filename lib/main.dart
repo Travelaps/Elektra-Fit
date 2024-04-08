@@ -29,6 +29,7 @@ class MyApp extends StatelessWidget {
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,
+      themeAnimationStyle: AnimationStyle(duration: Duration(seconds: 1)),
       theme: ThemeData(
         brightness: Brightness.light,
         iconTheme: const IconThemeData(color: Colors.black87),
@@ -39,12 +40,12 @@ class MyApp extends StatelessWidget {
             elevation: 0,
             toolbarHeight: 50,
             centerTitle: true,
-            systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.white)),
+            systemOverlayStyle: const SystemUiOverlayStyle(statusBarColor: Colors.black87)),
       ),
-      themeMode: isDarkMode$.value ? ThemeMode.dark : ThemeMode.light,
+      themeMode: ThemeMode.light,
       debugShowCheckedModeBanner: false,
       builder: (context, child) {
-        SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
+        SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle().copyWith(statusBarColor: Colors.black));
         return child!;
       },
       home: SplashScreen(),

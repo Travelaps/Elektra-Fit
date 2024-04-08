@@ -64,7 +64,20 @@ class _LoginState extends State<Login> {
                 padding: paddingAll10,
                 child: Column(children: [
                   Expanded(child: SizedBox(height: H * 0.40, width: W, child: Image.asset("assets/image/start-logo.png", fit: BoxFit.contain))),
-                  CTextFormField(_email, "Email".tr(), prefixIcon: const Icon(Icons.email)),
+                  CTextFormField(
+                    _email,
+                    "Email".tr(),
+                    prefixIcon: const Icon(Icons.email),
+                    onchange: (value) {
+                      _email.text = value;
+                    },
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'Please enter your Email.'.tr();
+                      }
+                      return null;
+                    },
+                  ),
                   SizedBox(height: W / 40),
                   CTextFormField(_password, "Password".tr(),
                       obscureText: isVisibility$.value,
@@ -81,7 +94,9 @@ class _LoginState extends State<Login> {
                           },
                           icon: isVisibility$.value ? const Icon(Icons.visibility_off) : const Icon(Icons.visibility)),
                       validator: (value) {
-                        if (value!.isEmpty) return _password.text;
+                        if (value.isEmpty) {
+                          return 'Please enter your Password.'.tr();
+                        }
                         return null;
                       }),
                   SizedBox(height: W / 40),

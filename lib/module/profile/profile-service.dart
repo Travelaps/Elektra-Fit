@@ -147,7 +147,7 @@ class ProfileService {
               "CCID": null,
               "CURRENCYID": spaService.currencyid,
               "FULLNAME": fullName,
-              "HOTELID": 24204, // todo hotelid added
+              "HOTELID": 24204,
               "PAYMENTTYPE": paymentType,
               "PHONE": phone,
               "PRICE": spaService.price,

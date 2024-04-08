@@ -13,8 +13,10 @@ String? selectedlang;
 int? hotelId;
 
 EdgeInsets marginAll5 = EdgeInsets.all(5);
+EdgeInsets marginAll8 = EdgeInsets.all(8);
 EdgeInsets marginAll10 = EdgeInsets.all(10);
 EdgeInsets paddingAll5 = EdgeInsets.all(5);
+EdgeInsets paddingAll8 = EdgeInsets.all(8);
 EdgeInsets paddingAll10 = EdgeInsets.all(10);
 EdgeInsets paddingAll15 = EdgeInsets.all(15);
 
