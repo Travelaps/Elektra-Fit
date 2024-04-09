@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import '../../global/global-models.dart';
 
 class ProfileService {
+  BehaviorSubject<String> selectedHours$ = BehaviorSubject.seeded("");
   BehaviorSubject<List<SpaMemberBodyAnalysis?>?> spaMemberBody$ = BehaviorSubject.seeded(null);
   BehaviorSubject<List<ReservationModel?>?> reservation$ = BehaviorSubject.seeded(null);
   BehaviorSubject<List<SpaService>?> spaService$ = BehaviorSubject.seeded(null);
@@ -11,6 +12,7 @@ class ProfileService {
   BehaviorSubject<List<AvailabilityHours?>?> availabilityHours$ = BehaviorSubject.seeded(null);
   BehaviorSubject<DateTime?> selectDateAvailability$ = BehaviorSubject.seeded(null);
   BehaviorSubject<Map<String, List<ReservationModel>?>?> res$ = BehaviorSubject.seeded({"To be planned".tr(): [], "Planned".tr(): [], "Completed".tr(): []});
+  BehaviorSubject<String> resId$ = BehaviorSubject.seeded("");
 
   Future<RequestResponse?> spaMemberBodyAnality() async {
     spaMemberBody$.add(null);
@@ -158,8 +160,11 @@ class ProfileService {
 
       var jsonData = json.decode(utf8.decode(response.bodyBytes));
       if (jsonData[0][0]["SUCCESS"] == 1) {
+        var data = jsonData[0][0]["SPARESID"];
+        resId$.add(data);
         return RequestResponse(message: "success", result: true);
       }
+
       return RequestResponse(message: jsonData[0][0]["MESSAGE"], result: false);
     } catch (e) {
       print(e);

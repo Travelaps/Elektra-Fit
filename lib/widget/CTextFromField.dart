@@ -21,7 +21,7 @@ Widget CTextFormField(
   bool? readOnly,
   FocusNode? focusNode,
   TextInputAction? textInputAction,
-  List<TextInputFormatter>? inputFormatters, // Burada inputFormatters parametresini ekledim
+  List<TextInputFormatter>? inputFormatters,
 }) {
   var border = OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: Colors.black45));
 

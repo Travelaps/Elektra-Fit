@@ -12,7 +12,6 @@ class Reservation extends StatefulWidget {
 
 class _ReservationState extends State<Reservation> {
   final service = GetIt.I<ProfileService>();
-  BehaviorSubject<String> selectedHours$ = BehaviorSubject.seeded("");
 
   @override
   void initState() {
@@ -42,9 +41,6 @@ class _ReservationState extends State<Reservation> {
                   builder: (context, snapshot) {
                     return InkWell(
                         onTap: () {
-                          // if (service.selectDateAvailability$.value != null) {
-                          //   service.availability(service.selectDateAvailability$.value!);
-                          // }
                           _selectDate(context);
                         },
                         child: Container(
@@ -53,7 +49,7 @@ class _ReservationState extends State<Reservation> {
                             decoration: BoxDecoration(border: Border.all(color: config.primaryColor), borderRadius: borderRadius10),
                             child: Row(children: [
                               Icon(Icons.date_range_outlined, size: W / 15, color: config.primaryColor),
-                              SizedBox(width: W / 4.2),
+                              service.selectDateAvailability$.value == null ? SizedBox(width: W / 7) : SizedBox(width: W / 4),
                               Text(
                                   service.selectDateAvailability$.value == null
                                       ? "Please choose the date".tr()
@@ -102,7 +98,7 @@ class _ReservationState extends State<Reservation> {
                                   if (service.selectDateAvailability$.value != null) {
                                     selectedHours(context, W, item);
                                   } else {
-                                    kShowBanner(BannerType.ERROR, "Please select the date time".tr(), context);
+                                    kShowBanner(BannerType.ERROR, "Please select the date".tr(), context);
                                   }
                                 },
                                 child: Container(
@@ -139,7 +135,7 @@ class _ReservationState extends State<Reservation> {
                     Container(
                         padding: paddingAll10,
                         child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                          Text("Select your reservation time".tr(), style: kMontserrat18),
+                          Text("Select Your Reservation Time".tr(), style: kMontserrat18),
                           InkWell(
                               onTap: () {
                                 Navigator.pop(context);
@@ -148,7 +144,7 @@ class _ReservationState extends State<Reservation> {
                         ])),
                     Expanded(
                       child: StreamBuilder(
-                          stream: Rx.combineLatest2(service.availabilityHours$, selectedHours$, (a, b) => null),
+                          stream: Rx.combineLatest2(service.availabilityHours$, service.selectedHours$, (a, b) => null),
                           builder: (context, snapshot) {
                             if (service.availabilityHours$.value == null) {
                               return Center(child: CircularProgressIndicator(color: config.primaryColor));
@@ -158,10 +154,10 @@ class _ReservationState extends State<Reservation> {
                             return Wrap(
                                 spacing: 15,
                                 children: service.availabilityHours$.value!.map((e) {
-                                  bool selected = selectedHours$.value == e?.workHours;
+                                  bool selected = service.selectedHours$.value == e?.workHours;
                                   return InkWell(
                                       onTap: () {
-                                        selectedHours$.add(e!.workHours);
+                                        service.selectedHours$.add(e!.workHours);
                                       },
                                       child: Container(
                                         padding: paddingAll10,
@@ -180,9 +176,11 @@ class _ReservationState extends State<Reservation> {
                       child: CButton(
                           title: "Continue".tr(),
                           func: () {
-                            if (selectedHours$.value != "") {
-                              Navigator.push(context,
-                                  RouteAnimation.createRoute(ReservationCreate(spaService: item!, resStart: service.selectDateAvailability$.value!, selectedHours: selectedHours$.value), 1, 0));
+                            if (service.selectedHours$.value != "") {
+                              Navigator.push(
+                                  context,
+                                  RouteAnimation.createRoute(
+                                      ReservationCreate(spaService: item!, resStart: service.selectDateAvailability$.value!, selectedHours: service.selectedHours$.value), 1, 0));
                             } else {
                               kShowBanner(BannerType.ERROR, "Please select the seans time".tr(), context);
                             }

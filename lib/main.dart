@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,
-      themeAnimationStyle: AnimationStyle(duration: Duration(seconds: 1)),
+      themeAnimationStyle: AnimationStyle(duration: const Duration(seconds: 1)),
       theme: ThemeData(
         brightness: Brightness.light,
         iconTheme: const IconThemeData(color: Colors.black87),

@@ -73,17 +73,17 @@ class _ReservationCompletionState extends State<ReservationCompletion> {
                   SizedBox(width: W / 60),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [Text("Name and Surname"), Expanded(child: Text(widget.nameAndSurname, style: kProxima17))],
+                    children: [Text("Name and Surname".tr()), Expanded(child: Text(widget.nameAndSurname, style: kProxima17))],
                   ),
                   SizedBox(width: W / 60),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [Text("Email"), Expanded(child: Text(widget.email, style: kProxima17))],
+                    children: [Text("Email".tr()), Expanded(child: Text(widget.email, style: kProxima17))],
                   ),
                   SizedBox(width: W / 60),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [Text("Phone"), Expanded(child: Text(widget.phone, style: kProxima17))],
+                    children: [Text("Phone".tr()), Expanded(child: Text(widget.phone, style: kProxima17))],
                   ),
                 ],
               ),

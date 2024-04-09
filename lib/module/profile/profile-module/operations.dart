@@ -39,7 +39,7 @@ class _MyOperationsState extends State<MyOperations> {
           stream: service.res$.stream,
           builder: (context, snapshot) {
             if (service.res$.value == null) {
-              return const Center(child: CircularProgressIndicator());
+              return Center(child: CircularProgressIndicator(color: config.primaryColor));
             }
             return DefaultTabController(
                 length: service.res$.value!.length,
@@ -58,7 +58,15 @@ class _MyOperationsState extends State<MyOperations> {
                             children: service.res$.value!.keys.map((res) {
                       var item = service.res$.value?[res];
                       return item!.isEmpty
-                          ? Center(child: Text("$res operation not found".tr()))
+                          ? Center(
+                              child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(res, style: kProxima17),
+                                SizedBox(width: W / 70),
+                                Text("reservation was not found".tr(), style: kProxima17),
+                              ],
+                            ))
                           : SizedBox(
                               height: H * 0.9,
                               width: W,
