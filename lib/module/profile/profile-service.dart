@@ -12,7 +12,7 @@ class ProfileService {
   BehaviorSubject<List<AvailabilityHours?>?> availabilityHours$ = BehaviorSubject.seeded(null);
   BehaviorSubject<DateTime?> selectDateAvailability$ = BehaviorSubject.seeded(null);
   BehaviorSubject<Map<String, List<ReservationModel>?>?> res$ = BehaviorSubject.seeded({"To be planned".tr(): [], "Planned".tr(): [], "Completed".tr(): []});
-  BehaviorSubject<String> resId$ = BehaviorSubject.seeded("");
+  BehaviorSubject<int> resId$ = BehaviorSubject.seeded(0);
 
   Future<RequestResponse?> spaMemberBodyAnality() async {
     spaMemberBody$.add(null);
@@ -149,11 +149,11 @@ class ProfileService {
               "CCID": null,
               "CURRENCYID": spaService.currencyid,
               "FULLNAME": fullName,
-              "HOTELID": 24204,
+              "HOTELID": 24204, // todo hotel id
               "PAYMENTTYPE": paymentType,
               "PHONE": phone,
               "PRICE": spaService.price,
-              "RESSTART": DateFormat("yyyy-MM-dd").format(resStart),
+              "RESSTART": resStart.toIso8601String(),
               "SERVICEID": spaService.id
             }
           }));
@@ -162,13 +162,13 @@ class ProfileService {
       if (jsonData[0][0]["SUCCESS"] == 1) {
         var data = jsonData[0][0]["SPARESID"];
         resId$.add(data);
+        resId$.add(resId$.value);
         return RequestResponse(message: "success", result: true);
       }
-
       return RequestResponse(message: jsonData[0][0]["MESSAGE"], result: false);
     } catch (e) {
       print(e);
-      return RequestResponse(message: "error", result: false);
+      return RequestResponse(message: e.toString(), result: false);
     }
   }
 }

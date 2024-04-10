@@ -23,7 +23,7 @@ Widget CTextFormField(
   TextInputAction? textInputAction,
   List<TextInputFormatter>? inputFormatters,
 }) {
-  var border = OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: Colors.black45));
+  var border = OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: const BorderSide(color: Colors.black45));
 
   return TextFormField(
     focusNode: focusNode,

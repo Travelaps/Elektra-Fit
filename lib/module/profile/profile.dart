@@ -78,7 +78,7 @@ class _ProfileState extends State<Profile> {
                           Container(
                               alignment: Alignment.center,
                               child: Container(
-                                  decoration: BoxDecoration(shape: BoxShape.circle),
+                                  decoration: const BoxDecoration(shape: BoxShape.circle),
                                   height: W / 3,
                                   width: W / 3,
                                   child: ClipOval(
