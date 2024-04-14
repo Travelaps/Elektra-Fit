@@ -7,7 +7,6 @@ import 'global/index.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
-
   GetIt.I.registerSingleton<LoginService>(LoginService());
   GetIt.I.registerSingleton<HomeService>(HomeService());
   GetIt.I.registerSingleton<PaymentService>(PaymentService());

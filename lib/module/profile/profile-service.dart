@@ -165,7 +165,7 @@ class ProfileService {
         resId$.add(resId$.value);
         return RequestResponse(message: "success", result: true);
       }
-      return RequestResponse(message: jsonData[0][0]["MESSAGE"], result: false);
+      return RequestResponse(message: jsonData, result: false);
     } catch (e) {
       print(e);
       return RequestResponse(message: e.toString(), result: false);
