@@ -17,7 +17,6 @@ class _LoginState extends State<Login> {
   BehaviorSubject<bool> isVisibility$ = BehaviorSubject.seeded(false);
   BehaviorSubject<bool> isSaved$ = BehaviorSubject.seeded(false);
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-
   final service = GetIt.I<LoginService>();
 
   void loadPreferences() async {
@@ -28,6 +27,7 @@ class _LoginState extends State<Login> {
       isSaved$.value = prefs.getBool('rememberMe') ?? false;
     });
   }
+
 
   void savePreferences() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -43,6 +43,8 @@ class _LoginState extends State<Login> {
 
   @override
   void initState() {
+ _email.text ="ozkantur@gmail.com";
+  _password.text ="ozkan123";
     loadPreferences();
     super.initState();
   }
