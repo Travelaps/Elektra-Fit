@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:get_it/get_it.dart';
+import 'package:rxdart/rxdart.dart';
 import '../../global/index.dart';
 import '../../widget/index.dart';
 
@@ -16,6 +17,7 @@ class _LoginState extends State<Login> {
   TextEditingController _password = TextEditingController();
   BehaviorSubject<bool> isVisibility$ = BehaviorSubject.seeded(false);
   BehaviorSubject<bool> isSaved$ = BehaviorSubject.seeded(false);
+  BehaviorSubject<bool> isLoading$ = BehaviorSubject.seeded(false);
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   final service = GetIt.I<LoginService>();
 
@@ -24,10 +26,9 @@ class _LoginState extends State<Login> {
     setState(() {
       _email.text = prefs.getString('email') ?? '';
       _password.text = prefs.getString('password') ?? '';
-      isSaved$.value = prefs.getBool('rememberMe') ?? false;
+      isSaved$.add(prefs.getBool('rememberMe') ?? false);
     });
   }
-
 
   void savePreferences() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -43,8 +44,8 @@ class _LoginState extends State<Login> {
 
   @override
   void initState() {
- _email.text ="ozkantur@gmail.com";
-  _password.text ="ozkan123";
+    _email.text = "ozkantur@gmail.com";
+    _password.text = "ozkan123";
     loadPreferences();
     super.initState();
   }
@@ -82,7 +83,7 @@ class _LoginState extends State<Login> {
                   ),
                   SizedBox(height: W / 40),
                   CTextFormField(_password, "Password".tr(),
-                      obscureText: isVisibility$.value,
+                      obscureText: !isVisibility$.value,
                       keyboardType: TextInputType.text,
                       textInputAction: TextInputAction.done,
                       prefixIcon: const Icon(Icons.lock, color: Colors.black87),
@@ -110,7 +111,8 @@ class _LoginState extends State<Login> {
                         hoverColor: Colors.red,
                         value: isSaved$.value,
                         onChanged: (value) {
-                          isSaved$.add(!isSaved$.value);
+                          isSaved$.add(value!);
+                          savePreferences();
                         }),
                     Text("Remember me".tr(), style: kProxima16)
                   ]),
@@ -118,27 +120,28 @@ class _LoginState extends State<Login> {
                   isLoading$.value
                       ? Center(child: CircularProgressIndicator(color: config.primaryColor))
                       : CButton(
-                          title: "Login".tr(),
-                          func: () {
-                            isLoading$.add(true);
-                            try {
-                              service.postLogin(_email.text, _password.text).then((value) {
-                                isLoading$.add(false);
-                                if (value!.result) {
-                                  savePreferences();
-                                  Navigator.popUntil(context, (route) => route.isFirst);
-                                  Navigator.pushReplacement(context, PageRouteBuilder(pageBuilder: (context, animation, secondaryAnimation) => CTabBar()));
-                                } else {
-                                  final errorMessage = value.message.contains('Kullanıcı Bulunamadı!') ? 'Kullanıcı Bulunamadı!' : value.message;
-                                  kShowBanner(BannerType.ERROR, errorMessage, context);
-                                }
-                              });
-                            } catch (e) {
-                              final errorMessage = e.toString().contains('Kullanıcı Bulunamadı!') ? 'Kullanıcı Bulunamadı!' : e.toString();
+                      title: "Login".tr(),
+                      func: () {
+                        isLoading$.add(true);
+                        try {
+                          service.postLogin(_email.text, _password.text).then((value) {
+                            isLoading$.add(false);
+                            if (value!.result) {
+                              savePreferences();
+                              Navigator.popUntil(context, (route) => route.isFirst);
+                              Navigator.pushReplacement(context, PageRouteBuilder(pageBuilder: (context, animation, secondaryAnimation) => CTabBar()));
+                            } else {
+                              final errorMessage = value.message.contains('Kullanıcı Bulunamadı!') ? 'Kullanıcı Bulunamadı!' : value.message;
                               kShowBanner(BannerType.ERROR, errorMessage, context);
                             }
-                          },
-                          width: W),
+                          });
+                        } catch (e) {
+                          isLoading$.add(false);
+                          final errorMessage = e.toString().contains('Kullanıcı Bulunamadı!') ? 'Kullanıcı Bulunamadı!' : e.toString();
+                          kShowBanner(BannerType.ERROR, errorMessage, context);
+                        }
+                      },
+                      width: W),
                   SizedBox(height: W / 10),
                 ]),
               );
