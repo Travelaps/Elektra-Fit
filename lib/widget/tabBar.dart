@@ -1,11 +1,6 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:elektra_fit/global/global-variables.dart';
-import 'package:elektra_fit/module/Qr/Qr.dart';
-import 'package:elektra_fit/module/home/home.dart';
-import 'package:elektra_fit/module/profile/profile.dart';
+import 'package:elektra_fit/global/index.dart';
 import 'package:flutter/material.dart';
-
-import '../module/my-programing/my-programing.dart';
 
 class CTabBar extends StatefulWidget {
   const CTabBar({Key? key}) : super(key: key);
@@ -16,19 +11,16 @@ class CTabBar extends StatefulWidget {
 
 class _CTabBarState extends State<CTabBar> {
   int currentTab = 0;
-  final List<Widget> screens = [const Home(), const Qr(), const MyPrograming(), const Profile()];
-  final List<IconData> icons = [Icons.home, Icons.qr_code, Icons.list, Icons.person];
+  final List<Widget> screens = [const Home(), const Qr(), MyOperations(), const MyPrograming(), const Profile()];
+  final List<IconData> icons = [Icons.home, Icons.qr_code, Icons.add_business_outlined, Icons.list, Icons.person];
 
   Widget currentScreen = const Home();
 
   @override
   Widget build(BuildContext context) {
-    final double H = MediaQuery.of(context).size.height;
-    final double W = MediaQuery.of(context).size.width;
-
     return Scaffold(
         bottomNavigationBar: CurvedNavigationBar(
-            backgroundColor: Colors.white,
+            backgroundColor: Colors.transparent,
             buttonBackgroundColor: config.primaryColor,
             color: config.primaryColor,
             items: icons.map((icon) => Icon(icon, size: 30, color: Colors.white)).toList(),

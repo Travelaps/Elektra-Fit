@@ -1,15 +1,15 @@
-import 'package:elektra_fit/global/index.dart';
-import 'package:elektra_fit/widget/Cloading.dart';
 import 'package:flutter/material.dart';
 
-class MyOperations extends StatefulWidget {
-  const MyOperations({super.key});
+import '../../global/index.dart';
+
+class MyOperationDetail extends StatefulWidget {
+  const MyOperationDetail({super.key});
 
   @override
-  State<MyOperations> createState() => _MyOperationsState();
+  State<MyOperationDetail> createState() => _MyOperationDetailState();
 }
 
-class _MyOperationsState extends State<MyOperations> {
+class _MyOperationDetailState extends State<MyOperationDetail> {
   final service = GetIt.I<ProfileService>();
 
   @override
@@ -23,18 +23,7 @@ class _MyOperationsState extends State<MyOperations> {
     final double H = MediaQuery.of(context).size.height;
     final double W = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: AppBar(title: Text("My Operations".tr())),
-      floatingActionButton: InkWell(
-        onTap: () {
-          Navigator.push(context, RouteAnimation.createRoute(Reservation(), 1, 1));
-        },
-        child: Container(
-          padding: paddingAll10,
-          decoration: BoxDecoration(shape: BoxShape.circle, color: config.primaryColor),
-          child: Icon(Icons.add, color: Colors.white, size: W / 14),
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.miniEndDocked,
+      appBar: AppBar(title: Text("Spa Booking".tr())),
       body: StreamBuilder(
           stream: service.res$.stream,
           builder: (context, snapshot) {
@@ -96,9 +85,15 @@ class _MyOperationsState extends State<MyOperations> {
                                                           : Colors.green),
                                               padding: paddingAll5,
                                               child: Row(children: [
-                                                if (res == "Completed".tr()) Image.asset("assets/icon/completion.png", height: W / 18, width: W / 18, fit: BoxFit.cover, color: Colors.white),
-                                                if (res == "Planned".tr()) Image.asset("assets/icon/planned.png", height: W / 18, width: W / 18, fit: BoxFit.cover, color: Colors.white),
-                                                if (res == "To be planned".tr()) Image.asset("assets/icon/tobeplanned.png", height: W / 18, width: W / 18, fit: BoxFit.cover, color: Colors.white),
+                                                if (res == "Completed".tr())
+                                                  Image.asset("assets/icon/completion.png",
+                                                      height: W / 18, width: W / 18, fit: BoxFit.cover, color: Colors.white),
+                                                if (res == "Planned".tr())
+                                                  Image.asset("assets/icon/planned.png",
+                                                      height: W / 18, width: W / 18, fit: BoxFit.cover, color: Colors.white),
+                                                if (res == "To be planned".tr())
+                                                  Image.asset("assets/icon/tobeplanned.png",
+                                                      height: W / 18, width: W / 18, fit: BoxFit.cover, color: Colors.white),
                                                 SizedBox(width: W / 40),
                                                 Text(res.tr(), style: kMontserrat17.copyWith(color: Colors.white))
                                               ])),
@@ -113,7 +108,10 @@ class _MyOperationsState extends State<MyOperations> {
                                           if (resItem.staffname != null)
                                             Row(
                                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                              children: [Text("Staff Name".tr(), style: kProxima17), Expanded(child: Text(" : ${resItem.staffname}", style: kMontserrat16))],
+                                              children: [
+                                                Text("Staff Name".tr(), style: kProxima17),
+                                                Expanded(child: Text(" : ${resItem.staffname}", style: kMontserrat16))
+                                              ],
                                             ),
                                           if (resItem.netCtotal != 0) const Divider(),
                                           if (resItem.netCtotal != 0)
@@ -121,7 +119,9 @@ class _MyOperationsState extends State<MyOperations> {
                                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: [
                                                 Text("Total Price".tr(), style: kProxima17),
-                                                Expanded(child: Text(" : ${resItem.netCtotal.toStringAsFixed(1)} ${resItem.currencycode} ".tr(), style: kMontserrat16)),
+                                                Expanded(
+                                                    child: Text(" : ${resItem.netCtotal.toStringAsFixed(1)} ${resItem.currencycode} ".tr(),
+                                                        style: kMontserrat16)),
                                               ],
                                             ),
                                           if (resItem.resstart != null) const Divider(),
@@ -130,13 +130,19 @@ class _MyOperationsState extends State<MyOperations> {
                                             if (resItem.resstart != null)
                                               Expanded(
                                                   child: Column(
-                                                children: [Text("Start Time".tr(), style: kProxima17), Text(DateFormat("HH:mm  dd MMM yyyy").format(resItem.resstart!).tr(), style: kMontserrat16)],
+                                                children: [
+                                                  Text("Start Time".tr(), style: kProxima17),
+                                                  Text(DateFormat("HH:mm  dd MMM yyyy").format(resItem.resstart!).tr(), style: kMontserrat16)
+                                                ],
                                               )),
                                             if (resItem.resend != null) const VerticalDivider(),
                                             if (resItem.resend != null)
                                               Expanded(
                                                   child: Column(
-                                                children: [Text("End Time".tr(), style: kProxima17), Text(DateFormat("HH:mm  dd MMM yyyy").format(resItem.resend!).tr(), style: kMontserrat16)],
+                                                children: [
+                                                  Text("End Time".tr(), style: kProxima17),
+                                                  Text(DateFormat("HH:mm  dd MMM yyyy").format(resItem.resend!).tr(), style: kMontserrat16)
+                                                ],
                                               ))
                                           ])),
                                         ]));

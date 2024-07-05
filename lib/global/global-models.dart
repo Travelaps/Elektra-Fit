@@ -223,16 +223,16 @@ class SpaGroupActivityModel {
   String photoUrl;
   String notes;
   int level;
-  int categoriid;
+  int? categoriid;
   int duration;
   int trainerid;
   int placeid;
   int creatorid;
   DateTime creationDate;
   int capacity;
-  String trainername;
-  String placename;
-  String categoriname;
+  String? trainername;
+  String? placename;
+  String? categoriname;
 
   SpaGroupActivityModel({
     required this.id,

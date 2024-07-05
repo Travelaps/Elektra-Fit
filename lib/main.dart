@@ -1,3 +1,5 @@
+import 'dart:ui' as ui;
+
 import 'package:elektra_fit/module/login/splash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -7,6 +9,7 @@ import 'global/index.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
+  final Locale deviceLocale = await getDeviceLocale();
   GetIt.I.registerSingleton<LoginService>(LoginService());
   GetIt.I.registerSingleton<HomeService>(HomeService());
   GetIt.I.registerSingleton<PaymentService>(PaymentService());
@@ -14,8 +17,17 @@ Future<void> main() async {
   GetIt.I.registerSingleton<MyProgramingService>(MyProgramingService());
 
   runApp(
-    EasyLocalization(supportedLocales: [Locale('tr'), Locale('en')], path: 'assets/translations', fallbackLocale: const Locale('en'), child: const MyApp()),
+    EasyLocalization(
+        startLocale: deviceLocale,
+        supportedLocales: [Locale('tr'), Locale('en')],
+        path: 'assets/translations',
+        fallbackLocale: const Locale('tr'),
+        child: const MyApp()),
   );
+}
+
+Future<Locale> getDeviceLocale() async {
+  return ui.window.locale.languageCode == "tr" ? const Locale("tr") : const Locale("en");
 }
 
 class MyApp extends StatelessWidget {
@@ -35,7 +47,7 @@ class MyApp extends StatelessWidget {
         appBarTheme: AppBarTheme(
             iconTheme: const IconThemeData(color: Colors.white),
             color: config.primaryColor,
-            titleTextStyle: const TextStyle(fontFamily: 'Axiforma', fontSize: 18),
+            titleTextStyle: kAxiforma18,
             elevation: 0,
             toolbarHeight: 50,
             centerTitle: true,

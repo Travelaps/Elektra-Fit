@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:get_it/get_it.dart';
-import 'package:rxdart/rxdart.dart';
+
 import '../../global/index.dart';
 import '../../widget/index.dart';
 
@@ -24,22 +23,22 @@ class _LoginState extends State<Login> {
   void loadPreferences() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      _email.text = prefs.getString('email') ?? '';
-      _password.text = prefs.getString('password') ?? '';
-      isSaved$.add(prefs.getBool('rememberMe') ?? false);
+      _email.text = prefs.getString('email'.tr()) ?? '';
+      _password.text = prefs.getString('password'.tr()) ?? '';
+      isSaved$.add(prefs.getBool('rememberMe'.tr()) ?? false);
     });
   }
 
   void savePreferences() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if (isSaved$.value) {
-      prefs.setString('email', _email.text);
-      prefs.setString('password', _password.text);
+      prefs.setString('email'.tr(), _email.text);
+      prefs.setString('password'.tr(), _password.text);
     } else {
-      prefs.remove('email');
-      prefs.remove('password');
+      prefs.remove('email'.tr());
+      prefs.remove('password'.tr());
     }
-    prefs.setBool('rememberMe', isSaved$.value);
+    prefs.setBool('rememberMe'.tr(), isSaved$.value);
   }
 
   @override
@@ -120,28 +119,29 @@ class _LoginState extends State<Login> {
                   isLoading$.value
                       ? Center(child: CircularProgressIndicator(color: config.primaryColor))
                       : CButton(
-                      title: "Login".tr(),
-                      func: () {
-                        isLoading$.add(true);
-                        try {
-                          service.postLogin(_email.text, _password.text).then((value) {
-                            isLoading$.add(false);
-                            if (value!.result) {
-                              savePreferences();
-                              Navigator.popUntil(context, (route) => route.isFirst);
-                              Navigator.pushReplacement(context, PageRouteBuilder(pageBuilder: (context, animation, secondaryAnimation) => CTabBar()));
-                            } else {
-                              final errorMessage = value.message.contains('Kullanıcı Bulunamadı!') ? 'Kullanıcı Bulunamadı!' : value.message;
+                          title: "Login".tr(),
+                          func: () {
+                            isLoading$.add(true);
+                            try {
+                              service.postLogin(_email.text, _password.text).then((value) {
+                                isLoading$.add(false);
+                                if (value!.result) {
+                                  savePreferences();
+                                  Navigator.popUntil(context, (route) => route.isFirst);
+                                  Navigator.pushReplacement(
+                                      context, PageRouteBuilder(pageBuilder: (context, animation, secondaryAnimation) => CTabBar()));
+                                } else {
+                                  final errorMessage = value.message.contains('Kullanıcı Bulunamadı!') ? 'Kullanıcı Bulunamadı!' : value.message;
+                                  kShowBanner(BannerType.ERROR, errorMessage, context);
+                                }
+                              });
+                            } catch (e) {
+                              isLoading$.add(false);
+                              final errorMessage = e.toString().contains('Kullanıcı Bulunamadı!') ? 'Kullanıcı Bulunamadı!' : e.toString();
                               kShowBanner(BannerType.ERROR, errorMessage, context);
                             }
-                          });
-                        } catch (e) {
-                          isLoading$.add(false);
-                          final errorMessage = e.toString().contains('Kullanıcı Bulunamadı!') ? 'Kullanıcı Bulunamadı!' : e.toString();
-                          kShowBanner(BannerType.ERROR, errorMessage, context);
-                        }
-                      },
-                      width: W),
+                          },
+                          width: W),
                   SizedBox(height: W / 10),
                 ]),
               );

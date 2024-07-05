@@ -11,7 +11,8 @@ class ProfileService {
   BehaviorSubject<int> paymentType$ = BehaviorSubject.seeded(0);
   BehaviorSubject<List<AvailabilityHours?>?> availabilityHours$ = BehaviorSubject.seeded(null);
   BehaviorSubject<DateTime?> selectDateAvailability$ = BehaviorSubject.seeded(null);
-  BehaviorSubject<Map<String, List<ReservationModel>?>?> res$ = BehaviorSubject.seeded({"To be planned".tr(): [], "Planned".tr(): [], "Completed".tr(): []});
+  BehaviorSubject<Map<String, List<ReservationModel>?>?> res$ =
+      BehaviorSubject.seeded({"To be planned".tr(): [], "Planned".tr(): [], "Completed".tr(): []});
   BehaviorSubject<int> resId$ = BehaviorSubject.seeded(0);
 
   Future<RequestResponse?> spaMemberBodyAnality() async {
@@ -111,7 +112,7 @@ class ProfileService {
           body: json.encode({
             "Action": "Execute",
             "Object": "SP_SPA_INFO",
-            "Parameters": {"HOTELID": 24204}
+            "Parameters": {"HOTELID": 24204} // todo hotel id
           }));
 
       if (response.statusCode == 200) {

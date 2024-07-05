@@ -1,3 +1,4 @@
+import 'package:elektra_fit/global/global-variables.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -23,7 +24,7 @@ Widget CTextFormField(
   TextInputAction? textInputAction,
   List<TextInputFormatter>? inputFormatters,
 }) {
-  var border = OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: const BorderSide(color: Colors.black45));
+  var border = OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: config.primaryColor, width: 0.5));
 
   return TextFormField(
     focusNode: focusNode,
@@ -46,7 +47,10 @@ Widget CTextFormField(
       isDense: true,
       border: border,
       enabledBorder: border,
+      disabledBorder: border,
+      focusedBorder: border,
       fillColor: Colors.white12,
+      hoverColor: Colors.white12,
       filled: true,
       prefixIcon: prefixIcon ?? null,
       suffixIcon: suffixIcon ?? null,

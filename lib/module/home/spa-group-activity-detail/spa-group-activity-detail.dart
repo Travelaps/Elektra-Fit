@@ -94,25 +94,31 @@ class _SpaGroupActivityDetailState extends State<SpaGroupActivityDetail> {
                 padding: paddingAll10,
                 margin: marginAll5,
                 child: Column(children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [Text("Professional Trainer".tr(), style: kProxima17), Text(widget.item.trainername, style: kProxima17)],
-                  ),
+                  if (widget.item.trainername != null)
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [Text("Professional Trainer".tr(), style: kProxima17), Text(widget.item.trainername!, style: kProxima17)],
+                    ),
                   const Divider(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [Text("Activity Start Date".tr(), style: kProxima17), Text("${DateFormat("dd MMM HH:mm").format(widget.item.startTime)}", style: kProxima17)],
+                    children: [
+                      Text("Activity Start Date".tr(), style: kProxima17),
+                      Text(DateFormat("dd MMM HH:mm").format(widget.item.startTime), style: kProxima17)
+                    ],
                   ),
                   const Divider(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [Text("Event venue".tr(), style: kProxima17), Text(widget.item.placename, style: kProxima17)],
-                  ),
+                  if (widget.item.placename != null)
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [Text("Event venue".tr(), style: kProxima17), Text(widget.item.placename!, style: kProxima17)],
+                    ),
                   const Divider(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [Text("Category".tr(), style: kProxima17), Text(widget.item.categoriname, style: kProxima17)],
-                  )
+                  if (widget.item.categoriname != null)
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [Text("Category".tr(), style: kProxima17), Text(widget.item.categoriname!, style: kProxima17)],
+                    )
                 ]))
           ])),
           Padding(

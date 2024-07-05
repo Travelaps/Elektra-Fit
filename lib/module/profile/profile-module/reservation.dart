@@ -32,91 +32,90 @@ class _ReservationState extends State<Reservation> {
     final double W = MediaQuery.of(context).size.width;
 
     return Scaffold(
-        appBar: AppBar(title: Text("Spa Booking".tr())),
         body: SingleChildScrollView(
-          child: Column(
-            children: [
-              StreamBuilder(
-                  stream: service.selectDateAvailability$.stream,
-                  builder: (context, snapshot) {
-                    return InkWell(
-                        onTap: () {
-                          _selectDate(context);
-                        },
-                        child: Container(
-                            padding: paddingAll10,
-                            margin: marginAll5,
-                            decoration: BoxDecoration(border: Border.all(color: config.primaryColor), borderRadius: borderRadius10),
-                            child: Row(children: [
-                              Icon(Icons.date_range_outlined, size: W / 15, color: config.primaryColor),
-                              service.selectDateAvailability$.value == null ? SizedBox(width: W / 7) : SizedBox(width: W / 4),
-                              Text(
-                                  service.selectDateAvailability$.value == null
-                                      ? "Please choose the date".tr()
-                                      : DateFormat("dd MMMM yyyy").format(
-                                          service.selectDateAvailability$.value!,
-                                        ),
-                                  style: kAxiforma18.copyWith(color: config.primaryColor))
-                            ])));
-                  }),
-              StreamBuilder(
-                stream: service.spaService$,
-                builder: (context, snapshot) {
-                  if (service.spaService$.value == null) {
-                    return Center(
-                      child: CircularProgressIndicator(color: config.primaryColor),
-                    );
-                  } else if (service.spaService$.value!.isEmpty) {
-                    return Center(child: Text("no found", style: kProxima17));
-                  }
-                  return SizedBox(
-                    height: H * 0.78,
-                    child: ListView.builder(
-                      itemCount: service.spaService$.value?.length,
-                      itemBuilder: (context, index) {
-                        var item = service.spaService$.value?[index];
-                        return Container(
-                          alignment: Alignment.center,
-                          padding: paddingAll10,
-                          margin: marginAll5,
-                          decoration: BoxDecoration(borderRadius: borderRadius10, color: Colors.white, boxShadow: [
-                            BoxShadow(color: Colors.black.withOpacity(0.5), spreadRadius: 1, blurRadius: 4, offset: const Offset(0, 3)),
-                          ]),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: Column(
+        children: [
+          StreamBuilder(
+              stream: service.selectDateAvailability$.stream,
+              builder: (context, snapshot) {
+                return InkWell(
+                    onTap: () {
+                      _selectDate(context);
+                    },
+                    child: Container(
+                        padding: paddingAll10,
+                        margin: marginAll5,
+                        decoration: BoxDecoration(border: Border.all(color: config.primaryColor), borderRadius: borderRadius10),
+                        child: Row(children: [
+                          Icon(Icons.date_range_outlined, size: W / 15, color: config.primaryColor),
+                          service.selectDateAvailability$.value == null ? SizedBox(width: W / 7) : SizedBox(width: W / 4),
+                          Text(
+                              service.selectDateAvailability$.value == null
+                                  ? "Please choose the date".tr()
+                                  : DateFormat("dd MMMM yyyy").format(
+                                      service.selectDateAvailability$.value!,
+                                    ),
+                              style: kAxiforma18.copyWith(color: config.primaryColor))
+                        ])));
+              }),
+          StreamBuilder(
+            stream: service.spaService$,
+            builder: (context, snapshot) {
+              if (service.spaService$.value == null) {
+                return Center(
+                  child: CircularProgressIndicator(color: config.primaryColor),
+                );
+              } else if (service.spaService$.value!.isEmpty) {
+                return Center(child: Text("no found", style: kProxima17));
+              }
+              return SizedBox(
+                height: H * 0.78,
+                child: ListView.builder(
+                  itemCount: service.spaService$.value?.length,
+                  itemBuilder: (context, index) {
+                    var item = service.spaService$.value?[index];
+                    return Container(
+                      alignment: Alignment.center,
+                      padding: paddingAll10,
+                      margin: marginAll5,
+                      decoration: BoxDecoration(borderRadius: borderRadius10, color: Colors.white, boxShadow: [
+                        BoxShadow(color: Colors.black.withOpacity(0.5), spreadRadius: 1, blurRadius: 4, offset: const Offset(0, 3)),
+                      ]),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text("${item?.product}", style: kAxiforma17),
-                                  Text("${item?.price.toStringAsFixed(2)} ${item?.currency}", style: kProxima18),
-                                ],
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  if (service.selectDateAvailability$.value != null) {
-                                    selectedHours(context, W, item);
-                                  } else {
-                                    kShowBanner(BannerType.ERROR, "Please select the date".tr(), context);
-                                  }
-                                },
-                                child: Container(
-                                    padding: paddingAll8,
-                                    decoration: BoxDecoration(border: Border.all(color: config.primaryColor), borderRadius: borderRadius10),
-                                    child: Text("Choose".tr(), style: kProxima18.copyWith(color: config.primaryColor))),
-                              )
+                              Text("${item?.product}", style: kAxiforma17),
+                              Text("${item?.price.toStringAsFixed(2)} ${item?.currency}", style: kProxima18),
                             ],
                           ),
-                        );
-                      },
-                    ),
-                  );
-                },
-              )
-            ],
-          ),
-        ));
+                          InkWell(
+                            onTap: () {
+                              if (service.selectDateAvailability$.value != null) {
+                                selectedHours(context, W, item);
+                              } else {
+                                kShowBanner(BannerType.ERROR, "Please select the date".tr(), context);
+                              }
+                            },
+                            child: Container(
+                                padding: paddingAll8,
+                                decoration: BoxDecoration(border: Border.all(color: config.primaryColor), borderRadius: borderRadius10),
+                                child: Text("Choose".tr(), style: kProxima18.copyWith(color: config.primaryColor))),
+                          )
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              );
+            },
+          )
+        ],
+      ),
+    ));
   }
 
   Future<dynamic> selectedHours(BuildContext context, double W, SpaService? item) {
@@ -180,7 +179,12 @@ class _ReservationState extends State<Reservation> {
                               Navigator.push(
                                   context,
                                   RouteAnimation.createRoute(
-                                      ReservationCreate(spaService: item!, resStart: service.selectDateAvailability$.value!, selectedHours: service.selectedHours$.value), 1, 0));
+                                      ReservationCreate(
+                                          spaService: item!,
+                                          resStart: service.selectDateAvailability$.value!,
+                                          selectedHours: service.selectedHours$.value),
+                                      1,
+                                      0));
                             } else {
                               kShowBanner(BannerType.ERROR, "Please select the seans time".tr(), context);
                             }
