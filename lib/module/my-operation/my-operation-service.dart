@@ -56,9 +56,7 @@ class MyOperationsService {
         body: json.encode({
           "Action": "Execute",
           "Object": "SP_SPA_AVAILABLETIMES",
-          "Parameters": {
-            "DATE": DateFormat("yyyy-MM-dd").format(dateTime), "HOTELID": 24204 // hotelId //todo hotel id add
-          }
+          "Parameters": {"DATE": DateFormat("yyyy-MM-dd").format(dateTime), "HOTELID": hotelId}
         }),
       );
       if (response.statusCode == 200) {
