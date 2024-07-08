@@ -18,7 +18,6 @@ class _SpaGroupActivityDetailState extends State<SpaGroupActivityDetail> {
 
   @override
   Widget build(BuildContext context) {
-    final double H = MediaQuery.of(context).size.height;
     final double W = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Column(

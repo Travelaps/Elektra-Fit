@@ -15,7 +15,7 @@ Future<void> main() async {
   GetIt.I.registerSingleton<PaymentService>(PaymentService());
   GetIt.I.registerSingleton<ProfileService>(ProfileService());
   GetIt.I.registerSingleton<MyProgramingService>(MyProgramingService());
-
+  GetIt.I.registerSingleton<MyOperationsService>(MyOperationsService());
   runApp(
     EasyLocalization(
         startLocale: deviceLocale,
@@ -56,7 +56,7 @@ class MyApp extends StatelessWidget {
       themeMode: ThemeMode.light,
       debugShowCheckedModeBanner: false,
       builder: (context, child) {
-        SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle().copyWith(statusBarColor: Colors.black));
+        SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle().copyWith(statusBarColor: Colors.black));
         return child!;
       },
       home: SplashScreen(),

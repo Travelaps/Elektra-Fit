@@ -11,13 +11,22 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderStateMixin {
+  bool _visible = false;
+
   @override
   void initState() {
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
-    Future.delayed(Duration(seconds: 2), () {
-      Navigator.push(context, RouteAnimation.createRoute(Login(), 0, 1));
-    });
     super.initState();
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
+
+    Future.delayed(Duration(milliseconds: 500), () {
+      setState(() {
+        _visible = true;
+      });
+    });
+
+    Future.delayed(Duration(seconds: 3), () {
+      Navigator.push(context, RouteAnimation.createRoute(const Login(), 0, 1));
+    });
   }
 
   @override
@@ -33,9 +42,37 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
         height: double.infinity,
         width: double.infinity,
         decoration: BoxDecoration(
-          gradient: LinearGradient(colors: [config.primaryColor, config.buttonSecondColor], begin: Alignment.topCenter, end: Alignment.bottomCenter),
+          gradient: LinearGradient(
+            colors: [
+              // config.primaryColor,
+              // config.primaryColor.withOpacity(0.8),
+              config.primaryColor.withOpacity(0.6),
+              config.primaryColor.withOpacity(0.4),
+              config.primaryColor.withOpacity(0.2),
+            ],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomLeft,
+          ),
         ),
-        child: Image.asset("assets/image/start-logo.png", fit: BoxFit.contain),
+        child: Stack(
+          children: [
+            Center(
+                child: AnimatedOpacity(
+                    opacity: _visible ? 1.0 : 0.0,
+                    duration: Duration(seconds: 1),
+                    child: Image.asset("assets/image/start-logo.png", fit: BoxFit.contain))),
+            Positioned(
+              bottom: 50.0,
+              left: 0,
+              right: 0,
+              child: Center(
+                child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

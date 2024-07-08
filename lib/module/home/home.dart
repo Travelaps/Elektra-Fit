@@ -13,15 +13,10 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final homeService = GetIt.I<HomeService>();
-  BehaviorSubject<DateTime> selectedDate$ = BehaviorSubject.seeded(DateTime.now());
-  BehaviorSubject<bool> isFilter$ = BehaviorSubject.seeded(false);
-  List<SpaGroupActivityModel> total = [];
-  List<SpaGroupActivityModel> totalfilter = [];
 
   @override
   void initState() {
     homeService.spaGroupActivityTimetableList();
-
     super.initState();
   }
 
@@ -33,17 +28,16 @@ class _HomeState extends State<Home> {
     return Scaffold(
         appBar: AppBar(title: Text("Lessons".tr())),
         body: StreamBuilder(
-            stream: Rx.combineLatest2(selectedDate$, homeService.spaGroupActivity$, (a, b) => null),
+            stream: Rx.combineLatest2(homeService.selectedDate$, homeService.spaGroupActivity$, (a, b) => null),
             builder: (context, snapshot) {
               if (homeService.spaGroupActivity$.value == null) {
                 return Center(child: CircularProgressIndicator(color: config.primaryColor));
               } else if (homeService.spaGroupActivity$.value!.isEmpty) {
                 return Center(child: Text("There are currently no group activities available.".tr()));
               }
-
               final today = DateTime.now();
-              DateTime selectedDate = selectedDate$.value;
-              totalfilter = homeService.spaGroupActivity$.value!.where((element) {
+              DateTime selectedDate = homeService.selectedDate$.value;
+              homeService.totalFilter = homeService.spaGroupActivity$.value!.where((element) {
                 DateTime activityDate = DateTime(element.startTime.year, element.startTime.month, element.startTime.day);
                 return activityDate.year == selectedDate.year && activityDate.month == selectedDate.month && activityDate.day == selectedDate.day;
               }).toList();
@@ -61,9 +55,9 @@ class _HomeState extends State<Home> {
                               margin: marginAll5,
                               decoration: BoxDecoration(
                                   borderRadius: borderRadius10,
-                                  color: selectedDate$.value.year == date.year &&
-                                          selectedDate$.value.month == date.month &&
-                                          selectedDate$.value.day == date.day
+                                  color: homeService.selectedDate$.value.year == date.year &&
+                                          homeService.selectedDate$.value.month == date.month &&
+                                          homeService.selectedDate$.value.day == date.day
                                       ? Colors.black87
                                       : Colors.white,
                                   boxShadow: [
@@ -71,7 +65,7 @@ class _HomeState extends State<Home> {
                                   ]),
                               child: InkWell(
                                   onTap: () async {
-                                    selectedDate$.add(date);
+                                    homeService.selectedDate$.add(date);
                                   },
                                   child: Center(
                                       child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -79,9 +73,9 @@ class _HomeState extends State<Home> {
                                         style: TextStyle(
                                             fontSize: 16,
                                             fontWeight: FontWeight.bold,
-                                            color: selectedDate$.value.year == date.year &&
-                                                    selectedDate$.value.month == date.month &&
-                                                    selectedDate$.value.day == date.day
+                                            color: homeService.selectedDate$.value.year == date.year &&
+                                                    homeService.selectedDate$.value.month == date.month &&
+                                                    homeService.selectedDate$.value.day == date.day
                                                 ? Colors.white
                                                 : Colors.black87)),
                                     Container(
@@ -100,14 +94,15 @@ class _HomeState extends State<Home> {
                 SizedBox(
                     width: W,
                     height: H * 0.68,
-                    child: totalfilter.isEmpty
+                    child: homeService.totalFilter.isEmpty
                         ? Center(child: Text("No activities found for the selected date.".tr(), style: kProxima18))
-                        : ListView.builder(
-                            itemCount: totalfilter.length,
-                            itemBuilder: (context, index) {
-                              var item = totalfilter[index];
-                              return groupActivityCard(context, item, W);
-                            }))
+                        : SingleChildScrollView(
+                            child: Wrap(
+                            children: homeService.totalFilter.map((item) {
+                                  return SizedBox(width: W, child: groupActivityCard(context, item, W));
+                                }).toList() ??
+                                [],
+                          ))),
               ]);
             }));
   }
@@ -116,7 +111,7 @@ class _HomeState extends State<Home> {
     return InkWell(
         onTap: () => Navigator.push(context, RouteAnimation.createRoute(SpaGroupActivityDetail(item: item), 0, 1)),
         child: Container(
-            margin: marginAll10,
+            margin: marginAll8,
             width: W,
             decoration: BoxDecoration(
                 borderRadius: borderRadius10,
@@ -131,7 +126,7 @@ class _HomeState extends State<Home> {
                         fit: BoxFit.cover,
                         width: W,
                         height: W / 1.9,
-                        placeholder: (context, url) => CircularProgressIndicator(color: config.primaryColor),
+                        placeholder: (context, url) => Center(child: CircularProgressIndicator(color: config.primaryColor)),
                         errorWidget: (context, url, error) => const Icon(Icons.error))),
                 Positioned(
                     left: 0,
@@ -146,30 +141,39 @@ class _HomeState extends State<Home> {
                           Text(getLevelDescription(item.level).tr(), style: kMontserrat19.copyWith(color: Colors.white))
                         ])))
               ]),
-              Padding(padding: paddingAll5, child: Text(item.name, style: kMontserrat19, textAlign: TextAlign.center)),
               Padding(
-                  padding: paddingAll5,
-                  child: IntrinsicHeight(
-                      child: Row(crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                    Row(children: [
-                      Image.asset("assets/icon/calender.png", width: W / 18, height: W / 18, fit: BoxFit.cover),
-                      SizedBox(width: W / 40),
-                      Text(DateFormat("MMM d").format(item.startTime), style: kMontserrat17)
-                    ]),
-                    const VerticalDivider(),
-                    Row(children: [
-                      Image.asset("assets/icon/clock2.png", width: W / 20, height: W / 20, fit: BoxFit.cover),
-                      SizedBox(width: W / 40),
-                      Text(DateFormat("HH:mm").format(item.startTime), style: kMontserrat17)
-                    ]),
-                    const VerticalDivider(),
-                    Row(children: [
-                      Image.asset("assets/icon/continue.png", width: W / 20, height: W / 20, fit: BoxFit.cover),
-                      SizedBox(width: W / 40),
-                      Row(children: [Text("${item.duration}", style: kMontserrat17), SizedBox(width: W / 70), Text("min".tr(), style: kMontserrat17)])
-                    ])
-                  ]))),
-              SizedBox(height: W / 60),
+                padding: paddingAll10,
+                child: Column(
+                  children: [
+                    Text(item.name, style: kMontserrat19),
+                    IntrinsicHeight(
+                        child: Row(crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                      Row(children: [
+                        Image.asset("assets/icon/calender.png", width: W / 18, height: W / 18, fit: BoxFit.cover),
+                        SizedBox(width: W / 40),
+                        Text(DateFormat("MMM d").format(item.startTime), style: kMontserrat17)
+                      ]),
+                      const VerticalDivider(),
+                      Row(children: [
+                        Image.asset("assets/icon/clock2.png", width: W / 20, height: W / 20, fit: BoxFit.cover),
+                        SizedBox(width: W / 40),
+                        Text(DateFormat("HH:mm").format(item.startTime), style: kMontserrat17)
+                      ]),
+                      const VerticalDivider(),
+                      Row(children: [
+                        Image.asset("assets/icon/continue.png", width: W / 20, height: W / 20, fit: BoxFit.cover),
+                        SizedBox(width: W / 40),
+                        Row(children: [
+                          Text("${item.duration}", style: kMontserrat17),
+                          SizedBox(width: W / 70),
+                          Text("min".tr(), style: kMontserrat17)
+                        ])
+                      ])
+                    ])),
+                  ],
+                ),
+              ),
+              // SizedBox(height: W / 60),
             ])));
   }
 

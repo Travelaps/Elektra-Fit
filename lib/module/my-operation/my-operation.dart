@@ -10,7 +10,7 @@ class MyOperationDetail extends StatefulWidget {
 }
 
 class _MyOperationDetailState extends State<MyOperationDetail> {
-  final service = GetIt.I<ProfileService>();
+  final service = GetIt.I<MyOperationsService>();
 
   @override
   void initState() {

@@ -5,6 +5,10 @@ import '../../global/index.dart';
 
 class HomeService {
   BehaviorSubject<List<SpaGroupActivityModel>?> spaGroupActivity$ = BehaviorSubject.seeded(null);
+  BehaviorSubject<DateTime> selectedDate$ = BehaviorSubject.seeded(DateTime.now());
+  BehaviorSubject<bool> isFilter$ = BehaviorSubject.seeded(false);
+  List<SpaGroupActivityModel> total = [];
+  List<SpaGroupActivityModel> totalFilter = [];
 
   Future<RequestResponse> spaGroupActivityTimetableList() async {
     spaGroupActivity$.add(null);
@@ -20,7 +24,6 @@ class HomeService {
       if (response.statusCode == 200) {
         final jsonData = json.decode(utf8.decode(response.bodyBytes));
         List<SpaGroupActivityModel> spaGroupActivity = [];
-
         for (var item in jsonData) {
           spaGroupActivity.add(SpaGroupActivityModel.fromJson(item));
         }
@@ -41,7 +44,11 @@ class HomeService {
           body: json.encode({
             "Action": "ApiSequence",
             "Object": "spaGroupActivityTimetableMemberInsert",
-            "Parameters": {"HOTELID": hotelId, "TIMETABLEID": timeTableId, "MEMBERID": member$.value?.first.profile.guestid, "HOTELID": hotelId}
+            "Parameters": {
+              "HOTELID": hotelId,
+              "TIMETABLEID": timeTableId,
+              "MEMBERID": member$.value?.first.profile.guestid,
+            }
           }));
       var jsonData = json.decode(response.body);
       if (jsonData["Success"] == 1) {

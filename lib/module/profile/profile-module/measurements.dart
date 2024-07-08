@@ -23,9 +23,7 @@ class _MeasurementsState extends State<Measurements> {
     final double H = MediaQuery.of(context).size.height;
     final double W = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: AppBar(
-        title: Text("My Measurements".tr()),
-      ),
+      appBar: AppBar(title: Text("My Measurements".tr())),
       body: StreamBuilder(
           stream: service.spaMemberBody$.stream,
           builder: (context, snapshot) {
@@ -131,7 +129,10 @@ class _MeasurementsState extends State<Measurements> {
                           if (item?.totalBodyFatMass != null)
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [Text("Total Body Fat Mass".tr(), style: kMontserrat16), Text("% ${item!.totalBodyFatMass}", style: kProxima17)],
+                              children: [
+                                Text("Total Body Fat Mass".tr(), style: kMontserrat16),
+                                Text("% ${item!.totalBodyFatMass}", style: kProxima17)
+                              ],
                             ),
                           if (item?.bodyMassIndex != null) Divider(),
                           if (item?.bodyMassIndex != null)
@@ -143,7 +144,10 @@ class _MeasurementsState extends State<Measurements> {
                           if (item?.lastUpdateDate != null)
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [Text("Last Updated Date".tr(), style: kMontserrat16), Text(DateFormat("dd MMM yyyy").format(item!.lastUpdateDate!), style: kProxima17)],
+                              children: [
+                                Text("Last Updated Date".tr(), style: kMontserrat16),
+                                Text(DateFormat("dd MMM yyyy").format(item!.lastUpdateDate!), style: kProxima17)
+                              ],
                             ),
                         ],
                       ),
@@ -249,7 +253,9 @@ class _MeasurementsState extends State<Measurements> {
       margin: marginAll5,
       padding: paddingAll10,
       decoration: BoxDecoration(
-          color: Colors.white, borderRadius: BorderRadius.circular(10), boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.6), spreadRadius: 3, blurRadius: 10, offset: Offset(0, 3))]),
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.6), spreadRadius: 3, blurRadius: 10, offset: Offset(0, 3))]),
       child: Column(
         children: [Text(text, style: kMontserrat18), Text(item!, style: kProxima17)],
       ),

@@ -22,7 +22,11 @@ class _ProfileState extends State<Profile> {
             Container(
                 padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
                 color: Colors.white,
-                child: Row(children: [const Image(image: AssetImage("assets/icon/flat-icon/tr-flag.png"), width: 25, height: 15), SizedBox(width: 10), Text("Türkçe".tr(), style: kMontserrat18)]))
+                child: Row(children: [
+                  const Image(image: AssetImage("assets/icon/flat-icon/tr-flag.png"), width: 25, height: 15),
+                  SizedBox(width: 10),
+                  Text("Türkçe".tr(), style: kMontserrat18)
+                ]))
           ])),
       PopupMenuItem(
           padding: EdgeInsets.zero,
@@ -32,7 +36,11 @@ class _ProfileState extends State<Profile> {
             Container(
                 color: Colors.white,
                 padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-                child: Row(children: [const Image(image: AssetImage("assets/icon/flat-icon/en-flag.png"), width: 25, height: 15), SizedBox(width: 10), Text("English".tr(), style: kMontserrat18)]))
+                child: Row(children: [
+                  const Image(image: AssetImage("assets/icon/flat-icon/en-flag.png"), width: 25, height: 15),
+                  SizedBox(width: 10),
+                  Text("English".tr(), style: kMontserrat18)
+                ]))
           ]))
     ]);
     if (selectedValue != null) {
@@ -83,7 +91,8 @@ class _ProfileState extends State<Profile> {
                                   width: W / 3,
                                   child: ClipOval(
                                       child: CachedNetworkImage(
-                                          imageUrl: member$.value?.first.profile.photourl ?? "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
+                                          imageUrl: member$.value?.first.profile.photourl ??
+                                              "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
                                           fit: BoxFit.cover,
                                           placeholder: (context, url) => CircularProgressIndicator(),
                                           errorWidget: (context, url, error) => Icon(Icons.error))))),
@@ -95,22 +104,26 @@ class _ProfileState extends State<Profile> {
                                         children: e.membership.map((item) {
                                               return Column(children: [
                                                 Text(item.membershiptype, style: kMontserrat20.copyWith(color: config.primaryColor)),
-                                                Text("${DateFormat("dd-MMM-yyyy").format(item.startdate)} - ${DateFormat("dd-MMM-yyyy").format(item.lastdate!)}", style: kMontserrat20),
+                                                Text(
+                                                    "${DateFormat("dd-MMM-yyyy").format(item.startdate)} - ${DateFormat("dd-MMM-yyyy").format(item.lastdate!)}",
+                                                    style: kMontserrat20),
                                               ]);
                                             }).toList() ??
                                             []);
                                   }).toList() ??
                                   []),
                           SizedBox(height: W / 80),
-                          Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [const Icon(Icons.email), SizedBox(width: W / 30), Text("${member$.value?.first.profile.email}", style: kMontserrat17)]),
+                          Row(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.center, children: [
+                            const Icon(Icons.email),
+                            SizedBox(width: W / 30),
+                            Text("${member$.value?.first.profile.email}", style: kMontserrat17)
+                          ]),
                           SizedBox(height: W / 80),
-                          Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [const Icon(Icons.phone), SizedBox(width: W / 30), Text(member$.value?.first.profile.phone ?? "", style: kMontserrat17)])
+                          Row(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.center, children: [
+                            const Icon(Icons.phone),
+                            SizedBox(width: W / 30),
+                            Text(member$.value?.first.profile.phone ?? "", style: kMontserrat17)
+                          ])
                         ])),
                     SizedBox(height: W / 60),
                     InkWell(
@@ -123,30 +136,14 @@ class _ProfileState extends State<Profile> {
                             margin: marginAll5,
                             alignment: Alignment.center,
                             decoration: BoxDecoration(
-                                color: Colors.white, borderRadius: borderRadius10, boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.4), spreadRadius: 3, blurRadius: 10, offset: Offset(0, 3))]),
+                                color: Colors.white,
+                                borderRadius: borderRadius10,
+                                boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.4), spreadRadius: 3, blurRadius: 10, offset: Offset(0, 3))]),
                             width: W,
                             child: Row(children: [
                               SizedBox(height: W / 15, width: W / 15, child: Image.asset("assets/icon/mesurements.png", color: config.primaryColor)),
                               SizedBox(width: W / 40),
                               Text("My Measurements".tr(), style: kMontserrat16)
-                            ]))),
-                    SizedBox(height: W / 60),
-                    InkWell(
-                        onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => const MyOperations()));
-                        },
-                        child: Container(
-                            height: W / 8,
-                            padding: paddingAll10,
-                            margin: marginAll5,
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                                color: Colors.white, borderRadius: borderRadius10, boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.4), spreadRadius: 3, blurRadius: 10, offset: Offset(0, 3))]),
-                            width: W,
-                            child: Row(children: [
-                              SizedBox(height: W / 15, width: W / 15, child: Image.asset("assets/icon/operation.png", color: config.primaryColor)),
-                              SizedBox(width: W / 40),
-                              Text("My Operations".tr(), style: kMontserrat16)
                             ]))),
                     SizedBox(height: W / 60),
                     InkWell(
@@ -159,10 +156,16 @@ class _ProfileState extends State<Profile> {
                             margin: marginAll5,
                             alignment: Alignment.center,
                             decoration: BoxDecoration(
-                                color: Colors.white, borderRadius: borderRadius10, boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.4), spreadRadius: 3, blurRadius: 10, offset: Offset(0, 3))]),
+                                color: Colors.white,
+                                borderRadius: borderRadius10,
+                                boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.4), spreadRadius: 3, blurRadius: 10, offset: Offset(0, 3))]),
                             width: W,
                             child: Row(
-                              children: [Icon(Icons.published_with_changes_sharp, color: config.primaryColor, size: 26), SizedBox(width: W / 40), Text("Member Type".tr(), style: kMontserrat16)],
+                              children: [
+                                Icon(Icons.published_with_changes_sharp, color: config.primaryColor, size: 26),
+                                SizedBox(width: W / 40),
+                                Text("Member Type".tr(), style: kMontserrat16)
+                              ],
                             ))),
                     SizedBox(height: W / 60),
                     InkWell(
@@ -175,9 +178,15 @@ class _ProfileState extends State<Profile> {
                             margin: marginAll5,
                             alignment: Alignment.center,
                             decoration: BoxDecoration(
-                                color: Colors.white, borderRadius: borderRadius10, boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.4), spreadRadius: 3, blurRadius: 10, offset: Offset(0, 3))]),
+                                color: Colors.white,
+                                borderRadius: borderRadius10,
+                                boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.4), spreadRadius: 3, blurRadius: 10, offset: Offset(0, 3))]),
                             width: W,
-                            child: Row(children: [Icon(Icons.language, color: config.primaryColor, size: 25), SizedBox(width: W / 40), Text("Language".tr(), style: kMontserrat16)]))),
+                            child: Row(children: [
+                              Icon(Icons.language, color: config.primaryColor, size: 25),
+                              SizedBox(width: W / 40),
+                              Text("Language".tr(), style: kMontserrat16)
+                            ]))),
                     SizedBox(height: W / 60),
                     InkWell(
                       onTap: () {
@@ -194,7 +203,9 @@ class _ProfileState extends State<Profile> {
                         margin: marginAll5,
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
-                            color: Colors.white, borderRadius: borderRadius10, boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.4), spreadRadius: 3, blurRadius: 10, offset: Offset(0, 3))]),
+                            color: Colors.white,
+                            borderRadius: borderRadius10,
+                            boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.4), spreadRadius: 3, blurRadius: 10, offset: Offset(0, 3))]),
                         width: W,
                         child: Row(
                           children: [

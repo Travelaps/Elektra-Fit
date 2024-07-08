@@ -4,7 +4,9 @@ import '../../global/global-models.dart';
 import '../../global/index.dart';
 
 class MyProgramingService {
+  BehaviorSubject<List<SpaMemberBodyAnalysis?>?> spaMemberBody$ = BehaviorSubject.seeded(null);
   BehaviorSubject<List<SpaGroupActivityMemberListModel>?> spaGroupActivityMember$ = BehaviorSubject.seeded(null);
+  BehaviorSubject<List<ReservationModel?>?> reservation$ = BehaviorSubject.seeded(null);
 
   Future<RequestResponse> spaGroupActivityTimetableMembersList() async {
     spaGroupActivityMember$.add(null);

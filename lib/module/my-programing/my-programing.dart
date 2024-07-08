@@ -28,19 +28,17 @@ class _MyProgramingState extends State<MyPrograming> {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Programs & Activities'.tr()),
-          bottom: TabBar(
-            indicatorSize: TabBarIndicatorSize.tab,
-            indicatorColor: Colors.white,
-            indicatorPadding: paddingAll10,
-            isScrollable: false,
-            labelPadding: paddingAll5,
-            tabs: [
-              Tab(iconMargin: EdgeInsets.zero, child: Text('My Programs'.tr(), style: kMontserrat18.copyWith(color: Colors.white))),
-              Tab(child: Text('My Activity'.tr(), style: kMontserrat18.copyWith(color: Colors.white))),
-            ],
-          ),
-        ),
+            title: Text('Programs & Activities'.tr()),
+            bottom: TabBar(
+                indicatorSize: TabBarIndicatorSize.tab,
+                indicatorColor: Colors.white,
+                indicatorPadding: paddingAll10,
+                isScrollable: false,
+                labelPadding: paddingAll5,
+                tabs: [
+                  Tab(iconMargin: EdgeInsets.zero, child: Text('My Programs'.tr(), style: kMontserrat18.copyWith(color: Colors.white))),
+                  Tab(child: Text('My Activity'.tr(), style: kMontserrat18.copyWith(color: Colors.white)))
+                ])),
         body: TabBarView(
           physics: const AlwaysScrollableScrollPhysics(),
           children: [myPrograms(context, W), myActivity(H, W)],
@@ -63,6 +61,10 @@ class _MyProgramingState extends State<MyPrograming> {
             child: ListView.builder(
               itemCount: service.spaGroupActivityMember$.value!.length,
               itemBuilder: (context, index) {
+                if (service.spaGroupActivityMember$.value == null) {
+                  return Center(child: CircularProgressIndicator(color: config.primaryColor));
+                } else if (service.spaGroupActivityMember$.value!.isEmpty)
+                  return Center(child: Text("You do not have any activity records yet.".tr()));
                 var item = service.spaGroupActivityMember$.value?[index];
                 if (item != null) {
                   return Container(
@@ -76,9 +78,10 @@ class _MyProgramingState extends State<MyPrograming> {
                           ClipRRect(
                               borderRadius: const BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
                               child: CachedNetworkImage(
-                                  imageUrl: item.photourl ?? "https://files.cdn.elektraweb.com/bdcac343/24277/images/3c96c5fb-3c3d-49d1-9ea9-9922ed6be380.png",
+                                  imageUrl: item.photourl ??
+                                      "https://files.cdn.elektraweb.com/bdcac343/24277/images/3c96c5fb-3c3d-49d1-9ea9-9922ed6be380.png",
                                   fit: BoxFit.cover,
-                                  placeholder: (context, url) => CircularProgressIndicator(color: config.primaryColor),
+                                  placeholder: (context, url) => Center(child: CircularProgressIndicator(color: config.primaryColor)),
                                   errorWidget: (context, url, error) => const Icon(Icons.error))),
                           if (item.level != null && item.level! < 6)
                             Positioned(
@@ -86,7 +89,8 @@ class _MyProgramingState extends State<MyPrograming> {
                                 top: 0,
                                 child: Container(
                                   padding: paddingAll5,
-                                  decoration: BoxDecoration(color: Colors.black.withOpacity(0.3), borderRadius: BorderRadius.only(topLeft: Radius.circular(10))),
+                                  decoration: BoxDecoration(
+                                      color: Colors.black.withOpacity(0.3), borderRadius: BorderRadius.only(topLeft: Radius.circular(10))),
                                   child: Row(children: [
                                     Icon(Icons.star_outlined, color: getLevelDescriptionColor(item.level)),
                                     SizedBox(width: W / 40),
@@ -114,31 +118,39 @@ class _MyProgramingState extends State<MyPrograming> {
                               ]),
                               const Divider(),
                               IntrinsicHeight(
-                                  child: Row(crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                                if (item.startTime != null)
-                                  Row(children: [
-                                    Image.asset("assets/icon/calender.png", width: W / 18, height: W / 18, fit: BoxFit.cover),
-                                    SizedBox(width: W / 40),
-                                    Text(DateFormat("MMM d").format(item.startTime!), style: kProxima17)
-                                  ]),
-                                if (item.startTime != null) const VerticalDivider(),
-                                if (item.startTime != null)
-                                  Row(children: [
-                                    Image.asset("assets/icon/clock2.png", width: W / 20, height: W / 20, fit: BoxFit.cover),
-                                    SizedBox(width: W / 40),
-                                    Text(DateFormat("HH:mm").format(item.startTime!), style: kProxima17)
-                                  ]),
-                                if (item.duration != null) const VerticalDivider(),
-                                if (item.duration != null)
-                                  Row(children: [
-                                    if (item.duration != null) Image.asset("assets/icon/continue.png", width: W / 20, height: W / 20, fit: BoxFit.cover),
-                                    if (item.duration != null) SizedBox(width: W / 40),
+                                  child: Row(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                    if (item.startTime != null)
+                                      Row(children: [
+                                        Image.asset("assets/icon/calender.png", width: W / 18, height: W / 18, fit: BoxFit.cover),
+                                        SizedBox(width: W / 40),
+                                        Text(DateFormat("MMM d").format(item.startTime!), style: kProxima17)
+                                      ]),
+                                    if (item.startTime != null) const VerticalDivider(),
+                                    if (item.startTime != null)
+                                      Row(children: [
+                                        Image.asset("assets/icon/clock2.png", width: W / 20, height: W / 20, fit: BoxFit.cover),
+                                        SizedBox(width: W / 40),
+                                        Text(DateFormat("HH:mm").format(item.startTime!), style: kProxima17)
+                                      ]),
+                                    if (item.duration != null) const VerticalDivider(),
                                     if (item.duration != null)
-                                      Row(
-                                        children: [Text("${item.duration}", style: kProxima17), SizedBox(width: W / 70), Text("min".tr(), style: kProxima17)],
-                                      )
-                                  ])
-                              ]))
+                                      Row(children: [
+                                        if (item.duration != null)
+                                          Image.asset("assets/icon/continue.png", width: W / 20, height: W / 20, fit: BoxFit.cover),
+                                        if (item.duration != null) SizedBox(width: W / 40),
+                                        if (item.duration != null)
+                                          Row(
+                                            children: [
+                                              Text("${item.duration}", style: kProxima17),
+                                              SizedBox(width: W / 70),
+                                              Text("min".tr(), style: kProxima17)
+                                            ],
+                                          )
+                                      ])
+                                  ]))
                             ]))
 
                         // SizedBox(height: W / 60),
@@ -154,34 +166,56 @@ class _MyProgramingState extends State<MyPrograming> {
   Padding myPrograms(BuildContext context, double W) {
     return Padding(
       padding: paddingAll10,
-      child: Column(
-        children: member$.value!.map((item) {
-          return InkWell(
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => SportDetails()));
+      child: member$.value == null || member$.value!.isEmpty
+          ? const Center(child: CircularProgressIndicator())
+          : GridView.builder(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 1, childAspectRatio: 1.5),
+              itemCount: member$.value!.length,
+              itemBuilder: (context, index) {
+                var item = member$.value![index];
+                return InkWell(
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => SportDetails()));
+                  },
+                  child: Stack(
+                    children: [
+                      ClipRRect(
+                        borderRadius: borderRadius10,
+                        child: CachedNetworkImage(
+                          imageUrl:
+                              item.program.first.exercisephotourl ?? "https://www.skechers.com.tr/blog/wp-content/uploads/2023/03/fitnes-770x513.jpg",
+                          errorWidget: (context, url, error) => const Icon(Icons.error),
+                          fit: BoxFit.cover,
+                          width: double.infinity,
+                          height: double.infinity,
+                        ),
+                      ),
+                      Positioned.fill(
+                        child: Container(
+                          alignment: Alignment.bottomCenter,
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [Colors.transparent, Colors.black.withOpacity(0.6)],
+                            ),
+                            borderRadius: borderRadius10,
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              'Program'.tr(),
+                              style: kAxiforma20.copyWith(color: Colors.white),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
               },
-              child: Stack(children: [
-                ClipRRect(
-                    borderRadius: borderRadius10,
-                    child: CachedNetworkImage(
-                        imageUrl: member$.value?.first.program.first.exercisephotourl ?? "https://www.skechers.com.tr/blog/wp-content/uploads/2023/03/fitnes-770x513.jpg",
-                        placeholder: (context, url) => CircularProgressIndicator(color: config.primaryColor),
-                        errorWidget: (context, url, error) => const Icon(Icons.error),
-                        fit: BoxFit.cover)),
-                Positioned.fill(
-                  bottom: 0,
-                  child: Container(
-                      width: W / 2.18,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                          gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [Colors.transparent, Colors.black.withOpacity(0.4)]),
-                          borderRadius: const BorderRadius.only(bottomRight: Radius.circular(10), bottomLeft: Radius.circular(10)),
-                          boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.4), spreadRadius: 3, blurRadius: 10, offset: Offset(0, 1))]),
-                      child: Text('Program'.tr(), style: kAxiforma20.copyWith(color: Colors.white), textAlign: TextAlign.center)),
-                )
-              ]));
-        }).toList(),
-      ),
+            ),
     );
   }
 }
