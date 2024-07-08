@@ -142,7 +142,7 @@ class _LoginState extends State<Login> {
                             }
                           },
                           width: W),
-                  SizedBox(height: W / 10),
+                  SizedBox(height: W / 10)
                 ]),
               );
             }),
