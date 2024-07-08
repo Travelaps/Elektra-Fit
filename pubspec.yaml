@@ -48,7 +48,11 @@ dependencies:
   data_format: ^0.0.4
   intl: ^0.18.1
   cached_network_image: ^3.3.1
-  easy_localization: ^3.0.3
+  easy_localization: ^3.0.7
+  syncfusion_flutter_datepicker: ^25.1.37
+  board_datetime_picker: ^1.4.0
+ 
+#  uuid: ^4.3.3
 #  flutter_flushbar: ^0.0.2
 
 dev_dependencies:

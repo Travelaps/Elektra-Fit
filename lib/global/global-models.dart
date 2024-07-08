@@ -8,7 +8,7 @@ class RequestResponse {
 class MemberModel {
   Profile profile;
   List<Program> program;
-  dynamic membership;
+  List<Membership> membership;
 
   MemberModel({
     required this.profile,
@@ -19,13 +19,81 @@ class MemberModel {
   factory MemberModel.fromJson(Map<String, dynamic> json) => MemberModel(
         profile: Profile.fromJson(json["PROFILE"]),
         program: List<Program>.from(json["PROGRAM"].map((x) => Program.fromJson(x))),
-        membership: json["MEMBERSHIP"],
+        membership: List<Membership>.from(json["MEMBERSHIP"].map((x) => Membership.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
         "PROFILE": profile.toJson(),
         "PROGRAM": List<dynamic>.from(program.map((x) => x.toJson())),
-        "MEMBERSHIP": membership,
+        "MEMBERSHIP": List<dynamic>.from(membership.map((x) => x.toJson())),
+      };
+}
+
+class Membership {
+  DateTime startdate;
+  DateTime lastdate;
+  DateTime actualenddate;
+  double price;
+  DateTime contractdate;
+  dynamic notes;
+  String membershiptype;
+  String currency;
+  String salespersonnel;
+  String membername;
+  dynamic membercardno;
+  String membernames;
+  int extraday;
+  int frozenday;
+
+  Membership({
+    required this.startdate,
+    required this.lastdate,
+    required this.actualenddate,
+    required this.price,
+    required this.contractdate,
+    required this.notes,
+    required this.membershiptype,
+    required this.currency,
+    required this.salespersonnel,
+    required this.membername,
+    required this.membercardno,
+    required this.membernames,
+    required this.extraday,
+    required this.frozenday,
+  });
+
+  factory Membership.fromJson(Map<String, dynamic> json) => Membership(
+        startdate: DateTime.parse(json["STARTDATE"]),
+        lastdate: DateTime.parse(json["LASTDATE"]),
+        actualenddate: DateTime.parse(json["ACTUALENDDATE"]),
+        price: json["PRICE"],
+        contractdate: DateTime.parse(json["CONTRACTDATE"]),
+        notes: json["NOTES"],
+        membershiptype: json["MEMBERSHIPTYPE"],
+        currency: json["CURRENCY"],
+        salespersonnel: json["SALESPERSONNEL"],
+        membername: json["MEMBERNAME"],
+        membercardno: json["MEMBERCARDNO"],
+        membernames: json["MEMBERNAMES"],
+        extraday: json["EXTRADAY"],
+        frozenday: json["FROZENDAY"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "STARTDATE": startdate.toIso8601String(),
+        "LASTDATE": lastdate.toIso8601String(),
+        "ACTUALENDDATE": actualenddate.toIso8601String(),
+        "PRICE": price,
+        "CONTRACTDATE": contractdate.toIso8601String(),
+        "NOTES": notes,
+        "MEMBERSHIPTYPE": membershiptype,
+        "CURRENCY": currency,
+        "SALESPERSONNEL": salespersonnel,
+        "MEMBERNAME": membername,
+        "MEMBERCARDNO": membercardno,
+        "MEMBERNAMES": membernames,
+        "EXTRADAY": extraday,
+        "FROZENDAY": frozenday,
       };
 }
 
@@ -155,16 +223,16 @@ class SpaGroupActivityModel {
   String photoUrl;
   String notes;
   int level;
-  int categoriid;
+  int? categoriid;
   int duration;
   int trainerid;
   int placeid;
   int creatorid;
   DateTime creationDate;
   int capacity;
-  String trainername;
-  String placename;
-  String categoriname;
+  String? trainername;
+  String? placename;
+  String? categoriname;
 
   SpaGroupActivityModel({
     required this.id,
@@ -217,7 +285,7 @@ class SpaGroupActivityMemberListModel {
   int id;
   int hotelid;
   int groupactivityTimetableid;
-  int memberid;
+  int? memberid;
   DateTime? startTime;
   int? groupactivityid;
   String? name;
@@ -236,7 +304,7 @@ class SpaGroupActivityMemberListModel {
   String? trainername;
   String? placename;
   String? categoriname;
-  String membername;
+  String? membername;
 
   SpaGroupActivityMemberListModel({
     required this.id,
@@ -337,9 +405,9 @@ class SpaMemberBodyAnalysis {
   double? bodyMassIndex;
   bool? isDeleted;
   int? creatorId;
-  DateTime? creationDate; // Değişiklik yapıldı
+  DateTime? creationDate;
   dynamic updateUser;
-  DateTime? lastUpdateDate; // Değişiklik yapıldı
+  DateTime? lastUpdateDate;
   String? fullName;
 
   SpaMemberBodyAnalysis({
@@ -390,11 +458,333 @@ class SpaMemberBodyAnalysis {
       isDeleted: json['ISDELETED'],
       creatorId: json['CREATORID'],
       creationDate: DateTime.parse(json['CREATION_DATE']),
-      // Değişiklik yapıldı
       updateUser: json['UPDATEUSER'].toString(),
       lastUpdateDate: DateTime.parse(json['LASTUPDATE_DATE']),
-      // Değişiklik yapıldı
       fullName: json['FULLNAME'].toString(),
     );
   }
 }
+
+class ReservationModel {
+  int id;
+  int hotelid;
+  int? portalid;
+  int? checkid;
+  int depid;
+  DateTime creationdate;
+  DateTime? resstart;
+  DateTime? resend;
+  int serviceid;
+  double quantity;
+  double mctotal;
+  int currencyid;
+  double ctotal;
+  bool paid;
+  int? staffid;
+  dynamic placeid;
+  dynamic resnameid;
+  int poscardid;
+  dynamic notes;
+  int statusid;
+  int? colorid;
+  dynamic dayoffreasonid;
+  dynamic packageid;
+  dynamic spaInhouselistid;
+  String depname;
+  String servicename;
+  int producttypeid;
+  String currencycode;
+  String? staffname;
+  dynamic placename;
+  dynamic hotelGuestname;
+  String poscardGuestname;
+  String statusname;
+  String? colorname;
+  dynamic dayoffreason;
+  dynamic hotelCheckin;
+  dynamic hotelCheckout;
+  dynamic hotelRoomno;
+  String creatorname;
+  int cancel;
+  String guestname;
+  double netCtotal;
+  double netMctotal;
+  double discountpercent;
+  dynamic resnameHotelid;
+
+  ReservationModel({
+    required this.id,
+    required this.hotelid,
+    required this.portalid,
+    required this.checkid,
+    required this.depid,
+    required this.creationdate,
+    required this.resstart,
+    required this.resend,
+    required this.serviceid,
+    required this.quantity,
+    required this.mctotal,
+    required this.currencyid,
+    required this.ctotal,
+    required this.paid,
+    required this.staffid,
+    required this.placeid,
+    required this.resnameid,
+    required this.poscardid,
+    required this.notes,
+    required this.statusid,
+    required this.colorid,
+    required this.dayoffreasonid,
+    required this.packageid,
+    required this.spaInhouselistid,
+    required this.depname,
+    required this.servicename,
+    required this.producttypeid,
+    required this.currencycode,
+    required this.staffname,
+    required this.placename,
+    required this.hotelGuestname,
+    required this.poscardGuestname,
+    required this.statusname,
+    required this.colorname,
+    required this.dayoffreason,
+    required this.hotelCheckin,
+    required this.hotelCheckout,
+    required this.hotelRoomno,
+    required this.creatorname,
+    required this.cancel,
+    required this.guestname,
+    required this.netCtotal,
+    required this.netMctotal,
+    required this.discountpercent,
+    required this.resnameHotelid,
+  });
+
+  factory ReservationModel.fromJson(Map<String, dynamic> json) => ReservationModel(
+        id: json["ID"],
+        hotelid: json["HOTELID"],
+        portalid: json["PORTALID"],
+        checkid: json["CHECKID"],
+        depid: json["DEPID"],
+        creationdate: DateTime.parse(json["CREATIONDATE"]),
+        resstart: json["RESSTART"] == null ? null : DateTime.parse(json["RESSTART"]),
+        resend: json["RESEND"] == null ? null : DateTime.parse(json["RESEND"]),
+        serviceid: json["SERVICEID"],
+        quantity: json["QUANTITY"],
+        mctotal: json["MCTOTAL"]?.toDouble(),
+        currencyid: json["CURRENCYID"],
+        ctotal: json["CTOTAL"],
+        paid: json["PAID"],
+        staffid: json["STAFFID"],
+        placeid: json["PLACEID"],
+        resnameid: json["RESNAMEID"],
+        poscardid: json["POSCARDID"],
+        notes: json["NOTES"],
+        statusid: json["STATUSID"],
+        colorid: json["COLORID"],
+        dayoffreasonid: json["DAYOFFREASONID"],
+        packageid: json["PACKAGEID"],
+        spaInhouselistid: json["SPA_INHOUSELISTID"],
+        depname: json["DEPNAME"],
+        servicename: json["SERVICENAME"],
+        producttypeid: json["PRODUCTTYPEID"],
+        currencycode: json["CURRENCYCODE"],
+        staffname: json["STAFFNAME"],
+        placename: json["PLACENAME"],
+        hotelGuestname: json["HOTEL_GUESTNAME"],
+        poscardGuestname: json["POSCARD_GUESTNAME"],
+        statusname: json["STATUSNAME"],
+        colorname: json["COLORNAME"],
+        dayoffreason: json["DAYOFFREASON"],
+        hotelCheckin: json["HOTEL_CHECKIN"],
+        hotelCheckout: json["HOTEL_CHECKOUT"],
+        hotelRoomno: json["HOTEL_ROOMNO"],
+        creatorname: json["CREATORNAME"],
+        cancel: json["CANCEL"],
+        guestname: json["GUESTNAME"],
+        netCtotal: json["NET_CTOTAL"],
+        netMctotal: json["NET_MCTOTAL"]?.toDouble(),
+        discountpercent: json["DISCOUNTPERCENT"],
+        resnameHotelid: json["RESNAME_HOTELID"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "ID": id,
+        "HOTELID": hotelid,
+        "PORTALID": portalid,
+        "CHECKID": checkid,
+        "DEPID": depid,
+        "CREATIONDATE": creationdate.toIso8601String(),
+        "RESSTART": resstart?.toIso8601String(),
+        "RESEND": resend?.toIso8601String(),
+        "SERVICEID": serviceid,
+        "QUANTITY": quantity,
+        "MCTOTAL": mctotal,
+        "CURRENCYID": currencyid,
+        "CTOTAL": ctotal,
+        "PAID": paid,
+        "STAFFID": staffid,
+        "PLACEID": placeid,
+        "RESNAMEID": resnameid,
+        "POSCARDID": poscardid,
+        "NOTES": notes,
+        "STATUSID": statusid,
+        "COLORID": colorid,
+        "DAYOFFREASONID": dayoffreasonid,
+        "PACKAGEID": packageid,
+        "SPA_INHOUSELISTID": spaInhouselistid,
+        "DEPNAME": depname,
+        "SERVICENAME": servicename,
+        "PRODUCTTYPEID": producttypeid,
+        "CURRENCYCODE": currencycode,
+        "STAFFNAME": staffname,
+        "PLACENAME": placename,
+        "HOTEL_GUESTNAME": hotelGuestname,
+        "POSCARD_GUESTNAME": poscardGuestname,
+        "STATUSNAME": statusname,
+        "COLORNAME": colorname,
+        "DAYOFFREASON": dayoffreason,
+        "HOTEL_CHECKIN": hotelCheckin,
+        "HOTEL_CHECKOUT": hotelCheckout,
+        "HOTEL_ROOMNO": hotelRoomno,
+        "CREATORNAME": creatorname,
+        "CANCEL": cancel,
+        "GUESTNAME": guestname,
+        "NET_CTOTAL": netCtotal,
+        "NET_MCTOTAL": netMctotal,
+        "DISCOUNTPERCENT": discountpercent,
+        "RESNAME_HOTELID": resnameHotelid,
+      };
+}
+
+class AvailabilityHours {
+  String workHours;
+
+  AvailabilityHours({
+    required this.workHours,
+  });
+
+  factory AvailabilityHours.fromJson(Map<String, dynamic> json) => AvailabilityHours(
+        workHours: json["WORK_HOURS"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "WORK_HOURS": workHours,
+      };
+}
+
+class SpaInfoModel {
+  Hotelinfos hotelinfos;
+
+  SpaInfoModel({
+    required this.hotelinfos,
+  });
+
+  factory SpaInfoModel.fromJson(Map<String, dynamic> json) => SpaInfoModel(
+        hotelinfos: Hotelinfos.fromJson(json["HOTELINFOS"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "HOTELINFOS": hotelinfos.toJson(),
+      };
+}
+
+class Hotelinfos {
+  int id;
+  String name;
+  String address;
+  String email;
+  String phone;
+  String logourl;
+  String workingDays;
+  String workingHours;
+  int onlineAppointmentDepartmentid;
+  List<SpaService> spaServices;
+
+  Hotelinfos({
+    required this.id,
+    required this.name,
+    required this.address,
+    required this.email,
+    required this.phone,
+    required this.logourl,
+    required this.workingDays,
+    required this.workingHours,
+    required this.onlineAppointmentDepartmentid,
+    required this.spaServices,
+  });
+
+  factory Hotelinfos.fromJson(Map<String, dynamic> json) => Hotelinfos(
+        id: json["ID"],
+        name: json["NAME"],
+        address: json["ADDRESS"],
+        email: json["EMAIL"],
+        phone: json["PHONE"],
+        logourl: json["LOGOURL"],
+        workingDays: json["WORKING_DAYS"],
+        workingHours: json["WORKING_HOURS"],
+        onlineAppointmentDepartmentid: json["ONLINE_APPOINTMENT_DEPARTMENTID"],
+        spaServices: List<SpaService>.from(json["SPA_SERVICES"].map((x) => SpaService.fromJson(x))),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "ID": id,
+        "NAME": name,
+        "ADDRESS": address,
+        "EMAIL": email,
+        "PHONE": phone,
+        "LOGOURL": logourl,
+        "WORKING_DAYS": workingDays,
+        "WORKING_HOURS": workingHours,
+        "ONLINE_APPOINTMENT_DEPARTMENTID": onlineAppointmentDepartmentid,
+        "SPA_SERVICES": List<dynamic>.from(spaServices.map((x) => x.toJson())),
+      };
+}
+
+class SpaService {
+  int id;
+  String product;
+  double price;
+  int currencyid;
+  String currency;
+
+  SpaService({
+    required this.id,
+    required this.product,
+    required this.price,
+    required this.currencyid,
+    required this.currency,
+  });
+
+  factory SpaService.fromJson(Map<String, dynamic> json) => SpaService(
+        id: json["ID"],
+        product: json["PRODUCT"],
+        price: json["PRICE"],
+        currencyid: json["CURRENCYID"],
+        currency: json["CURRENCY"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "ID": id,
+        "PRODUCT": product,
+        "PRICE": price,
+        "CURRENCYID": currencyid,
+        "CURRENCY": currency,
+      };
+}
+//
+// class SpaInfoModels {
+//   String hotelinfos;
+//
+//   SpaInfoModels({
+//     required this.hotelinfos,
+//   });
+//
+//   factory SpaInfoModels.fromJson(Map<String, dynamic> json) => SpaInfoModels(
+//         hotelinfos: json["HOTELINFOS"],
+//       );
+//
+//   Map<String, dynamic> toJson() => {
+//         "HOTELINFOS": hotelinfos,
+//       };
+// }

@@ -5,7 +5,7 @@ Map<String, dynamic> fitConfig = {
   "hotel-id": 23155,
   "hotel-name": "Elektra Fit",
   "languange": "EN",
-  "primaryColor": "#2749A7",
+  "primaryColor": "#CE0000",
   "IconPrimaryColor": "#40598e",
   "buttonSecondColor": "#D1E0E5",
   'ColorBallBlue': "#BC9B6A",

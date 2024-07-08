@@ -1,17 +1,8 @@
-import 'package:easy_localization/easy_localization.dart';
-import 'package:elektra_fit/global/enum/banner-enum.dart';
-import 'package:elektra_fit/global/global-variables.dart';
-import 'package:elektra_fit/global/helper.dart';
-import 'package:elektra_fit/widget/CButton.dart';
-import 'package:elektra_fit/widget/CTextFromField.dart';
-import 'package:elektra_fit/widget/Cloading.dart';
-import 'package:elektra_fit/widget/tabBar.dart';
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'login-service.dart';
+import '../../global/index.dart';
+import '../../widget/index.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -25,33 +16,35 @@ class _LoginState extends State<Login> {
   TextEditingController _password = TextEditingController();
   BehaviorSubject<bool> isVisibility$ = BehaviorSubject.seeded(false);
   BehaviorSubject<bool> isSaved$ = BehaviorSubject.seeded(false);
+  BehaviorSubject<bool> isLoading$ = BehaviorSubject.seeded(false);
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-
   final service = GetIt.I<LoginService>();
 
   void loadPreferences() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      _email.text = prefs.getString('email') ?? '';
-      _password.text = prefs.getString('password') ?? '';
-      isSaved$.value = prefs.getBool('rememberMe') ?? false;
+      _email.text = prefs.getString('email'.tr()) ?? '';
+      _password.text = prefs.getString('password'.tr()) ?? '';
+      isSaved$.add(prefs.getBool('rememberMe'.tr()) ?? false);
     });
   }
 
   void savePreferences() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if (isSaved$.value) {
-      prefs.setString('email', _email.text);
-      prefs.setString('password', _password.text);
+      prefs.setString('email'.tr(), _email.text);
+      prefs.setString('password'.tr(), _password.text);
     } else {
-      prefs.remove('email');
-      prefs.remove('password');
+      prefs.remove('email'.tr());
+      prefs.remove('password'.tr());
     }
-    prefs.setBool('rememberMe', isSaved$.value);
+    prefs.setBool('rememberMe'.tr(), isSaved$.value);
   }
 
   @override
   void initState() {
+    _email.text = "ozkantur@gmail.com";
+    _password.text = "ozkan123";
     loadPreferences();
     super.initState();
   }
@@ -70,94 +63,87 @@ class _LoginState extends State<Login> {
             stream: Rx.combineLatest3(isVisibility$, isSaved$, isLoading$, (a, b, c) => null),
             builder: (context, snapshot) {
               return Container(
-                width: W,
-                height: H,
-                decoration: BoxDecoration(
-                  color: Colors.black,
-                  image: DecorationImage(
-                      fit: BoxFit.cover,
-                      colorFilter: ColorFilter.mode(
-                        isDarkMode$.value ? Colors.black.withOpacity(0.3) : Colors.white70.withOpacity(0.2),
-                        BlendMode.overlay,
-                      ),
-                      image: const AssetImage("assets/image/started3.png")),
-                ),
-                child: Padding(
-                  padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top, left: 10, right: 10, bottom: 10),
-                  child: isLoading$.value
-                      ? CLoading()
-                      : Column(
-                          children: [
-                            Expanded(flex: 1, child: Container()),
-                            CTextFormField(_email, "Email".tr(), prefixIcon: Icon(Icons.email)),
-                            SizedBox(height: W / 40),
-                            CTextFormField(_password, "Password".tr(),
-                                obscureText: isVisibility$.value,
-                                keyboardType: TextInputType.text,
-                                textInputAction: TextInputAction.done,
-                                prefixIcon: Icon(Icons.lock, color: Colors.white70),
-                                suffixIconColor: Colors.white70,
-                                onchange: (value) {
-                                  _password.text = value;
-                                },
-                                suffixIcon: IconButton(
-                                    onPressed: () {
-                                      isVisibility$.add(!isVisibility$.value);
-                                    },
-                                    icon: isVisibility$.value ? const Icon(Icons.visibility_off) : const Icon(Icons.visibility)),
-                                validator: (value) {
-                                  if (value!.isEmpty) return _password.text;
-                                  return null;
-                                }),
-                            SizedBox(height: W / 60),
-                            Row(
-                              children: [
-                                Checkbox(
-                                  checkColor: Colors.white,
-                                  focusColor: Colors.black,
-                                  activeColor: config.primaryColor,
-                                  hoverColor: Colors.red,
-                                  value: isSaved$.value,
-                                  onChanged: (value) {
-                                    isSaved$.add(!isSaved$.value);
-                                  },
-                                ),
-                                Text("Remember me".tr(), style: kProxima16.copyWith(color: Colors.white)),
-                              ],
-                            ),
-                            SizedBox(height: W / 60),
-                            CButton(
-                              title: "Login".tr(),
-                              func: () {
-                                isLoading$.add(true);
-                                try {
-                                  service.postLogin(_email.text, _password.text).then((value) {
-                                    isLoading$.add(false);
-                                    if (value!.result) {
-                                      savePreferences();
-                                      Navigator.popUntil(context, (route) => route.isFirst);
-                                      Navigator.pushReplacement(
-                                        context,
-                                        PageRouteBuilder(
-                                          pageBuilder: (context, animation, secondaryAnimation) => CTabBar(),
-                                        ),
-                                      );
-                                    } else {
-                                      final errorMessage = value.message.contains('Kullanıcı Bulunamadı!') ? 'Kullanıcı Bulunamadı!' : value.message;
-                                      kShowBanner(BannerType.ERROR, errorMessage, context);
-                                    }
-                                  });
-                                } catch (e) {
-                                  final errorMessage = e.toString().contains('Kullanıcı Bulunamadı!') ? 'Kullanıcı Bulunamadı!' : e.toString();
+                padding: paddingAll10,
+                child: Column(children: [
+                  Expanded(child: SizedBox(height: H * 0.40, width: W, child: Image.asset("assets/image/start-logo.png", fit: BoxFit.contain))),
+                  CTextFormField(
+                    _email,
+                    "Email".tr(),
+                    prefixIcon: const Icon(Icons.email),
+                    onchange: (value) {
+                      _email.text = value;
+                    },
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'Please enter your Email.'.tr();
+                      }
+                      return null;
+                    },
+                  ),
+                  SizedBox(height: W / 40),
+                  CTextFormField(_password, "Password".tr(),
+                      obscureText: !isVisibility$.value,
+                      keyboardType: TextInputType.text,
+                      textInputAction: TextInputAction.done,
+                      prefixIcon: const Icon(Icons.lock, color: Colors.black87),
+                      suffixIconColor: Colors.black87,
+                      onchange: (value) {
+                        _password.text = value;
+                      },
+                      suffixIcon: IconButton(
+                          onPressed: () {
+                            isVisibility$.add(!isVisibility$.value);
+                          },
+                          icon: isVisibility$.value ? const Icon(Icons.visibility_off) : const Icon(Icons.visibility)),
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Please enter your Password.'.tr();
+                        }
+                        return null;
+                      }),
+                  SizedBox(height: W / 40),
+                  Row(children: [
+                    Checkbox(
+                        checkColor: Colors.white,
+                        focusColor: Colors.black,
+                        activeColor: config.primaryColor,
+                        hoverColor: Colors.red,
+                        value: isSaved$.value,
+                        onChanged: (value) {
+                          isSaved$.add(value!);
+                          savePreferences();
+                        }),
+                    Text("Remember me".tr(), style: kProxima16)
+                  ]),
+                  SizedBox(height: W / 70),
+                  isLoading$.value
+                      ? Center(child: CircularProgressIndicator(color: config.primaryColor))
+                      : CButton(
+                          title: "Login".tr(),
+                          func: () {
+                            isLoading$.add(true);
+                            try {
+                              service.postLogin(_email.text, _password.text).then((value) {
+                                isLoading$.add(false);
+                                if (value!.result) {
+                                  savePreferences();
+                                  Navigator.popUntil(context, (route) => route.isFirst);
+                                  Navigator.pushReplacement(
+                                      context, PageRouteBuilder(pageBuilder: (context, animation, secondaryAnimation) => CTabBar()));
+                                } else {
+                                  final errorMessage = value.message.contains('Kullanıcı Bulunamadı!') ? 'Kullanıcı Bulunamadı!' : value.message;
                                   kShowBanner(BannerType.ERROR, errorMessage, context);
                                 }
-                              },
-                              width: W,
-                            ),
-                            SizedBox(height: W / 10),
-                          ],
-                        ),
-                ),
+                              });
+                            } catch (e) {
+                              isLoading$.add(false);
+                              final errorMessage = e.toString().contains('Kullanıcı Bulunamadı!') ? 'Kullanıcı Bulunamadı!' : e.toString();
+                              kShowBanner(BannerType.ERROR, errorMessage, context);
+                            }
+                          },
+                          width: W),
+                  SizedBox(height: W / 10)
+                ]),
               );
             }),
       ),

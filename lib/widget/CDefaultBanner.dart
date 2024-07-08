@@ -1,8 +1,6 @@
 import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 
-import '../global/enum/banner-enum.dart';
-
 class DefaultNotificationBanner {
   final String iconPath;
   final String text;
@@ -24,10 +22,7 @@ class DefaultNotificationBanner {
       margin: const EdgeInsets.all(8),
       borderRadius: BorderRadius.circular(8),
       flushbarPosition: FlushbarPosition.TOP,
-      icon: Padding(
-        padding: const EdgeInsets.only(left: 15),
-        child: Image.asset(iconPath),
-      ),
+      icon: Padding(padding: const EdgeInsets.only(left: 15), child: Image.asset(iconPath)),
       onTap: (flushbar) => flushbar.dismiss(),
       messageText: Padding(
         padding: const EdgeInsets.only(left: 8, right: 9),
@@ -39,44 +34,34 @@ class DefaultNotificationBanner {
       duration: Duration(seconds: durationSeconds == null ? 2 : durationSeconds!),
       backgroundColor: color,
       boxShadows: [
-        BoxShadow(
-          color: Colors.black.withOpacity(0.2),
-          offset: Offset(0.0, 2.0),
-          blurRadius: 3.0,
-        ),
+        BoxShadow(color: Colors.black.withOpacity(0.2), offset: Offset(0.0, 2.0), blurRadius: 3.0),
       ],
     )..show(context);
     return flushbar;
   }
 }
 
-Flushbar kShowBanner(BannerType bannerType, String text, BuildContext context, {int? durationSeconds, Function()? onDismissed, Color? color}) {
-  switch (bannerType) {
-    case BannerType.ERROR:
-      return DefaultNotificationBanner(
-        iconPath: 'assets/icon/banner-icon/error.png',
-        text: text,
-        context: context,
-        color: color ?? Colors.red,
-        durationSeconds: durationSeconds,
-      ).show();
-
-    case BannerType.SUCCESS:
-      return DefaultNotificationBanner(
-        iconPath: 'assets/icon/banner-icon/check.png',
-        text: text,
-        context: context,
-        color: const Color.fromARGB(255, 9, 184, 14),
-        durationSeconds: durationSeconds,
-      ).show();
-
-    case BannerType.MESSAGE:
-      return DefaultNotificationBanner(
-        iconPath: 'assets/icon/banner-icon/info.png',
-        text: text,
-        context: context,
-        color: const Color.fromARGB(255, 50, 101, 225),
-        durationSeconds: durationSeconds,
-      ).show();
-  }
-}
+// Flushbar kShowBanner(BannerType bannerType, String text, BuildContext context, {int? durationSeconds, Function()? onDismissed, Color? color}) {
+//   switch (bannerType) {
+//     case BannerType.ERROR:
+//       return DefaultNotificationBanner(iconPath: 'assets/icon/banner-icon/error.png', text: text, context: context, color: color ?? Colors.red, durationSeconds: durationSeconds).show();
+//
+//     case BannerType.SUCCESS:
+//       return DefaultNotificationBanner(
+//         iconPath: 'assets/icon/banner-icon/check.png',
+//         text: text,
+//         context: context,
+//         color: const Color.fromARGB(255, 9, 184, 14),
+//         durationSeconds: durationSeconds,
+//       ).show();
+//
+//     case BannerType.MESSAGE:
+//       return DefaultNotificationBanner(
+//         iconPath: 'assets/icon/banner-icon/info.png',
+//         text: text,
+//         context: context,
+//         color: const Color.fromARGB(255, 50, 101, 225),
+//         durationSeconds: durationSeconds,
+//       ).show();
+//   }
+// }

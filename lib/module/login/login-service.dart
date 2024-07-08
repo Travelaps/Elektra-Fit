@@ -6,7 +6,7 @@ import '../../global/index.dart';
 class LoginService {
   Future<RequestResponse?> postLogin(String email, String password) async {
     member$.add(null);
-    final url = Uri.parse('https://4001.hoteladvisor.net/apisequence/SPAFitnessLogin?EMAIL=$email&PASSWORD=$password');
+    final url = Uri.parse('$apiUrl/apisequence/SPAFitnessLogin?EMAIL=$email&PASSWORD=$password');
     try {
       final response = await http.post(url, body: {});
       if (response.statusCode == 200) {

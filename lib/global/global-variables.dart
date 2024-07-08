@@ -1,23 +1,27 @@
-import 'package:elektra_fit/global/global-config.dart';
 import 'package:elektra_fit/global/global-models.dart';
+import 'package:elektra_fit/global/index.dart';
 import 'package:flutter/material.dart';
-import 'package:rxdart/rxdart.dart';
 
 BehaviorSubject<bool> isDarkMode$ = BehaviorSubject.seeded(false);
 BehaviorSubject<bool> isLoading$ = BehaviorSubject.seeded(false);
 BehaviorSubject<List<MemberModel>?> member$ = BehaviorSubject.seeded(null);
 
 final config = FitConfig.fromJson(fitConfig);
+final apiUrl = Uri.parse('https://4001.hoteladvisor.net');
+
 String? selectedlang;
 int? hotelId;
 
-EdgeInsets marginAll5 = EdgeInsets.all(5);
-EdgeInsets marginAll10 = EdgeInsets.all(10);
-EdgeInsets paddingAll5 = EdgeInsets.all(5);
-EdgeInsets paddingAll10 = EdgeInsets.all(10);
-EdgeInsets paddingAll15 = EdgeInsets.all(15);
+EdgeInsets marginAll5 = const EdgeInsets.all(5);
+EdgeInsets marginAll8 = const EdgeInsets.all(8);
+EdgeInsets marginAll10 = const EdgeInsets.all(10);
+EdgeInsets paddingAll5 = const EdgeInsets.all(5);
+EdgeInsets paddingAll8 = const EdgeInsets.all(8);
+EdgeInsets paddingAll10 = const EdgeInsets.all(10);
+EdgeInsets paddingAll15 = const EdgeInsets.all(15);
 
-Decoration borderAndBorderRadius = BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(10)), border: Border.all(color: isDarkMode$.value ? Colors.white : Colors.black87, width: 1));
+Decoration borderAndBorderRadius = BoxDecoration(
+    borderRadius: BorderRadius.all(Radius.circular(10)), border: Border.all(color: isDarkMode$.value ? Colors.white : Colors.black87, width: 1));
 BorderRadius borderRadius8 = BorderRadius.all(Radius.circular(8));
 BorderRadius borderRadius10 = BorderRadius.all(Radius.circular(10));
 BorderRadius borderRadius15 = BorderRadius.all(Radius.circular(15));

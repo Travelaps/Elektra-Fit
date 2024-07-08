@@ -1,3 +1,4 @@
+import 'package:elektra_fit/global/index.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
@@ -16,4 +17,54 @@ Future<T> showAnimation<T>(BuildContext context, Future<T> func) async {
       ));
     },
   );
+}
+
+String getLevelDescription(int? level) {
+  String levelName = '';
+  switch (level) {
+    case 1:
+      levelName = 'Beginner'.tr();
+      break;
+    case 2:
+      levelName = 'Intermediate'.tr();
+      break;
+    case 3:
+      levelName = 'Advanced'.tr();
+      break;
+    case 4:
+      levelName = 'Expert'.tr();
+      break;
+    case 5:
+      levelName = 'Professional'.tr();
+      break;
+    default:
+      levelName = '';
+  }
+  return levelName;
+}
+
+Color getLevelDescriptionColor(int? level) {
+  Color color = Colors.black;
+
+  switch (level) {
+    case 1:
+      color = Colors.green;
+      break;
+    case 2:
+      color = Colors.orange;
+      break;
+    case 3:
+      color = Colors.yellow;
+      break;
+    case 4:
+      color = Colors.deepPurple;
+      break;
+    case 5:
+      color = Colors.blue;
+      break;
+    default:
+      color = Colors.grey;
+  }
+
+  return color;
 }
