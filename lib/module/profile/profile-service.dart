@@ -7,13 +7,12 @@ class ProfileService {
   BehaviorSubject<List<SpaMemberBodyAnalysis?>?> spaMemberBody$ = BehaviorSubject.seeded(null);
   BehaviorSubject<List<ReservationModel?>?> reservation$ = BehaviorSubject.seeded(null);
   BehaviorSubject<List<SpaService>?> spaService$ = BehaviorSubject.seeded(null);
-
   BehaviorSubject<int> resId$ = BehaviorSubject.seeded(0);
 
   Future<RequestResponse?> spaMemberBodyAnality() async {
     spaMemberBody$.add(null);
     try {
-      final response = await http.post(url,
+      final response = await http.post(apiUrl,
           body: json.encode({
             "Action": "ApiSequence",
             "Object": "spaMemberBodyAnalysisList",

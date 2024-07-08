@@ -10,9 +10,9 @@ class MyProgramingService {
 
   Future<RequestResponse> spaGroupActivityTimetableMembersList() async {
     spaGroupActivityMember$.add(null);
-    final url = Uri.parse('https://4001.hoteladvisor.net');
+
     try {
-      final response = await http.post(url,
+      final response = await http.post(apiUrl,
           body: json.encode({
             "Action": "ApiSequence",
             "Object": "spaGroupActivityTimetableMembersList",

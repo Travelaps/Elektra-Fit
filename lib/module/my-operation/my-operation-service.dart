@@ -15,7 +15,7 @@ class MyOperationsService {
   Future<RequestResponse?> operationList() async {
     res$.value = null;
     try {
-      var response = await http.post(url,
+      var response = await http.post(apiUrl,
           body: json.encode({
             "Action": "ApiSequence",
             "Object": "spaMemberReservationList",
@@ -52,7 +52,7 @@ class MyOperationsService {
   Future<RequestResponse?> availability(DateTime dateTime) async {
     try {
       var response = await http.post(
-        url,
+        apiUrl,
         body: json.encode({
           "Action": "Execute",
           "Object": "SP_SPA_AVAILABLETIMES",
@@ -78,11 +78,11 @@ class MyOperationsService {
   Future<RequestResponse?> spaInfo() async {
     spaService$.add(null);
     try {
-      var response = await http.post(url,
+      var response = await http.post(apiUrl,
           body: json.encode({
             "Action": "Execute",
             "Object": "SP_SPA_INFO",
-            "Parameters": {"HOTELID": hotelId} // todo hotel id
+            "Parameters": {"HOTELID": hotelId}
           }));
 
       if (response.statusCode == 200) {
@@ -112,7 +112,7 @@ class MyOperationsService {
 
   Future<RequestResponse?> reservationCreate(String fullName, String phone, DateTime resStartDate, SpaService spaService, int paymentType) async {
     try {
-      var response = await http.post(url,
+      var response = await http.post(apiUrl,
           body: json.encode({
             "Action": "Execute",
             "Object": "SP_SPA_SAVE_RES",
@@ -127,7 +127,7 @@ class MyOperationsService {
               "RESHOURS": selectedHours$.value,
               "RESSTART": resStartDate.toIso8601String(),
               "SERVICEID": spaService.id,
-              "DEPARTMENTID": null,
+              "DEPARTMENTID": null
             }
           }));
 

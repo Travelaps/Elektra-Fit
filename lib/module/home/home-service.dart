@@ -14,7 +14,7 @@ class HomeService {
     spaGroupActivity$.add(null);
 
     try {
-      final response = await http.post(url,
+      final response = await http.post(apiUrl,
           body: json.encode({
             "Action": "ApiSequence",
             "Object": "spaGroupActivityTimetableList",
@@ -40,7 +40,7 @@ class HomeService {
 
   Future<RequestResponse> spaGroupActivityTimetableMemberInsert(int timeTableId) async {
     try {
-      var response = await http.post(url,
+      var response = await http.post(apiUrl,
           body: json.encode({
             "Action": "ApiSequence",
             "Object": "spaGroupActivityTimetableMemberInsert",

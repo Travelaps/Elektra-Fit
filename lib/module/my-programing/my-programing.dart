@@ -24,27 +24,22 @@ class _MyProgramingState extends State<MyPrograming> {
     final double H = MediaQuery.of(context).size.height;
     final double W = MediaQuery.of(context).size.width;
     return DefaultTabController(
-      animationDuration: Durations.extralong1,
-      length: 2,
-      child: Scaffold(
-        appBar: AppBar(
-            title: Text('Programs & Activities'.tr()),
-            bottom: TabBar(
-                indicatorSize: TabBarIndicatorSize.tab,
-                indicatorColor: Colors.white,
-                indicatorPadding: paddingAll10,
-                isScrollable: false,
-                labelPadding: paddingAll5,
-                tabs: [
-                  Tab(iconMargin: EdgeInsets.zero, child: Text('My Programs'.tr(), style: kMontserrat18.copyWith(color: Colors.white))),
-                  Tab(child: Text('My Activity'.tr(), style: kMontserrat18.copyWith(color: Colors.white)))
-                ])),
-        body: TabBarView(
-          physics: const AlwaysScrollableScrollPhysics(),
-          children: [myPrograms(context, W), myActivity(H, W)],
-        ),
-      ),
-    );
+        animationDuration: Durations.extralong1,
+        length: 2,
+        child: Scaffold(
+            appBar: AppBar(
+                title: Text('Programs & Activities'.tr()),
+                bottom: TabBar(
+                    indicatorSize: TabBarIndicatorSize.tab,
+                    indicatorColor: Colors.white,
+                    indicatorPadding: paddingAll10,
+                    isScrollable: false,
+                    labelPadding: paddingAll5,
+                    tabs: [
+                      Tab(iconMargin: EdgeInsets.zero, child: Text('My Programs'.tr(), style: kMontserrat18.copyWith(color: Colors.white))),
+                      Tab(child: Text('My Activity'.tr(), style: kMontserrat18.copyWith(color: Colors.white)))
+                    ])),
+            body: TabBarView(physics: const AlwaysScrollableScrollPhysics(), children: [myPrograms(context, W), myActivity(H, W)])));
   }
 
   StreamBuilder<List<SpaGroupActivityMemberListModel>?> myActivity(double H, double W) {

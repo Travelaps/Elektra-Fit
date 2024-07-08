@@ -9,7 +9,6 @@ export 'my-operation/my-operation-service.dart';
 export 'my-operation/my-operation.dart';
 export 'my-operation/operations.dart';
 export 'my-operation/reservation-create.dart';
-export 'my-operation/reservation.dart';
 export 'my-programing/my-programing-service.dart';
 export 'my-programing/my-programing.dart';
 export 'my-programing/sport-detail/sport-details.dart';
