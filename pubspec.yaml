@@ -46,7 +46,7 @@ dependencies:
   flutter_flushbar: ^0.0.2
   curved_navigation_bar: ^1.0.3
   data_format: ^0.0.4
-  intl: ^0.18.1
+  intl: ^0.19.0
   cached_network_image: ^3.3.1
   easy_localization: ^3.0.7
   syncfusion_flutter_datepicker: ^25.1.37

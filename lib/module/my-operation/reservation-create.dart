@@ -26,12 +26,15 @@ class _ReservationCreateState extends State<ReservationCreate> {
 
   Future<void> reservationCreate() async {
     var validationResult = _formKey.currentState!.validate();
+
     if (validationResult) {
+      isLoading$.add(true);
       service.reservationCreate(_nameAndSurname.text, _phone.text, widget.resStart, widget.spaService, service.paymentType$.value).then((value) {
         if (value!.result) {
+          isLoading$.add(false);
           reservationSuccesfullWidget(
               _email.text, _phone.text, _nameAndSurname.text, widget.spaService, widget.resStart, widget.selectedHours, service.resId$.value);
-        } else {
+        } else {isLoading$.add(false);
           kShowBanner(BannerType.ERROR, value.message, context);
         }
       });
@@ -59,82 +62,86 @@ class _ReservationCreateState extends State<ReservationCreate> {
   Widget build(BuildContext context) {
     final double H = MediaQuery.of(context).size.height;
     final double W = MediaQuery.of(context).size.width;
-
     return Scaffold(
         appBar: AppBar(title: Text("Reservation Summary".tr())),
-        body: GestureDetector(
-            onTap: () => FocusScope.of(context).unfocus(),
-            child: SingleChildScrollView(
-              child: Form(
-                  key: _formKey,
-                  child: Container(
-                      padding: paddingAll10,
-                      height: H * 0.89,
-                      child: Column(children: [
-                        Column(mainAxisAlignment: MainAxisAlignment.start, crossAxisAlignment: CrossAxisAlignment.start, children: [
-                          Text("Service Information".tr(), style: kMontserrat17),
-                          const Divider(color: Colors.black45),
-                          Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [Text("Service Name".tr(), style: kProxima17), Text(widget.spaService.product, style: kProxima17)]),
-                          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                            Text("Service Price".tr(), style: kProxima17),
-                            Text("${widget.spaService.price} ${widget.spaService.currency}", style: kProxima17)
-                          ]),
-                          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                            Text("Reservation Date".tr(), style: kProxima17),
-                            Text(DateFormat("dd MMM yyyy").format(widget.resStart), style: kProxima17)
-                          ]),
-                          Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [Text("Reservation Time".tr(), style: kProxima17), Text(widget.selectedHours.toString(), style: kProxima17)]),
-                          SizedBox(height: W / 30),
-                          Text("Person Information".tr(), style: kMontserrat17),
-                          const Divider(color: Colors.black45),
-                          CTextFormField(
-                            _nameAndSurname,
-                            "Name Surname".tr(),
-                            keyboardType: TextInputType.text,
-                            textInputAction: TextInputAction.go,
-                            onchange: (v) {
-                              member$.value?.first.profile.fullname = v;
-                            },
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'Please enter your name and surname.'.tr();
-                              }
-                              return null;
-                            },
-                          ),
-                          SizedBox(height: W / 40),
-                          CTextFormField(_email, "Email".tr(), keyboardType: TextInputType.emailAddress, textInputAction: TextInputAction.go,
-                              onchange: (v) {
-                            member$.value?.first.profile.email = v;
-                          }, validator: (value) {
-                            if (value.isEmpty) {
-                              return 'Please enter your email address.'.tr();
-                            }
-                            return null;
-                          }),
-                          SizedBox(height: W / 40),
-                          CTextFormField(_phone, "Phone Number".tr(), keyboardType: TextInputType.phone, textInputAction: TextInputAction.done,
-                              validator: (value) {
-                            if (value.isEmpty) {
-                              return 'Please enter your phone number.'.tr();
-                            }
-                            return null;
-                          }, onchange: (v) {
-                            member$.value?.first.profile.phone = v;
-                          }),
-                          SizedBox(height: W / 40)
-                        ]),
-                        const Spacer(),
-                        Padding(
-                          padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
-                          child: CButton(title: "Complete The Reservation".tr(), func: reservationCreate, width: W),
-                        )
-                      ]))),
-            )));
+        body: StreamBuilder(
+          stream: isLoading$.stream,
+          builder: (context, snapshot) {
+            return GestureDetector(
+                onTap: () => FocusScope.of(context).unfocus(),
+                child: SingleChildScrollView(
+                  child: Form(
+                      key: _formKey,
+                      child: Container(
+                          padding: paddingAll10,
+                          height: H * 0.89,
+                          child: Column(children: [
+                            Column(mainAxisAlignment: MainAxisAlignment.start, crossAxisAlignment: CrossAxisAlignment.start, children: [
+                              Text("Service Information".tr(), style: kMontserrat17),
+                              const Divider(color: Colors.black45),
+                              Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [Text("Service Name".tr(), style: kProxima17), Text(widget.spaService.product, style: kProxima17)]),
+                              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                                Text("Service Price".tr(), style: kProxima17),
+                                Text("${widget.spaService.price} ${widget.spaService.currency}", style: kProxima17)
+                              ]),
+                              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                                Text("Reservation Date".tr(), style: kProxima17),
+                                Text(DateFormat("dd MMM yyyy").format(widget.resStart), style: kProxima17)
+                              ]),
+                              Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [Text("Reservation Time".tr(), style: kProxima17), Text(widget.selectedHours.toString(), style: kProxima17)]),
+                              SizedBox(height: W / 30),
+                              Text("Person Information".tr(), style: kMontserrat17),
+                              const Divider(color: Colors.black45),
+                              CTextFormField(
+                                _nameAndSurname,
+                                "Name Surname".tr(),
+                                keyboardType: TextInputType.text,
+                                textInputAction: TextInputAction.go,
+                                onchange: (v) {
+                                  member$.value?.first.profile.fullname = v;
+                                },
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please enter your name and surname.'.tr();
+                                  }
+                                  return null;
+                                },
+                              ),
+                              SizedBox(height: W / 40),
+                              CTextFormField(_email, "Email".tr(), keyboardType: TextInputType.emailAddress, textInputAction: TextInputAction.go,
+                                  onchange: (v) {
+                                member$.value?.first.profile.email = v;
+                              }, validator: (value) {
+                                if (value.isEmpty) {
+                                  return 'Please enter your email address.'.tr();
+                                }
+                                return null;
+                              }),
+                              SizedBox(height: W / 40),
+                              CTextFormField(_phone, "Phone Number".tr(), keyboardType: TextInputType.phone, textInputAction: TextInputAction.done,
+                                  validator: (value) {
+                                if (value.isEmpty) {
+                                  return 'Please enter your phone number.'.tr();
+                                }
+                                return null;
+                              }, onchange: (v) {
+                                member$.value?.first.profile.phone = v;
+                              }),
+                              SizedBox(height: W / 40)
+                            ]),
+                            const Spacer(),
+                            Padding(
+                              padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
+                              child: CButton(title: "Complete The Reservation".tr(), func: reservationCreate, width: W),
+                            )
+                          ]))),
+                ));
+          }
+        ));
   }
 
   Future<dynamic> reservationSuccesfullWidget(
@@ -203,37 +210,47 @@ class _ReservationCreateState extends State<ReservationCreate> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [Text("Phone Number".tr(), style: kProxima17), Text(phone, style: kProxima17)]),
                           const Divider(),
-                          Padding(
-                              padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
-                              child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                                Expanded(
-                                    child: InkWell(
-                                  onTap: () {
-                                    Navigator.push(context, RouteAnimation.createRoute(MyOperationDetail(), 1, 0));
-                                  },
-                                  child: Container(
-                                      alignment: Alignment.center,
-                                      padding: paddingAll8,
-                                      decoration: BoxDecoration(border: Border.all(color: config.primaryColor), borderRadius: borderRadius10),
-                                      child: Text("Book Again".tr(), style: kProxima18.copyWith(color: config.primaryColor))),
-                                )),
-                                SizedBox(width: W / 40),
-                                Expanded(
-                                    child: InkWell(
-                                  onTap: () {
-                                    Navigator.pushReplacement(
-                                        context,
-                                        PageRouteBuilder(
-                                          pageBuilder: (context, animation, secondaryAnimation) => const MyOperations(),
-                                        ));
-                                  },
-                                  child: Container(
-                                      alignment: Alignment.center,
-                                      padding: paddingAll8,
-                                      decoration: BoxDecoration(border: Border.all(color: config.primaryColor), borderRadius: borderRadius10),
-                                      child: Text("My Reservations".tr(), style: kProxima18.copyWith(color: config.primaryColor))),
-                                )),
-                              ]))
+                          SizedBox(width: W / 40),
+                          CButton(title: "Continue".tr(), func: () {
+                            Navigator.pop(context);
+                            Navigator.pop(context);
+                            Navigator.pop(context);
+                          },width: W)
+                          // Padding(
+                          //     padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
+                          //     child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                          //       Expanded(
+                          //           child: InkWell(
+                          //         onTap: () {
+                          //     // Navigator.pushReplacement(
+                          //     //     context,
+                          //     //     PageRouteBuilder(
+                          //     //       pageBuilder: (context, animation, secondaryAnimation) => const ReservationCreate(),
+                          //     //     ));z},
+                          //     },
+                          //         child: Container(
+                          //             alignment: Alignment.center,
+                          //             padding: paddingAll8,
+                          //             decoration: BoxDecoration(border: Border.all(color: config.primaryColor), borderRadius: borderRadius10),
+                          //             child: Text("Book Again".tr(), style: kProxima18.copyWith(color: config.primaryColor))),
+                          //       )),
+                          //       SizedBox(width: W / 40),
+                          //       Expanded(
+                          //           child: InkWell(
+                          //         onTap: () {
+                          //           Navigator.pushReplacement(
+                          //               context,
+                          //               PageRouteBuilder(
+                          //                 pageBuilder: (context, animation, secondaryAnimation) => const MyOperations(),
+                          //               ));
+                          //         },
+                          //         child: Container(
+                          //             alignment: Alignment.center,
+                          //             padding: paddingAll8,
+                          //             decoration: BoxDecoration(border: Border.all(color: config.primaryColor), borderRadius: borderRadius10),
+                          //             child: Text("My Reservations".tr(), style: kProxima18.copyWith(color: config.primaryColor))),
+                          //       )),
+                          //     ]))
                         ]));
             });
       },

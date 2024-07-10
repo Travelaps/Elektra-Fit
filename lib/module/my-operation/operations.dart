@@ -29,6 +29,14 @@ class _MyOperationsState extends State<MyOperations> {
     super.dispose();
   }
 
+  @override
+  didChangeDependencies() {
+    super.didChangeDependencies();
+    service.spaService$.add(null);
+    service.availabilityHours$.add(null);
+    service.selectedHours$.add("");
+  }
+
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
@@ -44,7 +52,7 @@ class _MyOperationsState extends State<MyOperations> {
               onPrimary: Colors.white,
             ),
           ),
-          child: child!,
+          child: child!
         );
       },
     );
@@ -59,7 +67,7 @@ class _MyOperationsState extends State<MyOperations> {
       context: context,
       builder: (context) {
         return Container(
-          padding: EdgeInsets.all(5),
+          padding: paddingAll5,
           height: screenHeight * 0.7,
           width: screenWidth,
           child: StreamBuilder(
@@ -138,8 +146,8 @@ class _MyOperationsState extends State<MyOperations> {
                                 selectedHours: service.selectedHours$.value,
                               ),
                               1,
-                              0,
-                            ),
+                              0
+                            )
                           );
                         } else {
                           kShowBanner(BannerType.ERROR, "Please select the seans time".tr(), context);
