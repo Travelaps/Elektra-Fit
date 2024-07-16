@@ -19,7 +19,6 @@ class _QrState extends State<Qr> {
 
   BehaviorSubject<String> placedID$ = BehaviorSubject.seeded("");
 
-
   @override
   void initState() {
     super.initState();
@@ -76,7 +75,7 @@ class _QrState extends State<Qr> {
     final double H = MediaQuery.of(context).size.height;
     final double W = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: AppBar(title: Text("QR Scanner".tr()), leading: null),
+      appBar: AppBar(title: Text("Entrance & Exit".tr()), leading: null),
       body: SingleChildScrollView(
         child: Container(
           height: H * 0.76,
@@ -89,7 +88,9 @@ class _QrState extends State<Qr> {
               SizedBox(height: W / 20),
               Container(
                 height: W - 40,
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.6), spreadRadius: 3, offset: Offset(0, 3))]),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.6), spreadRadius: 3, offset: Offset(0, 3))]),
                 child: QRView(key: qrKey, onQRViewCreated: _onQRViewCreated),
               )
             ],

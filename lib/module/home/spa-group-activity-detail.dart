@@ -1,8 +1,8 @@
 import 'package:elektra_fit/widget/index.dart';
 import 'package:flutter/material.dart';
 
-import '../../../global/global-models.dart';
-import '../../../global/index.dart';
+import '../../global/global-models.dart';
+import '../../global/index.dart';
 
 class SpaGroupActivityDetail extends StatefulWidget {
   const SpaGroupActivityDetail({super.key, required this.item});
@@ -128,7 +128,7 @@ class _SpaGroupActivityDetailState extends State<SpaGroupActivityDetail> {
                       title: "Join to Activity".tr(),
                       func: () {
                         isLoading$.add(true);
-                        homeService.spaGroupActivityTimetableMemberInsert(widget.item.id).then((value) {
+                        homeService.spaGroupActivityTimeTableMemberInsert(widget.item.id).then((value) {
                           if (value.result) {
                             isLoading$.add(false);
                             kShowBanner(BannerType.SUCCESS, value.message, context);

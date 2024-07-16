@@ -1,5 +1,5 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:elektra_fit/global/index.dart';
+import 'package:elektra_fit/global/index.dart'; // Bu dosyayı kendi projenize göre ayarlayın
 import 'package:flutter/material.dart';
 
 class CTabBar extends StatefulWidget {
@@ -11,24 +11,36 @@ class CTabBar extends StatefulWidget {
 
 class _CTabBarState extends State<CTabBar> {
   int currentTab = 0;
-  final List<Widget> screens = [const Home(), const Qr(), const MyOperations(), const MyPrograming(), const Profile()];
-  final List<IconData> icons = [Icons.home, Icons.qr_code, Icons.add_business_outlined, Icons.list, Icons.person];
-
+  final List<Widget> screens = [const Home(), const ExerciseProgramsList(), const MyOperations(), const Qr(), const Profile()];
+  final List<String> imagesAssets = [
+    'assets/icon/tab-icon/yoga2.png',
+    'assets/icon/tab-icon/hlater2.png',
+    'assets/icon/tab-icon/calender.png',
+    'assets/icon/tab-icon/qr.png',
+    'assets/icon/tab-icon/profıle2.png'
+  ];
   Widget currentScreen = const Home();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        bottomNavigationBar: CurvedNavigationBar(
-            backgroundColor: Colors.transparent,
-            buttonBackgroundColor: config.primaryColor,
-            color: config.primaryColor,
-            items: icons.map((icon) => Icon(icon, size: 30, color: Colors.white)).toList(),
-            onTap: (index) {
-              setState(() {
-                currentTab = index;
-              });
-            }),
-        body: screens[currentTab]);
+      bottomNavigationBar: CurvedNavigationBar(
+        backgroundColor: Colors.transparent,
+        buttonBackgroundColor: config.primaryColor,
+        color: config.primaryColor,
+        items: imagesAssets
+            .map(
+              (icon) => Image.asset(icon, width: 30, height: 30, color: Colors.white, fit: BoxFit.contain),
+            )
+            .toList(),
+        onTap: (index) {
+          setState(() {
+            currentTab = index;
+            currentScreen = screens[index];
+          });
+        },
+      ),
+      body: currentScreen,
+    );
   }
 }

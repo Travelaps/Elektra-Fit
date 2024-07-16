@@ -13,8 +13,8 @@ class MyOperations extends StatefulWidget {
 
 class _MyOperationsState extends State<MyOperations> {
   final service = GetIt.I<MyOperationsService>();
-  late double screenHeight;
-  late double screenWidth;
+  late double H;
+  late double W;
 
   @override
   void initState() {
@@ -45,15 +45,9 @@ class _MyOperationsState extends State<MyOperations> {
       lastDate: DateTime(DateTime.now().year + 1),
       builder: (BuildContext context, Widget? child) {
         return Theme(
-          data: ThemeData.light().copyWith(
-            colorScheme: ColorScheme.light(
-              background: Colors.white,
-              primary: config.primaryColor,
-              onPrimary: Colors.white,
-            ),
-          ),
-          child: child!
-        );
+            data: ThemeData.light()
+                .copyWith(colorScheme: ColorScheme.light(background: Colors.white, primary: config.primaryColor, onPrimary: Colors.white)),
+            child: child!);
       },
     );
     if (picked != null) {
@@ -64,221 +58,326 @@ class _MyOperationsState extends State<MyOperations> {
 
   Future<dynamic> selectedHours(BuildContext context, double W, SpaService? item, double H) {
     return showModalBottomSheet(
-      context: context,
-      builder: (context) {
-        return Container(
-          padding: paddingAll5,
-          height: screenHeight * 0.7,
-          width: screenWidth,
-          child: StreamBuilder(
-            stream: service.availabilityHours$.stream,
-            builder: (context, snapshot) {
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    padding: EdgeInsets.all(10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text("Select Your Reservation Time".tr(), style: kMontserrat18),
-                        InkWell(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          child: Icon(Icons.cancel, color: Colors.red, size: screenWidth / 12),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    child: StreamBuilder(
-                      stream: Rx.combineLatest2(service.availabilityHours$, service.selectedHours$, (a, b) => null),
-                      builder: (context, snapshot) {
-                        if (service.availabilityHours$.value == null) {
-                          return Center(child: CircularProgressIndicator(color: config.primaryColor));
-                        } else if (service.availabilityHours$.value!.isEmpty) {
-                          return const Center(child: Text("no found"));
-                        }
-                        return GridView.builder(
-                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4),
-                          itemCount: service.availabilityHours$.value!.length,
-                          itemBuilder: (context, index) {
-                            var e = service.availabilityHours$.value![index];
-                            bool selected = service.selectedHours$.value == e?.workHours;
-                            return InkWell(
+        context: context,
+        builder: (context) {
+          return Container(
+              padding: paddingAll5,
+              height: H * 0.7,
+              width: W,
+              child: StreamBuilder(
+                  stream: service.availabilityHours$.stream,
+                  builder: (context, snapshot) {
+                    return Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+                      Container(
+                          padding: EdgeInsets.all(10),
+                          child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                            Text("Select Your Reservation Time".tr(), style: kMontserrat18),
+                            InkWell(
                               onTap: () {
-                                service.selectedHours$.add(e!.workHours);
+                                Navigator.pop(context);
                               },
-                              child: Container(
-                                padding: EdgeInsets.all(10),
-                                margin: EdgeInsets.all(5),
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: selected ? config.primaryColor : Colors.black, width: selected ? 3 : 1),
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: selected ? config.primaryColor.withOpacity(0.3) : Colors.transparent,
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    "${e?.workHours}",
-                                    style: kProxima18,
-                                  ),
-                                ),
-                              ),
-                            );
-                          },
-                        );
-                      },
-                    ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom, left: 10, right: 10),
-                    child: CButton(
-                      title: "Continue".tr(),
-                      func: () {
-                        if (service.selectedHours$.value != "") {
-                          Navigator.push(
-                            context,
-                            RouteAnimation.createRoute(
-                              ReservationCreate(
-                                spaService: item!,
-                                resStart: service.selectDateAvailability$.value!,
-                                selectedHours: service.selectedHours$.value,
-                              ),
-                              1,
-                              0
+                              child: Icon(Icons.cancel, color: Colors.red, size: W / 12),
                             )
-                          );
-                        } else {
-                          kShowBanner(BannerType.ERROR, "Please select the seans time".tr(), context);
-                        }
-                      },
-                      width: screenWidth,
-                    ),
-                  ),
-                ],
-              );
-            },
-          ),
-        );
-      },
-    );
+                          ])),
+                      Expanded(
+                          child: StreamBuilder(
+                              stream: Rx.combineLatest2(service.availabilityHours$, service.selectedHours$, (a, b) => null),
+                              builder: (context, snapshot) {
+                                if (service.availabilityHours$.value == null) {
+                                  return Center(child: CircularProgressIndicator(color: config.primaryColor));
+                                } else if (service.availabilityHours$.value!.isEmpty) {
+                                  return const Center(child: Text("no found"));
+                                }
+                                return GridView.builder(
+                                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4),
+                                    itemCount: service.availabilityHours$.value!.length,
+                                    itemBuilder: (context, index) {
+                                      var e = service.availabilityHours$.value![index];
+                                      bool selected = service.selectedHours$.value == e?.workHours;
+                                      return InkWell(
+                                          onTap: () {
+                                            service.selectedHours$.add(e!.workHours);
+                                          },
+                                          child: Container(
+                                              padding: EdgeInsets.all(10),
+                                              margin: EdgeInsets.all(5),
+                                              decoration: BoxDecoration(
+                                                border: Border.all(color: selected ? config.primaryColor : Colors.black, width: selected ? 3 : 1),
+                                                borderRadius: BorderRadius.circular(10),
+                                                color: selected ? config.primaryColor.withOpacity(0.3) : Colors.transparent,
+                                              ),
+                                              child: Center(child: Text("${e?.workHours}", style: kProxima18))));
+                                    });
+                              })),
+                      Container(
+                          padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom, left: 10, right: 10),
+                          child: CButton(
+                              title: "Continue".tr(),
+                              func: () {
+                                if (service.selectedHours$.value != "") {
+                                  Navigator.push(
+                                      context,
+                                      RouteAnimation.createRoute(
+                                          ReservationCreate(
+                                            spaService: item!,
+                                            resStart: service.selectDateAvailability$.value!,
+                                            selectedHours: service.selectedHours$.value,
+                                          ),
+                                          1,
+                                          0));
+                                } else {
+                                  kShowBanner(BannerType.ERROR, "Please select the seans time".tr(), context);
+                                }
+                              },
+                              width: W))
+                    ]);
+                  }));
+        });
   }
 
   @override
   Widget build(BuildContext context) {
-    screenHeight = MediaQuery.of(context).size.height;
-    screenWidth = MediaQuery.of(context).size.width;
-
-    return StreamBuilder(
-      stream: service.selectDateAvailability$.stream,
-      builder: (context, snapshot) {
-        return Scaffold(
-          appBar: AppBar(title: Text("My Operations".tr()), actions: [
-            Padding(
-                padding: EdgeInsets.all(10),
-                child: InkWell(
-                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const MyOperationDetail())),
-                  child: Icon(Icons.menu, color: Colors.white, size: screenWidth / 14),
-                ))
-          ]),
-          body: SingleChildScrollView(
-            child: Column(
-              children: [
-                InkWell(
-                  onTap: () => _selectDate(context),
-                  child: Container(
-                    padding: EdgeInsets.all(10),
-                    margin: EdgeInsets.all(5),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: config.primaryColor),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Row(
-                      children: [
-                        Icon(Icons.date_range_outlined, size: screenWidth / 15, color: config.primaryColor),
-                        service.selectDateAvailability$.value == null ? SizedBox(width: screenWidth / 7) : SizedBox(width: screenWidth / 4),
-                        Text(
-                          service.selectDateAvailability$.value == null
-                              ? "Please choose the date".tr()
-                              : DateFormat("dd MMMM yyyy").format(service.selectDateAvailability$.value!),
-                          style: kAxiforma18.copyWith(color: config.primaryColor),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                StreamBuilder(
-                  stream: service.spaService$,
-                  builder: (context, snapshot) {
-                    if (service.spaService$.value == null) {
-                      return Center(child: CircularProgressIndicator(color: config.primaryColor));
-                    } else if (service.spaService$.value!.isEmpty) {
-                      return Center(child: Text("no found", style: kProxima17));
-                    }
-                    return SizedBox(
-                      height: screenHeight * 0.78,
-                      child: ListView.builder(
-                        itemCount: service.spaService$.value?.length,
-                        itemBuilder: (context, index) {
-                          var item = service.spaService$.value?[index];
-                          return Container(
-                            alignment: Alignment.center,
-                            padding: EdgeInsets.all(10),
-                            margin: EdgeInsets.all(5),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Colors.white,
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.5),
-                                  spreadRadius: 1,
-                                  blurRadius: 4,
-                                  offset: const Offset(0, 3),
-                                ),
-                              ],
-                            ),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text("${item?.product}", style: kAxiforma17),
-                                    Text("${item?.price.toStringAsFixed(2)} ${item?.currency}", style: kProxima18),
-                                  ],
-                                ),
-                                InkWell(
-                                  onTap: () {
-                                    if (service.selectDateAvailability$.value != null) {
-                                      selectedHours(context, screenWidth, item, screenHeight);
-                                    } else {
-                                      kShowBanner(BannerType.ERROR, "Please select the date".tr(), context);
-                                    }
-                                  },
-                                  child: Container(
-                                    padding: EdgeInsets.all(8),
-                                    decoration: BoxDecoration(
-                                      border: Border.all(color: config.primaryColor),
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    child: Text("Choose".tr(), style: kProxima18.copyWith(color: config.primaryColor)),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                      ),
-                    );
-                  },
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
+    H = MediaQuery.of(context).size.height;
+    W = MediaQuery.of(context).size.width;
+    return Scaffold(
+        body: DefaultTabController(
+            animationDuration: Durations.extralong1,
+            length: 2,
+            initialIndex: 0,
+            key: UniqueKey(),
+            child: Scaffold(
+                appBar: AppBar(
+                    title: Text("Spa Booking".tr()),
+                    bottom: TabBar(
+                        indicatorSize: TabBarIndicatorSize.tab,
+                        indicatorColor: Colors.white,
+                        indicatorPadding: paddingAll10,
+                        isScrollable: false,
+                        labelPadding: paddingAll5,
+                        tabs: [
+                          Tab(child: Text("New".tr(), style: kMontserrat18.copyWith(color: Colors.white))),
+                          Tab(child: Text("My Appointments".tr(), style: kMontserrat18.copyWith(color: Colors.white))),
+                        ])),
+                body: TabBarView(
+                  children: [
+                    SingleChildScrollView(
+                        child: Column(children: [
+                      InkWell(
+                          onTap: () => _selectDate(context),
+                          child: Container(
+                              padding: EdgeInsets.all(10),
+                              margin: EdgeInsets.all(5),
+                              decoration: BoxDecoration(
+                                border: Border.all(color: config.primaryColor),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Row(children: [
+                                Icon(Icons.date_range_outlined, size: W / 15, color: config.primaryColor),
+                                service.selectDateAvailability$.value == null ? SizedBox(width: W / 7) : SizedBox(width: W / 4),
+                                Text(
+                                  service.selectDateAvailability$.value == null
+                                      ? "Please choose the date".tr()
+                                      : DateFormat("dd MMMM yyyy").format(service.selectDateAvailability$.value!),
+                                  style: kAxiforma18.copyWith(color: config.primaryColor),
+                                )
+                              ]))),
+                      StreamBuilder(
+                          stream: service.spaService$,
+                          builder: (context, snapshot) {
+                            if (service.spaService$.value == null) {
+                              return Center(child: CircularProgressIndicator(color: config.primaryColor));
+                            } else if (service.spaService$.value!.isEmpty) {
+                              return Center(child: Text("no found", style: kProxima17));
+                            }
+                            return SizedBox(
+                                height: H * 0.78,
+                                child: ListView.builder(
+                                    itemCount: service.spaService$.value?.length,
+                                    itemBuilder: (context, index) {
+                                      var item = service.spaService$.value?[index];
+                                      return Container(
+                                          alignment: Alignment.center,
+                                          padding: EdgeInsets.all(10),
+                                          margin: EdgeInsets.all(5),
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(10),
+                                            color: Colors.white,
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.black.withOpacity(0.5),
+                                                spreadRadius: 1,
+                                                blurRadius: 4,
+                                                offset: const Offset(0, 3),
+                                              ),
+                                            ],
+                                          ),
+                                          child: Row(
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Text("${item?.product}", style: kAxiforma17),
+                                                  Text("${item?.price.toStringAsFixed(2)} ${item?.currency}", style: kProxima18),
+                                                ],
+                                              ),
+                                              InkWell(
+                                                  onTap: () {
+                                                    if (service.selectDateAvailability$.value != null) {
+                                                      selectedHours(context, W, item, H);
+                                                    } else {
+                                                      kShowBanner(BannerType.ERROR, "Please select the date".tr(), context);
+                                                    }
+                                                  },
+                                                  child: Container(
+                                                    padding: paddingAll5,
+                                                    decoration: BoxDecoration(
+                                                      border: Border.all(color: config.primaryColor),
+                                                      borderRadius: BorderRadius.circular(10),
+                                                    ),
+                                                    child: Text("Choose".tr(), style: kProxima18.copyWith(color: config.primaryColor)),
+                                                  ))
+                                            ],
+                                          ));
+                                    }));
+                          })
+                    ])),
+                    StreamBuilder(
+                        stream: service.res$.stream,
+                        builder: (context, snapshot) {
+                          if (service.res$.value == null) {
+                            return Center(child: CircularProgressIndicator(color: config.primaryColor));
+                          }
+                          return DefaultTabController(
+                              length: service.res$.value!.length,
+                              child: Column(
+                                children: [
+                                  TabBar(
+                                      isScrollable: true,
+                                      indicatorColor: config.primaryColor,
+                                      unselectedLabelStyle: kMontserrat18,
+                                      labelStyle: kMontserrat18.copyWith(color: config.primaryColor),
+                                      tabs: service.res$.value!.keys.map((e) {
+                                        return Tab(text: e);
+                                      }).toList()),
+                                  Expanded(
+                                      child: TabBarView(
+                                          children: service.res$.value!.keys.map((res) {
+                                    var item = service.res$.value?[res];
+                                    return item!.isEmpty
+                                        ? Center(
+                                            child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              Text(res, style: kProxima17),
+                                              SizedBox(width: W / 70),
+                                              Text("reservation was not found".tr(), style: kProxima17),
+                                            ],
+                                          ))
+                                        : SizedBox(
+                                            height: H * 0.9,
+                                            width: W,
+                                            child: ListView.builder(
+                                                itemCount: item.length,
+                                                itemBuilder: (context, index) {
+                                                  var resItem = item[index];
+                                                  return Container(
+                                                      padding: paddingAll10,
+                                                      margin: marginAll10,
+                                                      decoration: BoxDecoration(color: Colors.white, borderRadius: borderRadius10, boxShadow: [
+                                                        BoxShadow(
+                                                            color: Colors.black.withOpacity(0.9),
+                                                            spreadRadius: 2,
+                                                            blurRadius: 10,
+                                                            offset: Offset(0, 7)),
+                                                      ]),
+                                                      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                                                        if (resItem.servicename != "")
+                                                          Row(
+                                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                            children: [Expanded(child: Text(resItem.servicename ?? "", style: kMontserrat18))],
+                                                          ),
+                                                        Container(
+                                                            decoration: BoxDecoration(
+                                                                borderRadius: borderRadius10,
+                                                                color: res == 'Planned'.tr()
+                                                                    ? config.primaryColor
+                                                                    : res == 'Completed'.tr()
+                                                                        ? Colors.grey
+                                                                        : Colors.green),
+                                                            padding: paddingAll5,
+                                                            child: Row(children: [
+                                                              if (res == "Completed".tr())
+                                                                Image.asset("assets/icon/completion.png",
+                                                                    height: W / 18, width: W / 18, fit: BoxFit.cover, color: Colors.white),
+                                                              if (res == "Planned".tr())
+                                                                Image.asset("assets/icon/planned.png",
+                                                                    height: W / 18, width: W / 18, fit: BoxFit.cover, color: Colors.white),
+                                                              if (res == "To be planned".tr())
+                                                                Image.asset("assets/icon/tobeplanned.png",
+                                                                    height: W / 18, width: W / 18, fit: BoxFit.cover, color: Colors.white),
+                                                              SizedBox(width: W / 40),
+                                                              Text(res.tr(), style: kMontserrat17.copyWith(color: Colors.white))
+                                                            ])),
+                                                        if (resItem.placename != null) const Divider(),
+                                                        if (resItem.placename != null)
+                                                          Row(children: [
+                                                            Image.asset("assets/icon/place.png", height: W / 18, width: W / 18, color: Colors.black),
+                                                            SizedBox(width: W / 60),
+                                                            Text(resItem.placename, style: kProxima17)
+                                                          ]),
+                                                        if (resItem.staffname != null) const Divider(),
+                                                        if (resItem.staffname != null)
+                                                          Row(
+                                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                            children: [
+                                                              Text("Staff Name".tr(), style: kProxima17),
+                                                              Expanded(child: Text(" : ${resItem.staffname}", style: kMontserrat16))
+                                                            ],
+                                                          ),
+                                                        if (resItem.netCtotal != 0) const Divider(),
+                                                        if (resItem.netCtotal != 0)
+                                                          Row(
+                                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                            children: [
+                                                              Text("Total Price".tr(), style: kProxima17),
+                                                              Expanded(
+                                                                  child: Text(
+                                                                      " : ${resItem.netCtotal.toStringAsFixed(1)} ${resItem.currencycode} ".tr(),
+                                                                      style: kMontserrat16)),
+                                                            ],
+                                                          ),
+                                                        if (resItem.resstart != null) const Divider(),
+                                                        IntrinsicHeight(
+                                                            child: Row(children: [
+                                                          if (resItem.resstart != null)
+                                                            Expanded(
+                                                                child: Column(
+                                                              children: [
+                                                                Text("Start Time".tr(), style: kProxima17),
+                                                                Text(DateFormat("HH:mm  dd MMM yyyy").format(resItem.resstart!).tr(),
+                                                                    style: kMontserrat16)
+                                                              ],
+                                                            )),
+                                                          if (resItem.resend != null) const VerticalDivider(),
+                                                          if (resItem.resend != null)
+                                                            Expanded(
+                                                                child: Column(
+                                                              children: [
+                                                                Text("End Time".tr(), style: kProxima17),
+                                                                Text(DateFormat("HH:mm  dd MMM yyyy").format(resItem.resend!).tr(),
+                                                                    style: kMontserrat16)
+                                                              ],
+                                                            ))
+                                                        ])),
+                                                      ]));
+                                                }));
+                                  }).toList()))
+                                ],
+                              ));
+                        }),
+                  ],
+                ))));
   }
 }

@@ -12,9 +12,7 @@ Future<void> main() async {
   final Locale deviceLocale = await getDeviceLocale();
   GetIt.I.registerSingleton<LoginService>(LoginService());
   GetIt.I.registerSingleton<HomeService>(HomeService());
-  GetIt.I.registerSingleton<PaymentService>(PaymentService());
   GetIt.I.registerSingleton<ProfileService>(ProfileService());
-  GetIt.I.registerSingleton<MyProgramingService>(MyProgramingService());
   GetIt.I.registerSingleton<MyOperationsService>(MyOperationsService());
   runApp(
     EasyLocalization(
@@ -22,7 +20,7 @@ Future<void> main() async {
         supportedLocales: [Locale('tr'), Locale('en')],
         path: 'assets/translations',
         fallbackLocale: const Locale('tr'),
-        child: const MyApp()),
+        child: MyApp()),
   );
 }
 
@@ -31,7 +29,7 @@ Future<Locale> getDeviceLocale() async {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
