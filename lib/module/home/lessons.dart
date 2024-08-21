@@ -16,8 +16,12 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
-    homeService.spaGroupActivityTimetableList();
-    homeService.spaGroupActivityTimetableMembersList();
+    // Future.delayed(Duration.zero, () {
+      homeService.spaGroupActivityTimetableList();
+      homeService.spaGroupActivityTimetableMembersList();
+    // });
+    // homeService.spaGroupActivityTimetableList();
+    // homeService.spaGroupActivityTimetableMembersList();
 
     super.initState();
   }

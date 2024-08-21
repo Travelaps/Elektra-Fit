@@ -32,6 +32,7 @@ class HomeService {
         spaGroupActivity$.add(spaGroupActivity);
         spaGroupActivity$.add(spaGroupActivity$.value);
       }
+
       return RequestResponse(message: utf8.decode(response.bodyBytes).tr(), result: true);
     } catch (e) {
       print(e);
