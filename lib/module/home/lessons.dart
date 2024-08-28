@@ -16,13 +16,8 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
-    // Future.delayed(Duration.zero, () {
-      homeService.spaGroupActivityTimetableList();
-      homeService.spaGroupActivityTimetableMembersList();
-    // });
-    // homeService.spaGroupActivityTimetableList();
-    // homeService.spaGroupActivityTimetableMembersList();
-
+    homeService.spaGroupActivityTimetableList();
+    homeService.spaGroupActivityTimetableMembersList();
     super.initState();
   }
 
@@ -32,34 +27,55 @@ class _HomeState extends State<Home> {
     final double W = MediaQuery.of(context).size.width;
 
     return Scaffold(
-        body: DefaultTabController(
-            animationDuration: Durations.extralong1,
-            length: 2,
-            initialIndex: 0,
-            key: UniqueKey(),
-            child: Scaffold(
-                appBar: AppBar(
-                    title: Text("Lessons".tr()),
-                    bottom: TabBar(
-                        indicatorSize: TabBarIndicatorSize.tab,
-                        indicatorColor: Colors.white,
-                        indicatorPadding: paddingAll10,
-                        isScrollable: false,
-                        labelPadding: paddingAll5,
-                        tabs: [
-                          Tab(child: Text('All'.tr(), style: kMontserrat18.copyWith(color: Colors.white))),
-                          Tab(child: Text('My Attended'.tr(), style: kMontserrat18.copyWith(color: Colors.white))),
-                        ])),
-                body: TabBarView(physics: const AlwaysScrollableScrollPhysics(), children: [
-                  if (homeService.spaGroupActivity$.value != null) ActivityList(homeService: homeService, width: W, height: H),
-                  Center(child: CircularProgressIndicator(color: config.primaryColor)),
-                  if (homeService.spaGroupActivityMember$.value != null) MyActivity(service: homeService, width: W, height: H),
-                  Center(child: CircularProgressIndicator(color: config.primaryColor)),
-                ]))));
+      body: DefaultTabController(
+        length: 2,
+        initialIndex: 0,
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text("Lessons".tr()),
+            bottom: TabBar(
+              indicatorSize: TabBarIndicatorSize.tab,
+              indicatorColor: Colors.white,
+              tabs: [
+                Tab(child: Text('All'.tr(), style: kMontserrat18.copyWith(color: Colors.white))),
+                Tab(child: Text('My Attended'.tr(), style: kMontserrat18.copyWith(color: Colors.white))),
+              ],
+            ),
+          ),
+          body: TabBarView(
+            children: [
+              StreamBuilder(
+                stream: homeService.spaGroupActivity$,
+                builder: (context, snapshot) {
+                  if (homeService.spaGroupActivity$.value == null) {
+                    return Center(child: CircularProgressIndicator(color: config.primaryColor));
+                  } else if (homeService.spaGroupActivity$.value!.isEmpty) {
+                    return const Center(child: Text('No Data Available'));
+                  }
+                  return ActivityList(homeService: homeService, width: W, height: H);
+                },
+              ),
+              StreamBuilder(
+                stream: homeService.spaGroupActivityMember$,
+                builder: (context, snapshot) {
+                  if (homeService.spaGroupActivityMember$.value == null) {
+                    return Center(child: CircularProgressIndicator(color: config.primaryColor));
+                  } else if (homeService.spaGroupActivityMember$.value!.isEmpty) {
+                    return Center(child: Text("You do not have any activity records yet.".tr()));
+                  }
+
+                  return MyActivity(service: homeService, width: W, height: H);
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
 
-class MyActivity extends StatelessWidget {
+class MyActivity extends StatefulWidget {
   final HomeService service;
   final double width;
   final double height;
@@ -72,29 +88,29 @@ class MyActivity extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<MyActivity> createState() => _MyActivityState();
+}
+
+class _MyActivityState extends State<MyActivity> {
+  @override
   Widget build(BuildContext context) {
     return StreamBuilder<List<SpaGroupActivityMemberListModel>?>(
-      stream: service.spaGroupActivityMember$.stream,
+      stream: widget.service.spaGroupActivityMember$.stream,
       builder: (context, snapshot) {
-        if (service.spaGroupActivityMember$.value == null) {
+        if (widget.service.spaGroupActivityMember$.value == null) {
           return const Center(child: CircularProgressIndicator());
-        } else if (service.spaGroupActivityMember$.value!.isEmpty) {
+        } else if (widget.service.spaGroupActivityMember$.value!.isEmpty) {
           return Center(child: Text("You do not have any activity records yet.".tr()));
         }
         return SizedBox(
-            height: height * 0.9,
+            height: widget.height * 0.9,
             child: ListView.builder(
-                itemCount: service.spaGroupActivityMember$.value!.length,
+                itemCount: widget.service.spaGroupActivityMember$.value!.length,
                 itemBuilder: (context, index) {
-                  var item = service.spaGroupActivityMember$.value?[index];
-
+                  var item = widget.service.spaGroupActivityMember$.value?[index];
                   if (item != null) {
-                    return ActivityCard(item: item, width: width);
-                  } else if (item == null)
-                    Center(
-                        child: CircularProgressIndicator(
-                      color: config.primaryColor,
-                    ));
+                    return ActivityCard(item: item, width: widget.width);
+                  } else if (item == null) Center(child: CircularProgressIndicator(color: config.primaryColor));
                   return const SizedBox();
                 }));
       },
@@ -215,7 +231,7 @@ class ActivityCard extends StatelessWidget {
   }
 }
 
-class ActivityList extends StatelessWidget {
+class ActivityList extends StatefulWidget {
   final HomeService homeService;
   final double width;
   final double height;
@@ -228,12 +244,17 @@ class ActivityList extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<ActivityList> createState() => _ActivityListState();
+}
+
+class _ActivityListState extends State<ActivityList> {
+  @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream: Rx.combineLatest2(homeService.selectedDate$, homeService.spaGroupActivity$, (a, b) => null),
+      stream: Rx.combineLatest2(widget.homeService.selectedDate$, widget.homeService.spaGroupActivity$, (a, b) => null),
       builder: (context, snapshot) {
-        DateTime selectedDate = homeService.selectedDate$.value;
-        homeService.totalFilter = homeService.spaGroupActivity$.value?.where((element) {
+        DateTime selectedDate = widget.homeService.selectedDate$.value;
+        widget.homeService.totalFilter = widget.homeService.spaGroupActivity$.value?.where((element) {
               DateTime activityDate = DateTime(element.startTime.year, element.startTime.month, element.startTime.day);
               return activityDate.year == selectedDate.year && activityDate.month == selectedDate.month && activityDate.day == selectedDate.day;
             }).toList() ??
@@ -242,21 +263,21 @@ class ActivityList extends StatelessWidget {
         return SingleChildScrollView(
           child: Column(
             children: [
-              DateSelector(homeService: homeService, width: width),
+              DateSelector(homeService: widget.homeService, width: widget.width),
               SizedBox(
-                width: width,
-                height: height * 0.68,
-                child: homeService.totalFilter.isEmpty
+                width: widget.width,
+                height: widget.height * 0.68,
+                child: widget.homeService.totalFilter.isEmpty
                     ? Center(
                         child: Text(
                           "No activities found for the selected date.".tr(),
-                          style: TextStyle(fontSize: 18),
+                          style: const TextStyle(fontSize: 18),
                         ),
                       )
                     : SingleChildScrollView(
                         child: Wrap(
-                          children: homeService.totalFilter
-                              .map((item) => SizedBox(width: width, child: GroupActivityCard(item: item, width: width)))
+                          children: widget.homeService.totalFilter
+                              .map((item) => SizedBox(width: widget.width, child: GroupActivityCard(item: item, width: widget.width)))
                               .toList(),
                         ),
                       ),

@@ -12,7 +12,7 @@ class MyOperationsService {
       BehaviorSubject.seeded({"To be planned".tr(): [], "Planned".tr(): [], "Completed".tr(): []});
   BehaviorSubject<int> resId$ = BehaviorSubject.seeded(0);
 
-  Future<RequestResponse?> operationList() async {
+  Future<RequestResponse?> lastSpaBooking() async {
     res$.value = null;
     try {
       var response = await http.post(apiUrl,
@@ -24,7 +24,7 @@ class MyOperationsService {
       final jsonData = json.decode(utf8.decode(response.bodyBytes));
       if (jsonData != null) {
         var today = DateTime.now();
-        res$.value = {"To be planned".tr(): [], "Planned".tr(): [], "Completed".tr(): []};
+        res$.value = {"To be planned".tr(): [], "Completed".tr(): []};
         jsonData.forEach((e) {
           ReservationModel reservation = ReservationModel.fromJson(e);
 
@@ -34,9 +34,6 @@ class MyOperationsService {
             if (reservation.resstart != null && reservation.resstart!.isBefore(today)) {
               res$.value?["Completed".tr()]?.sort((a, b) => a.resstart!.compareTo(b.resstart!));
               res$.value?["Completed".tr()]?.add(reservation);
-            } else {
-              res$.value?["Planned".tr()]?.sort((a, b) => a.resstart!.compareTo(b.resstart!));
-              res$.value?["Planned".tr()]?.add(reservation);
             }
           }
         });

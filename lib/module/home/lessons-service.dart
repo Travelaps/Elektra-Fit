@@ -40,8 +40,6 @@ class HomeService {
     }
   }
 
-
-
   Future<RequestResponse> spaGroupActivityTimetableMembersList() async {
     spaGroupActivityMember$.add(null);
 
@@ -72,21 +70,17 @@ class HomeService {
 
       return RequestResponse(message: utf8.decode(response.bodyBytes).tr(), result: true);
     } catch (e) {
-      // print(e);
       return RequestResponse(message: e.toString(), result: false);
     }
   }
+
   Future<RequestResponse> spaGroupActivityTimeTableMemberInsert(int timeTableId) async {
     try {
       var response = await http.post(apiUrl,
           body: json.encode({
             "Action": "ApiSequence",
             "Object": "spaGroupActivityTimetableMemberInsert",
-            "Parameters": {
-              "HOTELID": hotelId,
-              "TIMETABLEID": timeTableId,
-              "MEMBERID": member$.value?.first.profile.guestid
-            }
+            "Parameters": {"HOTELID": hotelId, "TIMETABLEID": timeTableId, "MEMBERID": member$.value?.first.profile.guestid}
           }));
       var jsonData = json.decode(response.body);
       if (jsonData["Success"] == 1) {

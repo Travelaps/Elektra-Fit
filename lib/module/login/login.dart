@@ -14,11 +14,13 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   TextEditingController _email = TextEditingController();
   TextEditingController _password = TextEditingController();
+
   BehaviorSubject<bool> isVisibility$ = BehaviorSubject.seeded(false);
   BehaviorSubject<bool> isSaved$ = BehaviorSubject.seeded(false);
   BehaviorSubject<bool> isLoading$ = BehaviorSubject.seeded(false);
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   final service = GetIt.I<LoginService>();
+  final homeService = GetIt.I<HomeService>();
 
   void loadPreferences() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();

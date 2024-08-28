@@ -63,7 +63,7 @@ class _ExerciseProgramsListState extends State<ExerciseProgramsList> {
                         child: Container(
                           padding: paddingAll5,
                           decoration: BoxDecoration(color: config.primaryColor, shape: BoxShape.circle),
-                          child: Icon(Icons.navigate_next_outlined, color: Colors.white, size: 30),
+                          child: const Icon(Icons.navigate_next_outlined, color: Colors.white, size: 30),
                         ),
                       )
                     ]));
