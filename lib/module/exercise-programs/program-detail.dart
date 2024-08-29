@@ -29,17 +29,17 @@ class _SportDetailsState extends State<SportDetails> {
   }
 
   void _startTimer(int index) {
+    // Eğer başka bir egzersiz başlatılıyorsa, süreyi sıfırla
     if (currentExerciseIndex$.value != index) {
-      stopwatch.reset(); // Süreyi sıfırla
-      durations[index].add(Duration.zero); // Süreyi sıfırdan başlat
-      stopwatch.start();
+      stopwatch.reset();
+      durations[index].add(Duration.zero);
       currentExerciseIndex$.add(index);
-      isRunning$.add(true);
-      _updateDuration(index);
-    } else if (!stopwatch.isRunning) {
-      stopwatch.start();
-      isRunning$.add(true);
     }
+
+    // Zamanlayıcıyı başlat
+    stopwatch.start();
+    isRunning$.add(true);
+    _updateDuration(index);
   }
 
   void _updateDuration(int index) {
@@ -72,10 +72,9 @@ class _SportDetailsState extends State<SportDetails> {
       totalDuration$.add(total);
       isRunning$.add(false);
       if (index < durations.length - 1) {
-        // Sıradaki butonunu göster
         currentExerciseIndex$.add(index + 1);
       } else {
-        currentExerciseIndex$.add(-1); // Tüm hareketler bitti
+        currentExerciseIndex$.add(-1);
       }
     }
   }
@@ -104,21 +103,18 @@ class _SportDetailsState extends State<SportDetails> {
           return Center(child: CircularProgressIndicator(color: config.primaryColor));
         }
 
-        return StreamBuilder<Duration>(
-            stream: totalDuration$.stream,
+        return StreamBuilder(
+            stream: Rx.combineLatest2(totalDuration$, isRunning$, (a, b) => null),
             builder: (context, snapshot) {
-              final totalDuration = snapshot.data ?? Duration.zero;
+              final totalDuration = totalDuration$.value ?? Duration.zero;
 
               return Scaffold(
-                appBar: AppBar(
-                  title: Text("My Program".tr()),
-                  actions: [
-                    Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text("${totalDuration.inMinutes}:${(totalDuration.inSeconds % 60).toString().padLeft(2, '0')}",
-                            style: kMontserrat18.copyWith(color: Colors.white))),
-                  ],
-                ),
+                appBar: AppBar(title: Text("My Program".tr()), actions: [
+                  Padding(
+                      padding: paddingAll8,
+                      child: Text("${totalDuration.inMinutes}:${(totalDuration.inSeconds % 60).toString().padLeft(2, '0')}",
+                          style: kMontserrat18.copyWith(color: Colors.white))),
+                ]),
                 body: SingleChildScrollView(
                   child: Column(
                     children: member$.value!.map((e) {
@@ -128,27 +124,21 @@ class _SportDetailsState extends State<SportDetails> {
                         child: ListView.builder(
                           itemCount: program.length,
                           itemBuilder: (context, index) {
-                            return StreamBuilder<int>(
+                            return StreamBuilder(
                               stream: currentExerciseIndex$,
                               builder: (context, snapshot) {
-                                int currentExerciseIndex = snapshot.data ?? -1;
+                                int currentExerciseIndex = currentExerciseIndex$.value ?? -1;
                                 bool isActive = currentExerciseIndex == index;
-
                                 return AnimatedContainer(
                                   duration: const Duration(milliseconds: 300),
                                   curve: Curves.easeInOut,
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(10),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black.withOpacity(0.6),
+                                  decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10), boxShadow: [
+                                    BoxShadow(
+                                        color: isActive && isRunning$.value ? config.primaryColor.withOpacity(0.7) : Colors.grey.withOpacity(0.6),
                                         spreadRadius: 3,
                                         blurRadius: 10,
-                                        offset: const Offset(0, 3),
-                                      ),
-                                    ],
-                                  ),
+                                        offset: const Offset(0, 3))
+                                  ]),
                                   margin: const EdgeInsets.all(10),
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -156,10 +146,7 @@ class _SportDetailsState extends State<SportDetails> {
                                       Stack(
                                         children: [
                                           ClipRRect(
-                                            borderRadius: const BorderRadius.only(
-                                              topRight: Radius.circular(10),
-                                              topLeft: Radius.circular(10),
-                                            ),
+                                            borderRadius: const BorderRadius.only(topRight: Radius.circular(10), topLeft: Radius.circular(10)),
                                             child: CachedNetworkImage(
                                               height: W / 1.4,
                                               width: W,
@@ -243,7 +230,7 @@ class _SportDetailsState extends State<SportDetails> {
                                             final duration = snapshot.data ?? Duration.zero;
                                             return Container(
                                               decoration: BoxDecoration(
-                                                  color: isActive ? config.primaryColor.withOpacity(0.3) : Colors.white,
+                                                  color: Colors.white,
                                                   borderRadius:
                                                       const BorderRadius.only(bottomLeft: Radius.circular(10), bottomRight: Radius.circular(10))),
                                               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
@@ -257,26 +244,37 @@ class _SportDetailsState extends State<SportDetails> {
                                                   Row(
                                                     children: [
                                                       InkWell(
-                                                          onTap: () {
-                                                            if (isRunning$.value && isActive) {
-                                                              _pauseTimer();
-                                                            } else {
-                                                              _startTimer(index);
-                                                            }
-                                                          },
-                                                          child: Container(
-                                                              padding: const EdgeInsets.all(8),
-                                                              decoration: BoxDecoration(
-                                                                color: config.primaryColor,
-                                                                shape: BoxShape.circle,
-                                                              ),
-                                                              child: Icon(isRunning$.value && isActive ? Icons.pause : Icons.play_arrow,
-                                                                  color: Colors.white))),
+                                                        onTap: () {
+                                                          if (isRunning$.value && isActive) {
+                                                            // Eğer aktif ve çalışıyorsa duraklat
+                                                            _pauseTimer();
+                                                          } else if (!isRunning$.value && isActive) {
+                                                            // Eğer aktif ama duraklatılmışsa kaldığı yerden devam et
+                                                            _startTimer(index);
+                                                          } else {
+                                                            // Yeni bir egzersiz başlat
+                                                            _startTimer(index);
+                                                          }
+                                                        },
+                                                        child: Container(
+                                                          padding: const EdgeInsets.all(8),
+                                                          decoration: BoxDecoration(
+                                                            color: config.primaryColor,
+                                                            shape: BoxShape.circle,
+                                                          ),
+                                                          child: Icon(
+                                                            isActive && isRunning$.value ? Icons.pause : Icons.play_arrow,
+                                                            color: Colors.white,
+                                                          ),
+                                                        ),
+                                                      ),
                                                       SizedBox(width: W / 30),
                                                       InkWell(
                                                         onTap: () {
                                                           _stopTimer(index);
-                                                          _startTimer(index + 1);
+                                                          if (index < durations.length - 1) {
+                                                            _startTimer(index + 1);
+                                                          }
                                                         },
                                                         child: Container(
                                                           padding: const EdgeInsets.all(8),
@@ -287,21 +285,6 @@ class _SportDetailsState extends State<SportDetails> {
                                                           child: const Icon(Icons.stop, color: Colors.white),
                                                         ),
                                                       ),
-                                                      if (index != program.length - 1) SizedBox(width: W / 30),
-                                                      if (index != program.length - 1)
-                                                        InkWell(
-                                                          onTap: () {
-                                                            _startTimer(index + 1);
-                                                          },
-                                                          child: Container(
-                                                            padding: const EdgeInsets.all(8),
-                                                            decoration: BoxDecoration(
-                                                              color: config.primaryColor,
-                                                              shape: BoxShape.circle,
-                                                            ),
-                                                            child: const Icon(Icons.download_sharp, color: Colors.white),
-                                                          ),
-                                                        ),
                                                     ],
                                                   ),
                                                 ],

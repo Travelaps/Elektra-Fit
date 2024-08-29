@@ -94,7 +94,7 @@ class _ProfileState extends State<Profile> {
                                           imageUrl: member$.value?.first.profile.photourl ??
                                               "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
                                           fit: BoxFit.cover,
-                                          placeholder: (context, url) => CircularProgressIndicator(),
+                                          placeholder: (context, url) => CircularProgressIndicator(color: config.primaryColor),
                                           errorWidget: (context, url, error) => Icon(Icons.error))))),
                           SizedBox(height: W / 60),
                           Text(member$.value?.first.profile.fullname ?? "", style: kAxiforma20),

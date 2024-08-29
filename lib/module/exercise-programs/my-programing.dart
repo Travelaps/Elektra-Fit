@@ -33,7 +33,7 @@ class _ExerciseProgramsListState extends State<ExerciseProgramsList> {
                 var item = member$.value![index];
                 return InkWell(
                     onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => SportDetails()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => const SportDetails()));
                     },
                     child: Stack(children: [
                       ClipRRect(

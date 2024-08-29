@@ -1,7 +1,7 @@
 export 'Qr/Qr-service.dart';
 export 'Qr/Qr.dart';
 export 'exercise-programs/my-programing.dart';
-export 'exercise-programs/sport-details.dart';
+export 'exercise-programs/program-detail.dart';
 export 'home/lessons-service.dart';
 export 'home/lessons.dart';
 export 'home/spa-group-activity-detail.dart';

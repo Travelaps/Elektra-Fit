@@ -8,7 +8,7 @@ class LoginService {
     member$.add(null);
     final url = Uri.parse('$apiUrl/apisequence/SPAFitnessLogin?EMAIL=$email&PASSWORD=$password');
     try {
-      final response = await http.post(url, body: {});
+      final response = await http.get(url);
       if (response.statusCode == 200) {
         final jsonData = json.decode(utf8.decode(response.bodyBytes));
         List<MemberModel> fitnessList = [];

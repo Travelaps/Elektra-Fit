@@ -335,29 +335,27 @@ class _LastSpaMemberBookingsState extends State<LastSpaMemberBookings> {
                                   return Container(
                                       margin: marginAll10,
                                       decoration: BoxDecoration(color: Colors.white, borderRadius: borderRadius10, boxShadow: [
-                                        BoxShadow(color: Colors.grey.withOpacity(0.5), spreadRadius: 2, blurRadius: 5, offset: Offset(0, 7)),
+                                        BoxShadow(color: Colors.grey.withOpacity(0.5), spreadRadius: 2, blurRadius: 5, offset: const Offset(0, 7)),
                                       ]),
-                                      child: Column(
-                                        children: [
-                                          Container(
-                                              decoration: BoxDecoration(
-                                                  borderRadius: const BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
-                                                  color: res == 'Completed'.tr() ? config.primaryColor : Colors.green),
-                                              padding: paddingAll8,
-                                              child: Row(
-                                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                                  mainAxisAlignment: MainAxisAlignment.center,
-                                                  children: [
-                                                    Text(res.tr(), style: kMontserrat17.copyWith(color: Colors.white), textAlign: TextAlign.center),
-                                                  ])),
-                                          Container(
+                                      child: Column(children: [
+                                        Container(
+                                            decoration: BoxDecoration(
+                                                borderRadius: const BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
+                                                color: res == 'Completed'.tr() ? config.primaryColor : Colors.green),
+                                            padding: paddingAll8,
+                                            child: Row(
+                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                children: [
+                                                  Text(res.tr(), style: kMontserrat17.copyWith(color: Colors.white), textAlign: TextAlign.center)
+                                                ])),
+                                        Container(
                                             padding: paddingAll10,
-                                            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                                            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[
                                               if (resItem.servicename != "")
                                                 Row(
-                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                  children: [Expanded(child: Text(resItem.servicename ?? "", style: kMontserrat18))],
-                                                ),
+                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                    children: [Expanded(child: Text(resItem.servicename ?? "", style: kMontserrat18))]),
                                               if (resItem.placename != null) const Divider(),
                                               if (resItem.placename != null)
                                                 Row(children: [
@@ -367,13 +365,10 @@ class _LastSpaMemberBookingsState extends State<LastSpaMemberBookings> {
                                                 ]),
                                               if (resItem.staffname != null) const Divider(),
                                               if (resItem.staffname != null)
-                                                Row(
-                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                  children: [
-                                                    Text("Staff Name".tr(), style: kProxima17),
-                                                    Expanded(child: Text(" : ${resItem.staffname}", style: kMontserrat16))
-                                                  ],
-                                                ),
+                                                Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                                                  Text("Staff Name".tr(), style: kProxima17),
+                                                  Expanded(child: Text(" : ${resItem.staffname}", style: kMontserrat16))
+                                                ]),
                                               if (resItem.netCtotal != 0) const Divider(),
                                               if (resItem.netCtotal != 0)
                                                 Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
@@ -402,11 +397,9 @@ class _LastSpaMemberBookingsState extends State<LastSpaMemberBookings> {
                                                       Text(DateFormat("HH:mm  dd MMM yyyy").format(resItem.resend!).tr(), style: kMontserrat16)
                                                     ],
                                                   ))
-                                              ])),
-                                            ]),
-                                          ),
-                                        ],
-                                      ));
+                                              ]))
+                                            ]))
+                                      ]));
                                 }));
                   }).toList()))
                 ],

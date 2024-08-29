@@ -130,6 +130,7 @@ class _SpaGroupActivityDetailState extends State<SpaGroupActivityDetail> {
                         isLoading$.add(true);
                         homeService.spaGroupActivityTimeTableMemberInsert(widget.item.id).then((value) {
                           if (value.result) {
+                            homeService.spaGroupActivityTimetableMembersList();
                             isLoading$.add(false);
                             kShowBanner(BannerType.SUCCESS, value.message, context);
                           } else {

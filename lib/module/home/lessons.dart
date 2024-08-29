@@ -136,21 +136,16 @@ class ActivityCard extends StatelessWidget {
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             color: Colors.white,
-            boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.5), spreadRadius: 5, blurRadius: 10, offset: const Offset(0, 3))]),
+            boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.5), spreadRadius: 5, blurRadius: 10, offset: const Offset(0, 3))]),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
           Stack(children: [
             ClipRRect(
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(10),
-                topRight: Radius.circular(10),
-              ),
-              child: CachedNetworkImage(
-                imageUrl: item.photourl ?? "https://files.cdn.elektraweb.com/bdcac343/24277/images/3c96c5fb-3c3d-49d1-9ea9-9922ed6be380.png",
-                fit: BoxFit.cover,
-                placeholder: (context, url) => Center(child: CircularProgressIndicator(color: config.primaryColor)),
-                errorWidget: (context, url, error) => const Icon(Icons.error),
-              ),
-            ),
+                borderRadius: const BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
+                child: CachedNetworkImage(
+                    imageUrl: item.photourl ?? "https://files.cdn.elektraweb.com/bdcac343/24277/images/3c96c5fb-3c3d-49d1-9ea9-9922ed6be380.png",
+                    fit: BoxFit.cover,
+                    placeholder: (context, url) => Center(child: CircularProgressIndicator(color: config.primaryColor)),
+                    errorWidget: (context, url, error) => const Icon(Icons.error))),
             if (item.level != null && item.level! < 6)
               Positioned(
                   left: 0,
