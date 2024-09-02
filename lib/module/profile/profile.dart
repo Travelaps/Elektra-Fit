@@ -80,7 +80,7 @@ class _ProfileState extends State<Profile> {
                         decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(10),
-                            boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.6), spreadRadius: 3, blurRadius: 10, offset: Offset(0, 3))]),
+                            boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.6), spreadRadius: 3, blurRadius: 10, offset: Offset(0, 3))]),
                         child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
                           SizedBox(height: W / 40),
                           Container(
@@ -135,10 +135,9 @@ class _ProfileState extends State<Profile> {
                             padding: paddingAll10,
                             margin: marginAll5,
                             alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: borderRadius10,
-                                boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.4), spreadRadius: 3, blurRadius: 10, offset: Offset(0, 3))]),
+                            decoration: BoxDecoration(color: Colors.white, borderRadius: borderRadius10, boxShadow: [
+                              BoxShadow(color: Colors.grey.withOpacity(0.4), spreadRadius: 3, blurRadius: 10, offset: const Offset(0, 3))
+                            ]),
                             width: W,
                             child: Row(children: [
                               SizedBox(height: W / 15, width: W / 15, child: Image.asset("assets/icon/mesurements.png", color: config.primaryColor)),
@@ -158,7 +157,7 @@ class _ProfileState extends State<Profile> {
                             decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: borderRadius10,
-                                boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.4), spreadRadius: 3, blurRadius: 10, offset: Offset(0, 3))]),
+                                boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.4), spreadRadius: 3, blurRadius: 10, offset: Offset(0, 3))]),
                             width: W,
                             child: Row(
                               children: [
@@ -180,7 +179,7 @@ class _ProfileState extends State<Profile> {
                             decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: borderRadius10,
-                                boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.4), spreadRadius: 3, blurRadius: 10, offset: Offset(0, 3))]),
+                                boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.4), spreadRadius: 3, blurRadius: 10, offset: Offset(0, 3))]),
                             width: W,
                             child: Row(children: [
                               Icon(Icons.language, color: config.primaryColor, size: 25),
@@ -205,7 +204,7 @@ class _ProfileState extends State<Profile> {
                         decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: borderRadius10,
-                            boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.4), spreadRadius: 3, blurRadius: 10, offset: Offset(0, 3))]),
+                            boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.4), spreadRadius: 3, blurRadius: 10, offset: Offset(0, 3))]),
                         width: W,
                         child: Row(
                           children: [

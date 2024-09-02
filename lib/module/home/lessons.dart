@@ -422,7 +422,7 @@ class DateSelector extends StatelessWidget {
                   : Colors.white,
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.3),
+                  color: Colors.grey.withOpacity(0.3),
                   spreadRadius: 3,
                   blurRadius: 10,
                   offset: const Offset(0, 3),

@@ -1,6 +1,12 @@
+import "dart:ui" as ui;
+
 import 'package:elektra_fit/global/index.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+
+Future<Locale> getDeviceLocale() async {
+  return ui.window.locale.languageCode == "tr" ? const Locale("tr") : const Locale("en");
+}
 
 Future<T> showAnimation<T>(BuildContext context, Future<T> func) async {
   return await showDialog(
@@ -13,7 +19,10 @@ Future<T> showAnimation<T>(BuildContext context, Future<T> func) async {
       return Center(
           child: Stack(
         alignment: Alignment.center,
-        children: [Lottie.asset('assets/animations/arrow_animation.json', width: 170, height: 170), Image.asset('assets/images/cullinan2.png', width: 170, height: 170)],
+        children: [
+          Lottie.asset('assets/animations/arrow_animation.json', width: 170, height: 170),
+          Image.asset('assets/images/cullinan2.png', width: 170, height: 170)
+        ],
       ));
     },
   );
